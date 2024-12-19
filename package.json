@@ -1,0 +1,25 @@
+{
+  "name": "webbugigangas",
+  "version": "1.0.0",
+  "description": "a collection of small web applications",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/D0ugla5MB/Bugigangas.git"
+  },
+  "keywords": [
+    "vanillajs",
+    "js",
+    "css",
+    "html"
+  ],
+  "author": "DMB",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/D0ugla5MB/Bugigangas/issues"
+  },
+  "homepage": "https://github.com/D0ugla5MB/Bugigangas#readme"
+}
