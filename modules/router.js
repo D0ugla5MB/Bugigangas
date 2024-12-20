@@ -3,17 +3,18 @@ export function changeRoute(route) {
 }
 
 export function loadContent() {
-	const hash = window.location.hash || '#home';
-	const contentDiv = document.getElementById('content');
+	const hash = window.location.hash || '#';
+	const contentDiv = document.getElementById('root');
 
 	switch (hash) {
+		case '#':
 		case '#home':
 			fetch('/home/home.html').then(response => response.text()).then(html => {
 				contentDiv.innerHTML = html;
 			});
 			break;
-			default:
-				fetch('/error.html').then(response => response.text()).then(html => {
+		default:
+			fetch('/error.html').then(response => response.text()).then(html => {
 				contentDiv.innerHTML = html;
 			});
 			break;
