@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Web Bugigangas</title>
+		<link rel="stylesheet" href="/assets/css/style.css"> <!-- Link to the global CSS -->
+		<link rel="stylesheet" href="/home/home.css">
+	</head>
+
+	<body>
+		<header>
+			<h1>Welcome to Web Bugigangas</h1>
+			<nav>
+				<button type="button" onclick="changeRoute('#home')">Home</button>
+				<button type="button" onclick="changeRoute('#about')">About</button>
+			</nav>
+		</header>
+
+		<main id="content">
+			<!-- Content will be loaded dynamically based on the hash -->
+		</main>
+
+		<footer>
+			<p>&copy; 2024 My Web Application. All Rights Reserved.</p>
+		</footer>
+
+		<script type="module" src="/app.js"></script>
+
+		<script>
+			document.addEventListener('DOMContentLoaded', function() {
+				function loadContent() {
+					const hash = window.location.hash || '#home';
+					const contentDiv = document.getElementById('content');
+
+					contentDiv.innerHTML = '';
+
+					switch (hash) {
+						case '#home':
+							fetch('/home/home.html').then(response => response.text()).then(html => {
+								contentDiv.innerHTML = html;
+							});
+							break;
+						default:
+              fetch('/404.html').then(response => response.text()).then(html => {
+                document.body.innerHTML = html;
+              });
+              break;
+					}
+				}
+
+				loadContent();
+
+				window.addEventListener('hashchange', loadContent);
+			});
+
+			function changeRoute(route) {
+				window.location.hash = route;
+			}
+		</script>
+	</body>
+</html>
