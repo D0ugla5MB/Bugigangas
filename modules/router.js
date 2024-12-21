@@ -2,23 +2,37 @@ export function changeRoute(route) {
 	window.location.hash = route;
 }
 
+function setupEventListeners() {
+	const button = document.getElementById('t');
+	if (button) {
+		button.addEventListener('click', () => {
+			console.log('Dynamic button clicked!');
+			button.innerText = 'Clicked!';
+		});
+	}
+}
+
 export function loadContent() {
 	const hash = window.location.hash || '#';
 	const contentDiv = document.getElementById('root');
+	let htmlPath = '';
 
 	switch (hash) {
 		case '#':
 		case '#home':
-			fetch('/home/home.html').then(response => response.text()).then(html => {
-				contentDiv.innerHTML = html;
-			});
+			htmlPath = '/home/home.html';
 			break;
 		default:
-			fetch('/error.html').then(response => response.text()).then(html => {
-				contentDiv.innerHTML = html;
-			});
+			htmlPath = '/error.html';
 			break;
 	}
+
+	fetch(htmlPath)
+	.then(response => response.text())
+	.then(htmlContent => {
+		contentDiv.innerHTML = htmlContent;
+		setupEventListeners();
+	})
 }
 
 document.addEventListener('DOMContentLoaded', function () {
