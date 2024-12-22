@@ -1,24 +1,23 @@
-import { changeRoute } from "../modules/router.js";
-import { getHashError, getHashHome, getKeyBtnError, getKeyBtnHome, getKeyBtnNav, getNavMenu, getQuerySelect } from "../modules/storage.js";
+import { EnvVars, changeRoute } from '../app.js';
 
 export function addMenuBtnsEvents() {
-    const index_menu = document.getElementById(getNavMenu);
+    const index_menu = document.getElementById(EnvVars.getNavMenu);
 
-    const menuButtonsWithId = document.querySelectorAll(getQuerySelect);
+    const menuButtonsWithId = document.querySelectorAll(EnvVars.getQuerySelect);
     const btnSet = {};
     menuButtonsWithId.forEach((btn) => {
         btnSet[btn.id] = btn;
     });
 
-    btnSet[getKeyBtnNav].addEventListener('click', () => {
+    btnSet[EnvVars.getKeyBtnNav].addEventListener('click', () => {
         console.log('Dynamic button clicked!');
         index_menu.hidden = !index_menu.hidden;
     });
-    btnSet[getKeyBtnHome].addEventListener('click', () => {
-        changeRoute(getHashHome);
+    btnSet[EnvVars.getKeyBtnHome].addEventListener('click', () => {
+        changeRoute(EnvVars.getHashHome);
     });
-    btnSet[getKeyBtnError].addEventListener('click', () => {
-        changeRoute(getHashError);
+    btnSet[EnvVars.getKeyBtnError].addEventListener('click', () => {
+        changeRoute(EnvVars.getHashError);
     });
 
 }
