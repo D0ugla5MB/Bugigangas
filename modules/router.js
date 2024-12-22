@@ -1,15 +1,23 @@
+import { loadMenu } from "../home/home.js";
+
 export function changeRoute(route) {
 	window.location.hash = route;
 }
 
 function setupEventListeners() {
-	const button = document.getElementById('t');
-	if (button) {
-		button.addEventListener('click', () => {
-			console.log('Dynamic button clicked!');
-			button.innerText = 'Clicked!';
-		});
-	}
+
+	const index_menu = document.getElementById('nav_menu');
+	const menuBtn = document.getElementById('btnNav');
+	const homeBtn = document.getElementById('btn_home');
+
+	window.addEventListener('hashchange', loadContent);
+	menuBtn.addEventListener('click', () => {
+		console.log('Dynamic button clicked!');
+		index_menu.hidden = !index_menu.hidden;
+	});
+	homeBtn.addEventListener('click', () => {
+		changeRoute('#home');
+	});
 }
 
 export function loadContent() {
@@ -28,16 +36,16 @@ export function loadContent() {
 	}
 
 	fetch(htmlPath)
-	.then(response => response.text())
-	.then(htmlContent => {
-		contentDiv.innerHTML = htmlContent;
-		setupEventListeners();
-	})
+		.then(response => response.text())
+		.then(htmlContent => {
+			contentDiv.innerHTML = htmlContent;
+			if (contentDiv.hasChildNodes() && htmlPath.includes('home')) {
+				setupEventListeners();
+			}
+		})
 }
+
 
 document.addEventListener('DOMContentLoaded', function () {
 	loadContent();
-
-	window.addEventListener('hashchange', loadContent);
-	window.changeRoute = changeRoute;
 });

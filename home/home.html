@@ -1,19 +1,14 @@
-<section>
+<main>
     <header>
         <h1>Welcome to Web Bugigangas</h1>
-        <nav>
-            <button type="button" onclick="changeRoute('#home')">Home</button>
-            <button type="button" onclick="changeRoute('#about')">About</button>
-        </nav>
     </header>
 
-    <main id="content">
-        <button id="t" type="button">CLICK</button>
-        <!-- Content will be loaded dynamically based on the hash -->
-    </main>
-    
+    <nav id="nav_menu" hidden>
+        <button type="button" id="btn_home">Home</button>
+    </nav>
+    <button type="button" id="btnNav">Display Applications</button>
+
     <footer>
         <p>&copy; 2024 My Web Application. All Rights Reserved.</p>
     </footer>
-</section>
-<script type="module" src="/home/home.js"></script>
+</main>
