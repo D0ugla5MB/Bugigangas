@@ -4,8 +4,11 @@
   "description": "a collection of small web applications",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "live-server --open=./index.html",
+    "watch": "node ./updateApps.mjs"
   },
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/D0ugla5MB/Bugigangas.git"
@@ -21,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/D0ugla5MB/Bugigangas/issues"
   },
-  "homepage": "https://github.com/D0ugla5MB/Bugigangas#readme"
+  "homepage": "https://github.com/D0ugla5MB/Bugigangas#readme",
+  "devDependencies": {
+    "live-server": "^1.2.0"
+  }
 }
