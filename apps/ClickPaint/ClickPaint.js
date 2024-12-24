@@ -3,11 +3,11 @@ let clicked = false;
 
 function freeBlocker(clickEvent) {
     const main = document.getElementById('app-root');
-    if(clickEvent) main.classList.remove('main-blocked');
+    if (clickEvent) main.classList.remove('main-blocked');
 }
 
 function controller() {
-    if(clicked) {
+    if (clicked) {
         clearInterval(timer);
         console.log('STOPPED!');
         freeBlocker(clicked);
@@ -17,11 +17,54 @@ function controller() {
 };
 const timer = setInterval(controller, 500);
 
-
-(function closeWelcomeMsg(){
+(function closeWelcomeMsg() {
     const containerMsg = document.getElementById('close-msg');
     containerMsg.addEventListener('click', () => {
         clicked = true;
         containerMsg.parentElement.remove();
     });
+})();
+/*--------------------------------------__SEPARATING FUNCTIONAL PARTS__--------------------------------*/
+let paintEventLocked = false;
+
+function generateColor() {
+    /*  d = [(255 - r)^2 + (255 - g)^2 + (255 - b)^2]^0.5 
+        d < 100
+        [(255 - r)^2 + (255 - g)^2 + (255 - b)^2]^0.5 < 100
+        [(255 - r)^2 + (255 - g)^2 + (255 - b)^2] < 10000
+        {[255^2 -2*255r + r^2] + [255^2 -2*255g + g^2] + [255^2 -2*255b + b^2]} < 10000
+        {3*(255^2) -2*255(r+g+b) + rr + bb + gg} < 10000
+        {185075 -510(r+g+b) + rr + bb + gg} < 0
+    */
+    let r, g, b;
+    let distanceCheck = -1;
+
+    while (distanceCheck < 0) {
+        r = Math.floor(Math.random() * 256);
+        g = Math.floor(Math.random() * 256);
+        b = Math.floor(Math.random() * 256);
+        distanceCheck = r * r + g * g + b * b - 510 * (r + g + b) + 185075;
+    }
+
+    return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
+}
+
+function paint() {
+    if (paintEventLocked) return;
+
+    paintEventLocked = true;
+    document.append(`<span style="color: ${generateColor()};">*</span>`);
+    setTimeout(() => {
+        paintEventLocked = false;
+    }, 500);
+}
+
+function addPaintEvent() {
+    const main = document.getElementById('app-root');
+    main.addEventListener('click', paint)
+}
+
+(function clickPaint() {
+    addPaintEvent();
+    paint();
 })();
