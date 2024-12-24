@@ -1,0 +1,14 @@
+.container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  border-style: groove;
+  background-color: cornflowerblue;
+}
+
+.main-blocked {
+    user-select: none;
+}
+
