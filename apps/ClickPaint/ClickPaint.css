@@ -9,11 +9,12 @@
 }
 
 .main-blocked {
-    user-select: none;
+  user-select: none;
 }
 
 #paint-area {
   width: 1000px;
   height: 1000px;
-  display: flex;
+  border: solid 2px;
+  user-select: none;
 }

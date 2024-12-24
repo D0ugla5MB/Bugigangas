@@ -59,5 +59,17 @@ function paint() {
     console.log('clicked!');
 }
 
-const main = document.getElementById('paint-area');
-main.addEventListener('click', paint);
+function watchPointer(event){
+    return [event.clientX, event.clientY];
+}
+
+(function runApp(){
+    const main = document.getElementById('paint-area');
+    let pos = [];
+    let i = 0;
+    main.addEventListener('click', paint);
+    main.addEventListener('mousemove', (event) => {
+        pos.push(watchPointer(event));
+        console.log(pos[i++]);
+    });
+})();
