@@ -3,7 +3,10 @@ let clicked = false;
 
 function freeBlocker(clickEvent) {
     const main = document.getElementById('app-root');
-    if (clickEvent) main.classList.remove('main-blocked');
+    if (clickEvent) {
+        main.classList.remove('main-blocked');
+        main.removeAttribute('class');
+    }
 }
 
 function controller() {
@@ -25,7 +28,6 @@ const timer = setInterval(controller, 500);
     });
 })();
 /*--------------------------------------__SEPARATING FUNCTIONAL PARTS__--------------------------------*/
-let paintEventLocked = false;
 
 function generateColor() {
     /*  d = [(255 - r)^2 + (255 - g)^2 + (255 - b)^2]^0.5 
@@ -50,21 +52,12 @@ function generateColor() {
 }
 
 function paint() {
-    if (paintEventLocked) return;
-
-    paintEventLocked = true;
-    document.append(`<span style="color: ${generateColor()};">*</span>`);
-    setTimeout(() => {
-        paintEventLocked = false;
-    }, 500);
+    let elem = document.createElement('span');
+    elem.setAttribute('style', `color: ${generateColor()};`);
+    elem.innerText = '@@@@@@@/';
+    document.getElementById('paint-area').appendChild(elem);
+    console.log('clicked!');
 }
 
-function addPaintEvent() {
-    const main = document.getElementById('app-root');
-    main.addEventListener('click', paint)
-}
-
-(function clickPaint() {
-    addPaintEvent();
-    paint();
-})();
+const main = document.getElementById('paint-area');
+main.addEventListener('click', paint);

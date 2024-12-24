@@ -12,3 +12,8 @@
     user-select: none;
 }
 
+#paint-area {
+  width: 1000px;
+  height: 1000px;
+  display: flex;
+}
