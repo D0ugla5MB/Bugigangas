@@ -29,6 +29,22 @@ const timer = setInterval(controller, 500);
 })();
 /*--------------------------------------__SEPARATING FUNCTIONAL PARTS__--------------------------------*/
 
+const svgContainer = (w, h) => {
+    const elem = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    elem.setAttributeNS(null, 'width', `${w}`);
+    elem.setAttributeNS(null, 'height', `${h}`);
+    return elem;
+}
+
+const circle = (cx, cy, r, style) => {
+    const elem = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    elem.setAttributeNS(null, 'r', `${r}`);
+    elem.setAttributeNS(null, 'cx', `${cx}`);
+    elem.setAttributeNS(null, 'cy', `${cy}`);
+    elem.setAttributeNS(null,'fill', `${style}`);
+    return elem;
+}
+
 function generateColor() {
     /*  d = [(255 - r)^2 + (255 - g)^2 + (255 - b)^2]^0.5 
         d < 100
@@ -51,25 +67,28 @@ function generateColor() {
     return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
 }
 
-function paint() {
-    let elem = document.createElement('span');
-    elem.setAttribute('style', `color: ${generateColor()};`);
-    elem.innerText = '@@@@@@@/';
-    document.getElementById('paint-area').appendChild(elem);
-    console.log('clicked!');
+function paint(elem) {
+    console.log(elem);
+    return elem;
 }
 
-function watchPointer(event){
+function watchPointer(event) {
     return [event.clientX, event.clientY];
 }
 
-(function runApp(){
+(function runApp() {
+    let clicked = false;
     const main = document.getElementById('paint-area');
-    let pos = [];
-    let i = 0;
-    main.addEventListener('click', paint);
+    
+    main.addEventListener('click', () => {
+        clicked = true;
+        console.log('clicked');
+    });
     main.addEventListener('mousemove', (event) => {
-        pos.push(watchPointer(event));
-        console.log(pos[i++]);
+        if (clicked) {
+            clicked = false;
+            const [cx, cy] = watchPointer(event);
+            main.appendChild(circle(cx, cy, 2, generateColor()));
+        }
     });
 })();
