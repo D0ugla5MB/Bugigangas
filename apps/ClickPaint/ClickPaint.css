@@ -16,3 +16,8 @@
   border: solid 2px;
   user-select: none;
 }
+
+#app-root {
+  position: absolute;
+  transform: translate(30px, 30px);
+}

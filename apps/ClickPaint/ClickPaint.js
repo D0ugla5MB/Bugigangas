@@ -30,9 +30,12 @@ const timer = setInterval(controller, 500);
 /*--------------------------------------__SEPARATING FUNCTIONAL PARTS__--------------------------------*/
 
 const svgContainer = (w, h) => {
+    const mainContainer = document.getElementById('app-root');
     const elem = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    elem.setAttributeNS(null, 'id', 'paint-area');
     elem.setAttributeNS(null, 'width', `${w}`);
     elem.setAttributeNS(null, 'height', `${h}`);
+    elem.setAttributeNS(null, 'viewBox', `0 0 ${w} ${h}`);
     return elem;
 }
 
@@ -77,18 +80,25 @@ function watchPointer(event) {
 }
 
 (function runApp() {
+    const main = document.getElementById('app-root');
+    const svgArea = svgContainer('500', '500');
+    main.appendChild(svgArea);
+
     let clicked = false;
-    const main = document.getElementById('paint-area');
+    const paintArea = document.getElementById('paint-area');
     
-    main.addEventListener('click', () => {
+
+    paintArea.addEventListener('click', () => {
         clicked = true;
         console.log('clicked');
+        
     });
-    main.addEventListener('mousemove', (event) => {
+    paintArea.addEventListener('mousemove', (event) => {
         if (clicked) {
             clicked = false;
             const [cx, cy] = watchPointer(event);
-            main.appendChild(circle(cx, cy, 2, generateColor()));
+            paintArea.appendChild(circle(cx, cy, 25, generateColor()))
         }
     });
+    
 })();
