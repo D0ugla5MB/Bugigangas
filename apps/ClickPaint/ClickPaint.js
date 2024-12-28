@@ -84,7 +84,7 @@ const svgContainer = (containerSide) => {
     elem.setAttributeNS(null, 'width', `${containerSide}`);
     elem.setAttributeNS(null, 'height', `${containerSide}`);
     elem.setAttributeNS(null, 'viewBox', `0 0 ${containerSide} ${containerSide}`);
-    elem.setAttributeNS(null, 'aspect-ration', '1');
+    elem.setAttributeNS(null, 'preserveAspectRatio', 'xMidYMid meet');
     return elem;
 }
 
@@ -92,7 +92,14 @@ function buildPaintArea() {
     return svgContainer('' + getSvgContainerSide(getViewportDimensions()));
 }
 
-const counterContainer = (clicksQty) =>{
+function resizePaintArea(paintArea){
+    const newSvgSide = getSvgContainerSide(getViewportDimensions());
+    paintArea.setAttributeNS(null, 'width', newSvgSide);
+    paintArea.setAttributeNS(null, 'height', newSvgSide);
+    paintArea.setAttributeNS(null, 'viewBox', `0 0 ${newSvgSide} ${newSvgSide}`);
+}
+
+const counterContainer = (clicksQty) => {
     const div = document.createElement('div');
 
     div.setAttribute('id', 'clicks-num');
@@ -110,6 +117,13 @@ const counterContainer = (clicksQty) =>{
     mainContainer.appendChild(paintArea);
     mainContainer.appendChild(clicksCounter);
     
+    paintArea = document.getElementById('paint-area');
+    
+    window.addEventListener('resize', ()=> {
+        setTimeout(()=>{
+            resizePaintArea(paintArea);
+        }, 180);
+    });
     paintArea.addEventListener('click', () => {
         clicked = true;
         ++totalClicks;
@@ -123,7 +137,7 @@ const counterContainer = (clicksQty) =>{
             const [cx, cy] = watchPointer(event);
             console.log(`${cx}, ${cy}`);
             paintArea.appendChild(circle(cx, cy, 25, generateColor()));
-
+            
         }
     });
 
