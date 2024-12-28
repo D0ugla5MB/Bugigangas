@@ -10,6 +10,7 @@
 
 .main-blocked {
   user-select: none;
+  pointer-events: none;
 }
 
 #paint-area {

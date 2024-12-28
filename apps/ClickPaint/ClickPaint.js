@@ -14,6 +14,7 @@ function controller() {
         clearInterval(timer);
         console.log('STOPPED!');
         freeBlocker(clicked);
+        clicked = false;
         return;
     }
     console.log('waiting the click...');
@@ -92,11 +93,10 @@ function buildPaintArea() {
 
 (function runApp() {
     const mainContainer = document.getElementById('app-root');
-    let clicked = false;
     let paintArea = buildPaintArea();
 
     if (!paintArea) throw console.error('Something wrong happened');
-
+   
     mainContainer.appendChild(paintArea);
 
     paintArea.addEventListener('click', () => {
