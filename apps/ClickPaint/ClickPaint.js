@@ -1,5 +1,6 @@
 console.log('RUNNING CLICK PAINT GAME!');
 let clicked = false;
+let totalClicks = 0;
 
 function freeBlocker(clickEvent) {
     const main = document.getElementById('app-root');
@@ -91,25 +92,38 @@ function buildPaintArea() {
     return svgContainer('' + getSvgContainerSide(getViewportDimensions()));
 }
 
+const counterContainer = (clicksQty) =>{
+    const div = document.createElement('div');
+
+    div.setAttribute('id', 'clicks-num');
+    div.textContent = `Number of total clicks: ${clicksQty}`;
+    return div;
+}
+
 (function runApp() {
     const mainContainer = document.getElementById('app-root');
     let paintArea = buildPaintArea();
-
+    let clicksCounter = counterContainer(totalClicks);
+    
     if (!paintArea) throw console.error('Something wrong happened');
-   
+    
     mainContainer.appendChild(paintArea);
-
+    mainContainer.appendChild(clicksCounter);
+    
     paintArea.addEventListener('click', () => {
         clicked = true;
-        console.log('clicked');
-
+        ++totalClicks;
+        console.log(`clicks count:\t${totalClicks}`);
+        const countDiv = document.getElementById('clicks-num');
+        countDiv.textContent = `Number of total clicks: ${totalClicks}`;
     });
     paintArea.addEventListener('mousemove', (event) => {
         if (clicked) {
             clicked = false;
             const [cx, cy] = watchPointer(event);
             console.log(`${cx}, ${cy}`);
-            paintArea.appendChild(circle(cx, cy, 25, generateColor()))
+            paintArea.appendChild(circle(cx, cy, 25, generateColor()));
+
         }
     });
 
