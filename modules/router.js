@@ -24,12 +24,13 @@ export function loadContent() {
 			break;
 	}
 
+	const rootDiv = document.getElementById(EnvVars.getIndexContainerId);
+	const shadowRootDiv = rootDiv.attachShadow({mode: 'open'});
 	fetch(htmlPath)
 		.then(response => response.text())
 		.then(htmlContent => {
-			const contentDiv = document.getElementById(EnvVars.getIndexContainerId);
-			contentDiv.innerHTML = htmlContent;
-			if (contentDiv.hasChildNodes() && htmlPath.includes(EnvVars.getLoadContentFetchIf)) {
+			shadowRootDiv.innerHTML = htmlContent;
+			if (rootDiv.hasChildNodes() && htmlPath.includes(EnvVars.getLoadContentFetchIf)) {
 				addMenuBtnsEvents();
 			}
 		})
