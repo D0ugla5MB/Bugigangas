@@ -8,7 +8,7 @@ function buildPaintArea() {
 }
 
 
-(function runApp() {
+export function runClickPaint() {
     console.log('RUNNING CLICK PAINT GAME!');
 
     watchContainerBlocker();
@@ -47,4 +47,4 @@ function buildPaintArea() {
             paintArea.appendChild(circle(cx, cy, 25, generateColor()));
         }
     });
-})();
+}

@@ -1,4 +1,4 @@
-import { EnvVars, changeRoute } from '../app.js';
+import { EnvVars, changeRoute, runClickPaint } from '../app.js';
 
 export function addMenuBtnsEvents() {
     const index_menu = document.getElementById(EnvVars.getNavMenu);
@@ -15,6 +15,10 @@ export function addMenuBtnsEvents() {
     });
     btnSet[EnvVars.getKeyBtnHome].addEventListener('click', () => {
         changeRoute(EnvVars.getHashHome);
+    });
+    btnSet[EnvVars.getKeyBtnClickPaint].addEventListener('click', () =>{
+        changeRoute(EnvVars.getHashClickPaint);
+        runClickPaint();
     });
     btnSet[EnvVars.getKeyBtnError].addEventListener('click', () => {
         changeRoute(EnvVars.getHashError);

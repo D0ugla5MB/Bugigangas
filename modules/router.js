@@ -16,6 +16,9 @@ export function loadContent() {
 		case EnvVars.getHashHome:
 			htmlPath = EnvVars.getHomePage;
 			break;
+		case EnvVars.getHashClickPaint:
+			htmlPath = EnvVars.getClickPaintPage;
+			break;
 		default:
 			htmlPath = EnvVars.getErrorPage;
 			break;
