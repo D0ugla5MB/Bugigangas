@@ -7,27 +7,37 @@ export function changeRoute(route) {
 	window.location.hash = route;
 }
 
-export function loadContent() {
-	const hash = window.location.hash || EnvVars.getHash;
-	let htmlPath = '';
-
+function getHashUrl(hash) {
 	switch (hash) {
 		case EnvVars.getHash:
 		case EnvVars.getHashHome:
-			htmlPath = EnvVars.getHomePage;
-			break;
+			return EnvVars.getHomePage;
+		case EnvVars.getHashClickPaint:
+			return EnvVars.getClickPaintPage;
 		default:
-			htmlPath = EnvVars.getErrorPage;
-			break;
+			return EnvVars.getErrorPage;
 	}
+}
 
+export function fetchContent() {
+	const hash = window.location.hash || EnvVars.getHash;
+	let htmlPath = '';
+	const rootDiv = document.getElementById(EnvVars.getIndexContainerId);
+	let shadowRootDiv = '';
+
+	
+	htmlPath = getHashUrl(hash, htmlPath);
 	fetch(htmlPath)
 		.then(response => response.text())
 		.then(htmlContent => {
-			const contentDiv = document.getElementById(EnvVars.getIndexContainerId);
-			contentDiv.innerHTML = htmlContent;
-			if (contentDiv.hasChildNodes() && htmlPath.includes(EnvVars.getLoadContentFetchIf)) {
+			if (htmlPath.includes(EnvVars.getLoadContentFetchIf)) {
 				addMenuBtnsEvents();
-			}
-		})
+				return;
+			} 
+
+				shadowRootDiv = rootDiv.attachShadow({ mode: 'open' });
+				shadowRootDiv.innerHTML = htmlContent;
+		});
 }
+
+

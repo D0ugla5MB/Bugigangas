@@ -5,7 +5,8 @@ sessionStorage.setItem('homeRouter', '../modules/router.js'); */
 sessionStorage.setItem('hash', '#');
 sessionStorage.setItem('hashHome', '#home');
 sessionStorage.setItem('hashError', '#error');
-sessionStorage.setItem('homePage', '/home/home.html');
+sessionStorage.setItem('hashAppClickPaint', '#clickpaint');
+sessionStorage.setItem('homePage', '/home.html');
 sessionStorage.setItem('errorPage', '/error.html');
 sessionStorage.setItem('indexContainerId', 'root');
 sessionStorage.setItem('loadContentFetchIf', 'home');

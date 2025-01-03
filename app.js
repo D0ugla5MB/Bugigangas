@@ -1,15 +1,16 @@
 import * as EnvVars from './modules/storage.js';
-import { changeRoute, loadContent } from './modules/router.js';
-import { addMenuBtnsEvents } from './home/home.js';
+import { changeRoute, fetchContent } from './modules/router.js';
+import { addMenuBtnsEvents } from './modules/home.js';
+import { runClickPaint } from './apps/ClickPaint/modules/ClickPaint.js';
 export {
     EnvVars,
     changeRoute,
-    loadContent,
-    addMenuBtnsEvents
+    fetchContent as loadContent,
+    addMenuBtnsEvents,
+    runClickPaint
 };
 
 document.addEventListener('DOMContentLoaded', function () {
-    window.addEventListener('hashchange', loadContent);
-
-    loadContent();
+    window.addEventListener('hashchange', fetchContent);
+    fetchContent();
 });
