@@ -6,7 +6,7 @@ sessionStorage.setItem('hash', '#');
 sessionStorage.setItem('hashHome', '#home');
 sessionStorage.setItem('hashError', '#error');
 sessionStorage.setItem('hashAppClickPaint', '#clickpaint');
-sessionStorage.setItem('homePage', '/home/home.html');
+sessionStorage.setItem('homePage', '/home.html');
 sessionStorage.setItem('errorPage', '/error.html');
 sessionStorage.setItem('clickPaintPage', '/apps/ClickPaint/clickpaint.html');
 sessionStorage.setItem('indexContainerId', 'root');

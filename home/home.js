@@ -13,15 +13,8 @@ export function addMenuBtnsEvents() {
         console.log('Dynamic button clicked!');
         index_menu.hidden = !index_menu.hidden;
     });
-    btnSet[EnvVars.getKeyBtnHome].addEventListener('click', () => {
-        changeRoute(EnvVars.getHashHome);
-    });
     btnSet[EnvVars.getKeyBtnClickPaint].addEventListener('click', () =>{
         changeRoute(EnvVars.getHashClickPaint);
         runClickPaint();
     });
-    btnSet[EnvVars.getKeyBtnError].addEventListener('click', () => {
-        changeRoute(EnvVars.getHashError);
-    });
-
 }

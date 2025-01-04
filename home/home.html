@@ -5,18 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web Bugigangas</title>
-    <link rel="stylesheet" href="./home.css">
+    <link rel="stylesheet" href="/home/home.css">
 </head>
 
 <body>
-    <main>
+    <main id="root">
         <header>
             <h1>Welcome to Web Bugigangas</h1>
         </header>
 
         <nav id="nav_menu" hidden>
-            <button type="button" id="btn_home">Home</button>
-            <button type="button" id="btn_err">Error</button>
             <button type="button" id="btn_click-paint">Click Paint</button>
         </nav>
         <button type="button" id="btnNav">Display Applications</button>
@@ -25,7 +23,10 @@
             <p>&copy; 2024 My Web Application. All Rights Reserved.</p>
         </footer>
     </main>
-    <script type="module" src="./home.js"></script>
+    <script type="module" src="/modules/storage.js"></script>
+    <script type="module" src="/home/home.js"></script>
+    <script type="module" src="/modules/router.js"></script>
+    <script type="module" src="/app.js"></script>
 </body>
 
 </html>

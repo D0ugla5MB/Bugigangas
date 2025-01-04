@@ -14,24 +14,33 @@ export function fetchContent() {
 	switch (hash) {
 		case EnvVars.getHash:
 		case EnvVars.getHashHome:
-			htmlPath = EnvVars.getHomePage;
-			break;
+			return EnvVars.getHomePage;
 		case EnvVars.getHashClickPaint:
-			htmlPath = EnvVars.getClickPaintPage;
-			break;
+			return EnvVars.getClickPaintPage;
 		default:
-			htmlPath = EnvVars.getErrorPage;
-			break;
+			return EnvVars.getErrorPage;
 	}
+}
 
+export function fetchContent() {
+	const hash = window.location.hash || EnvVars.getHash;
+	let htmlPath = '';
 	const rootDiv = document.getElementById(EnvVars.getIndexContainerId);
-	const shadowRootDiv = rootDiv.attachShadow({mode: 'open'});
+	let shadowRootDiv = '';
+
+	
+	htmlPath = getHashUrl(hash, htmlPath);
 	fetch(htmlPath)
 		.then(response => response.text())
 		.then(htmlContent => {
-			shadowRootDiv.innerHTML = htmlContent;
-			if (rootDiv.hasChildNodes() && htmlPath.includes(EnvVars.getLoadContentFetchIf)) {
+			if (htmlPath.includes(EnvVars.getLoadContentFetchIf)) {
 				addMenuBtnsEvents();
-			}
-		})
+				return;
+			} 
+
+				shadowRootDiv = rootDiv.attachShadow({ mode: 'open' });
+				shadowRootDiv.innerHTML = htmlContent;
+		});
 }
+
+
