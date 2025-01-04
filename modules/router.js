@@ -7,7 +7,7 @@ export function changeRoute(route) {
 	window.location.hash = route;
 }
 
-export function loadContent() {
+export function fetchContent() {
 	const hash = window.location.hash || EnvVars.getHash;
 	let htmlPath = '';
 
