@@ -1,4 +1,4 @@
-import { EnvVars, changeRoute } from "../app.js";
+import { EnvVars, changeRoute, runClickPaint } from "../app.js";
 export function addMenuBtnsEvents() {
     const index_menu = document.getElementById(EnvVars.getNavMenu);
     
