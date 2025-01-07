@@ -1,17 +1,15 @@
 import {
-	EnvVars,
-	addMenuBtnsEvents
-} from "../app.js";
+	EnvVars} from "../app.js";
 
 export function changeRoute(route) {
 	window.location.hash = route;
 }
 
-export function fetchContent() {
-	const hash = window.location.hash || EnvVars.getHash;
-	let htmlPath = '';
+export function getPathnameHash() {
+	const hash = window.location.hash || '/';
 
 	switch (hash) {
+		case '/':
 		case EnvVars.getHash:
 		case EnvVars.getHashHome:
 			return EnvVars.getHomePage;
@@ -21,26 +19,4 @@ export function fetchContent() {
 			return EnvVars.getErrorPage;
 	}
 }
-
-export function fetchContent() {
-	const hash = window.location.hash || EnvVars.getHash;
-	let htmlPath = '';
-	const rootDiv = document.getElementById(EnvVars.getIndexContainerId);
-	let shadowRootDiv = '';
-
-	
-	htmlPath = getHashUrl(hash, htmlPath);
-	fetch(htmlPath)
-		.then(response => response.text())
-		.then(htmlContent => {
-			if (htmlPath.includes(EnvVars.getLoadContentFetchIf)) {
-				addMenuBtnsEvents();
-				return;
-			} 
-
-				shadowRootDiv = rootDiv.attachShadow({ mode: 'open' });
-				shadowRootDiv.innerHTML = htmlContent;
-		});
-}
-
 

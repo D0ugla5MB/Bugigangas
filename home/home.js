@@ -1,20 +1,35 @@
-import { EnvVars, changeRoute, runClickPaint } from '../app.js';
-
+import { EnvVars, changeRoute } from "../app.js";
 export function addMenuBtnsEvents() {
     const index_menu = document.getElementById(EnvVars.getNavMenu);
+    
+    if (!index_menu) {
+        console.error('Menu element not found');
+        return; 
+    }
 
     const menuButtonsWithId = document.querySelectorAll(EnvVars.getQuerySelect);
-    const btnSet = {};
+    
+    // TODO: Create a func to dynamically generate buttons, before append them to the DOM, to avoid to use cond. blocks.
     menuButtonsWithId.forEach((btn) => {
-        btnSet[btn.id] = btn;
+        switch (btn.id) {
+            case EnvVars.getKeyBtnNav:
+                btn.addEventListener('click', () => {
+                    document.getElementById(EnvVars.getNavMenu).hidden = !document.getElementById(EnvVars.getNavMenu).hidden;
+                });
+                break;
+
+            case EnvVars.getKeyBtnClickPaint:
+                btn.addEventListener('click', () => {
+                    changeRoute(EnvVars.getHashClickPaint);
+                    runClickPaint();
+                });
+                break;
+
+            default:
+                console.warn(`No event handler for button with id ${btn.id}`);
+                break;
+        }
     });
 
-    btnSet[EnvVars.getKeyBtnNav].addEventListener('click', () => {
-        console.log('Dynamic button clicked!');
-        index_menu.hidden = !index_menu.hidden;
-    });
-    btnSet[EnvVars.getKeyBtnClickPaint].addEventListener('click', () =>{
-        changeRoute(EnvVars.getHashClickPaint);
-        runClickPaint();
-    });
+
 }
