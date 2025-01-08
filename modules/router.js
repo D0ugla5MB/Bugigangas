@@ -32,7 +32,7 @@ function fetchDomContent(url, containerId, scriptAux) {
 		})
 		.then(htmlContent => {
 			document.getElementById(containerId).innerHTML = htmlContent;
-			if (scriptAux) scriptAux(); 
+			if (scriptAux) scriptAux();
 		})
 		.catch(error => {
 			console.error('Error fetching HTML content:', error);
@@ -40,8 +40,11 @@ function fetchDomContent(url, containerId, scriptAux) {
 }
 
 function fetchShadowDomContent(url, containerId, scriptAux) {
-	const container = document.getElementById(containerId);
-	let shadowRoot = container.shadowRoot || container.attachShadow({ mode: 'open' });
+	const shadowHost = document.getElementById(containerId);
+	let shadowRoot = shadowHost.shadowRoot || shadowHost.attachShadow({ mode: 'open' });
+	const shadowContent = document.createElement('div');
+	const auxContainer = document.createDocumentFragment();
+	shadowContent.setAttribute('id', 'fragment');
 
 	fetch(url)
 		.then(response => {
@@ -51,8 +54,10 @@ function fetchShadowDomContent(url, containerId, scriptAux) {
 			return response.text();
 		})
 		.then(htmlContent => {
-			shadowRoot.innerHTML = htmlContent;
-			if (scriptAux) scriptAux(); 
+			shadowContent.innerHTML = htmlContent;
+			auxContainer.appendChild(shadowContent);
+			shadowRoot.appendChild(auxContainer);
+			if (scriptAux) scriptAux();
 		})
 		.catch(error => {
 			console.error('Error fetching Shadow DOM content:', error);
@@ -69,7 +74,7 @@ export function fetchContent(currentUrl) {
 		['home', addMenuBtnsEvents],
 		['clickpaint', null],
 	];
-	
+
 	const fetchType = mapDomType.find(([key]) => currentUrl.includes(key))?.[1];
 
 	if (!fetchType) {

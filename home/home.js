@@ -21,7 +21,6 @@ export function addMenuBtnsEvents() {
             case EnvVars.getKeyBtnClickPaint:
                 btn.addEventListener('click', () => {
                     changeRoute(EnvVars.getHashClickPaint);
-                    runClickPaint();
                 });
                 break;
 
