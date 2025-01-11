@@ -1,8 +1,39 @@
 import { clickState } from "./state.js";
 
+export function buildBlockerContainer() {
+    const section = document.createElement('section');
+    section.className = 'welcome-container';
+
+    const container = document.createElement('div');
+    container.className = 'container';
+    container.id = 'container-msg';
+
+    const message = document.createElement('p');
+    message.innerHTML = 'YOU ARE PLAYING CLICK PAINT!<br>HAVE FUN :D';
+
+    const closeButton = document.createElement('button');
+    closeButton.type = 'button';
+    closeButton.id = 'close-msg';
+    closeButton.textContent = 'Close';
+
+    container.appendChild(message);
+    container.appendChild(closeButton);
+    section.appendChild(container);
+
+    return section;
+}
+
+export function buildMainContainer() {
+    const mainContainer = document.createElement('main');
+    mainContainer.id = 'app-main';
+    mainContainer.className = 'main-blocked';
+
+    return mainContainer;
+}
+
 
 function freeBlocker(clickEvent) {
-    const main = document.getElementById('app-root');
+    const main = document.getElementById('app-main');
     if (clickEvent) {
         main.classList.remove('main-blocked');
         main.removeAttribute('class');
@@ -14,7 +45,7 @@ export function watchContainerBlocker() {
     containerMsg.addEventListener('click', () => {
         click().doClick();
         freeBlocker(click().getState());
-        containerMsg.parentElement.remove();
+        containerMsg.closest('.welcome-container').remove();
     });
 }
 export const circle = (cx, cy, r, style) => {

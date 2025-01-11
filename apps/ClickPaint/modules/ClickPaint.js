@@ -1,32 +1,34 @@
-import { svgContainer, getSvgContainerSide, getViewportDimensions, watchContainerBlocker, counterContainer, resizePaintArea, circle } from "./domHelpers.js";
+import { svgContainer, getSvgContainerSide, getViewportDimensions, watchContainerBlocker, counterContainer, resizePaintArea, circle, buildBlockerContainer, buildMainContainer } from "./domHelpers.js";
 import { count, clickState } from "./state.js";
 import { watchPointer, generateColor } from "./utils.js";
 
 
 function buildPaintArea() {
-    return svgContainer('' + getSvgContainerSide(getViewportDimensions()));
+    return svgContainer(getSvgContainerSide(getViewportDimensions()));
 }
 
 
 export function runClickPaint() {
     console.log('RUNNING CLICK PAINT GAME!');
 
-    watchContainerBlocker();
-
     const addClick = count();
     const click = clickState();
-
+    const blockerMsg = buildBlockerContainer();
+    const paintContainer = buildMainContainer();
     const clicksCounter = counterContainer(addClick().getNum());
-    const mainContainer = document.getElementById('app-root');
+    const appContainer = document.getElementById('click-paint-app');
     let paintArea = buildPaintArea();
 
     if (!paintArea) throw console.error('Something wrong happened');
 
-    mainContainer.appendChild(paintArea);
-    mainContainer.appendChild(clicksCounter);
+    paintArea.appendChild(paintContainer);
+    appContainer.appendChild(paintArea);
+    appContainer.appendChild(clicksCounter);
+    appContainer.appendChild(blockerMsg);
+
+    watchContainerBlocker();
 
     paintArea = document.getElementById('paint-area');
-
     window.addEventListener('resize', () => {
         setTimeout(() => {
             resizePaintArea(paintArea);

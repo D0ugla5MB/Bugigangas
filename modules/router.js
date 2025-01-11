@@ -20,66 +20,6 @@ export function getPathnameHash() {
 	}
 }
 
-async function loadStyles(cssPath) {
-	try {
-		const response = await fetch(cssPath);
-		if (!response.ok) {
-			throw new Error(`Failed to load styles from ${cssPath}`);
-		}
-
-		const linkElement = document.createElement('link');
-		linkElement.rel = 'stylesheet';
-		linkElement.type = 'text/css';
-		linkElement.href = cssPath;
-
-		return linkElement;
-	} catch (error) {
-		console.error('Error loading styles:', error);
-		return null;
-	}
-}
-
-async function loadHtml(htmlPath) {
-	try {
-		const response = await fetch(htmlPath);
-		if (!response.ok) {
-			throw new Error(`Failed to load HTML from ${htmlPath}`);
-		}
-		const htmlContent = await response.text();
-		const fragment = document.createDocumentFragment();
-		const tempDiv = document.createElement('div');
-		tempDiv.innerHTML = htmlContent;
-
-		while (tempDiv.firstChild) {
-			fragment.appendChild(tempDiv.firstChild);
-		}
-
-		return fragment;
-	} catch (error) {
-		console.error('Error loading HTML:', error);
-		return null;
-	}
-}
-
-async function loadModule(modulePath, appMainFunc) {
-	try {
-		const module = await import(modulePath);
-		if (!module) {
-			throw new Error(`Failed to load module from ${modulePath}`);
-		}
-		if (!appMainFunc) {
-			return module;
-		}
-		if (Object.hasOwn(module, appMainFunc)) {
-			return module[appMainFunc];
-		}
-		throw new Error(`Function ${appMainFunc} not found in module ${modulePath}`);
-	} catch (error) {
-		console.error('Error loading module:', error);
-		return null;
-	}
-}
-
 function selectApp(appUrlHash) {
 	const mapApps = [
 		['home', {
@@ -105,6 +45,73 @@ function selectApp(appUrlHash) {
 	return appResources;
 }
 
+/**
+ * Resource Loading Functions
+ * ------------------------
+ * Functions for loading HTML, CSS, and JavaScript modules.
+ * Each function handles its specific resource type and error cases.
+ */
+
+async function loadHtml(htmlPath) {
+	try {
+		const response = await fetch(htmlPath);
+		if (!response.ok) {
+			throw new Error(`Failed to load HTML from ${htmlPath}`);
+		}
+		const htmlContent = await response.text();
+		const fragment = document.createDocumentFragment();
+		const tempDiv = document.createElement('div');
+		tempDiv.innerHTML = htmlContent;
+
+		while (tempDiv.firstChild) {
+			fragment.appendChild(tempDiv.firstChild);
+		}
+
+		return fragment;
+	} catch (error) {
+		console.error('Error loading HTML:', error);
+		return null;
+	}
+}
+
+async function loadStyles(cssPath) {
+	try {
+		const response = await fetch(cssPath);
+		if (!response.ok) {
+			throw new Error(`Failed to load styles from ${cssPath}`);
+		}
+
+		const linkElement = document.createElement('link');
+		linkElement.rel = 'stylesheet';
+		linkElement.type = 'text/css';
+		linkElement.href = cssPath;
+
+		return linkElement;
+	} catch (error) {
+		console.error('Error loading styles:', error);
+		return null;
+	}
+}
+
+async function loadModule(modulePath, appMainFunc) {
+	try {
+		const module = await import(modulePath);
+		if (!module) {
+			throw new Error(`Failed to load module from ${modulePath}`);
+		}
+		if (!appMainFunc) {
+			return module;
+		}
+		if (Object.hasOwn(module, appMainFunc)) {
+			return module[appMainFunc];
+		}
+		throw new Error(`Function ${appMainFunc} not found in module ${modulePath}`);
+	} catch (error) {
+		console.error('Error loading module:', error);
+		return null;
+	}
+}
+
 async function buildApp(targetContainer, appHtmlPath, appCssPath, appModulePath, appMainFunc) {
 	const container = document.getElementById(targetContainer);
 	if (!container) {
@@ -126,15 +133,7 @@ async function buildApp(targetContainer, appHtmlPath, appCssPath, appModulePath,
 
 		// Phase 2: DOM Operations
 		container.innerHTML = '';
-
-		if (htmlContent instanceof DocumentFragment) {
-			container.appendChild(htmlContent);
-		} else {
-			const fragment = document.createDocumentFragment();
-			fragment.appendChild(htmlContent);
-			container.appendChild(fragment);
-		}
-
+		container.appendChild(htmlContent);
 		document.head.appendChild(cssLink);
 		await moduleFunc();
 
