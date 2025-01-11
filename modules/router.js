@@ -1,7 +1,5 @@
-import {
-	addMenuBtnsEvents,
-	EnvVars,
-} from "../app.js";
+import * as EnvVars from './storage.js';
+export { EnvVars };
 
 export function changeRoute(route) {
 	window.location.hash = route;
@@ -22,67 +20,145 @@ export function getPathnameHash() {
 	}
 }
 
-function fetchDomContent(url, containerId, scriptAux) {
-	fetch(url)
-		.then(response => {
-			if (!response.ok) {
-				throw new Error(`Failed to fetch HTML content from ${url}`);
-			}
-			return response.text();
-		})
-		.then(htmlContent => {
-			document.getElementById(containerId).innerHTML = htmlContent;
-			if (scriptAux) scriptAux();
-		})
-		.catch(error => {
-			console.error('Error fetching HTML content:', error);
-		});
+async function loadStyles(cssPath) {
+	try {
+		const response = await fetch(cssPath);
+		if (!response.ok) {
+			throw new Error(`Failed to load styles from ${cssPath}`);
+		}
+
+		const linkElement = document.createElement('link');
+		linkElement.rel = 'stylesheet';
+		linkElement.type = 'text/css';
+		linkElement.href = cssPath;
+
+		return linkElement;
+	} catch (error) {
+		console.error('Error loading styles:', error);
+		return null;
+	}
 }
 
-function fetchShadowDomContent(url, containerId, scriptAux) {
-	const shadowHost = document.getElementById(containerId);
-	let shadowRoot = shadowHost.shadowRoot || shadowHost.attachShadow({ mode: 'open' });
-	const shadowContent = document.createElement('div');
-	const auxContainer = document.createDocumentFragment();
-	shadowContent.setAttribute('id', 'fragment');
+async function loadHtml(htmlPath) {
+	try {
+		const response = await fetch(htmlPath);
+		if (!response.ok) {
+			throw new Error(`Failed to load HTML from ${htmlPath}`);
+		}
+		const htmlContent = await response.text();
+		const fragment = document.createDocumentFragment();
+		const tempDiv = document.createElement('div');
+		tempDiv.innerHTML = htmlContent;
 
-	fetch(url)
-		.then(response => {
-			if (!response.ok) {
-				throw new Error(`Failed to fetch Shadow DOM content from ${url}`);
-			}
-			return response.text();
-		})
-		.then(htmlContent => {
-			shadowContent.innerHTML = htmlContent;
-			auxContainer.appendChild(shadowContent);
-			shadowRoot.appendChild(auxContainer);
-			if (scriptAux) scriptAux();
-		})
-		.catch(error => {
-			console.error('Error fetching Shadow DOM content:', error);
-		});
+		while (tempDiv.firstChild) {
+			fragment.appendChild(tempDiv.firstChild);
+		}
+
+		return fragment;
+	} catch (error) {
+		console.error('Error loading HTML:', error);
+		return null;
+	}
 }
 
-export function fetchContent(currentUrl) {
-	const mapDomType = [
-		['home', fetchDomContent],
-		['clickpaint', fetchShadowDomContent],
-		['error', fetchDomContent]
-	];
-	const mapScript = [
-		['home', addMenuBtnsEvents],
-		['clickpaint', null],
+async function loadModule(modulePath, appMainFunc) {
+	try {
+		const module = await import(modulePath);
+		if (!module) {
+			throw new Error(`Failed to load module from ${modulePath}`);
+		}
+		if (!appMainFunc) {
+			return module;
+		}
+		if (Object.hasOwn(module, appMainFunc)) {
+			return module[appMainFunc];
+		}
+		throw new Error(`Function ${appMainFunc} not found in module ${modulePath}`);
+	} catch (error) {
+		console.error('Error loading module:', error);
+		return null;
+	}
+}
+
+function selectApp(appUrlHash) {
+	const mapApps = [
+		['home', {
+			html: '/home/home.html',
+			css: '/home/home.css',
+			module: '/home/home.js',
+			main: 'addMenuBtnsEvents',
+		}],
+		['clickpaint', {
+			html: '/apps/ClickPaint/clickpaint.html',
+			css: '/apps/ClickPaint/assets/clickpaint.css',
+			module: '/apps/ClickPaint/modules/ClickPaint.js',
+			main: 'runClickPaint',
+		}],
 	];
 
-	const fetchType = mapDomType.find(([key]) => currentUrl.includes(key))?.[1];
+	const appResources = mapApps.find(([key]) => appUrlHash.includes(key))?.[1] || null;
+	if (!appResources) {
+		console.error(`No matching app for URL: ${appUrlHash}`);
+		return null;
+	}
 
-	if (!fetchType) {
-		console.error(`No matching fetch type for URL: ${currentUrl}`);
+	return appResources;
+}
+
+async function buildApp(targetContainer, appHtmlPath, appCssPath, appModulePath, appMainFunc) {
+	const container = document.getElementById(targetContainer);
+	if (!container) {
+		console.error(`Container ${targetContainer} not found`);
 		return;
 	}
 
-	const scriptAux = mapScript.find(([key]) => currentUrl.includes(key))?.[1] || null;
+	try {
+		// Phase 1: Load Resources
+		const [htmlContent, cssLink, moduleFunc] = await Promise.all([
+			loadHtml(appHtmlPath),
+			loadStyles(appCssPath),
+			loadModule(appModulePath, appMainFunc)
+		]);
 
-	fetchType(currentUrl, EnvVars.getIndexContainerId, scriptAux);
+		if (!htmlContent || !cssLink || !moduleFunc) {
+			throw new Error('One or more resources failed to load');
+		}
+
+		// Phase 2: DOM Operations
+		container.innerHTML = '';
+
+		if (htmlContent instanceof DocumentFragment) {
+			container.appendChild(htmlContent);
+		} else {
+			const fragment = document.createDocumentFragment();
+			fragment.appendChild(htmlContent);
+			container.appendChild(fragment);
+		}
+
+		document.head.appendChild(cssLink);
+		await moduleFunc();
+
+	} catch (error) {
+		console.error('Error building app:', error);
+		return;
+	}
+}
+
+export async function loadApp(whichContainer, appUrlHash) {
+	try {
+		const appResources = selectApp(appUrlHash);
+		if (!appResources) {
+			return;
+		}
+
+		const { html, css, module, main } = appResources;
+		if (!html || !css || !module) {
+			console.error('Missing required resources');
+			return;
+		}
+
+		await buildApp(whichContainer, html, css, module, main);
+	} catch (error) {
+		console.error('Critical error loading app:', error);
+	}
 }

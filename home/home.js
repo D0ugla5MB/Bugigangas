@@ -1,14 +1,15 @@
-import { EnvVars, changeRoute, runClickPaint } from "../app.js";
+import { EnvVars, changeRoute } from "../modules/router.js";
+
 export function addMenuBtnsEvents() {
     const index_menu = document.getElementById(EnvVars.getNavMenu);
-    
+
     if (!index_menu) {
         console.error('Menu element not found');
-        return; 
+        return;
     }
 
     const menuButtonsWithId = document.querySelectorAll(EnvVars.getQuerySelect);
-    
+
     // TODO: Create a func to dynamically generate buttons, before append them to the DOM, to avoid to use cond. blocks.
     menuButtonsWithId.forEach((btn) => {
         switch (btn.id) {
@@ -29,6 +30,4 @@ export function addMenuBtnsEvents() {
                 break;
         }
     });
-
-
 }

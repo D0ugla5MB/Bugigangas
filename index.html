@@ -6,18 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Web Bugigangas</title>
   <script>
-    if(window.location.pathname.includes('index')){
+    if (window.location.pathname.includes('index')) {
       window.location.pathname = '/';
     }
   </script>
   <link rel="stylesheet" href="/assets/css/style.css"> <!-- Link to the global CSS -->
-  <link rel="stylesheet" href="/home/home.css">
 </head>
 
 <body>
-  
+
   <div id="root"></div>
-  
+
   <script type="module" src="/modules/storage.js"></script>
   <script type="module" src="/modules/router.js"></script>
   <script type="module" src="/app.js"></script>
