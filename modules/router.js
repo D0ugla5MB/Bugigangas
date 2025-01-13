@@ -155,7 +155,7 @@ export async function loadApp(whichContainer, appUrlHash) {
 			console.error('Missing required resources');
 			return;
 		}
-
+		
 		await buildApp(whichContainer, html, css, module, main);
 	} catch (error) {
 		console.error('Critical error loading app:', error);

@@ -1,4 +1,5 @@
 import { EnvVars, changeRoute } from "../modules/router.js";
+import { cacheTool, eventTrackerTool } from '../modules/utils.js';
 
 export function addMenuBtnsEvents() {
     const index_menu = document.getElementById(EnvVars.getNavMenu);
@@ -20,9 +21,13 @@ export function addMenuBtnsEvents() {
                 break;
 
             case EnvVars.getKeyBtnClickPaint:
-                btn.addEventListener('click', () => {
-                    changeRoute(EnvVars.getHashClickPaint);
-                });
+                eventTrackerTool.registerEventListener(
+                    EnvVars.getHashClickPaint,
+                    window.eventTracker,
+                    btn,
+                    'click',
+                    () => { changeRoute(EnvVars.getHashClickPaint); }
+                );
                 break;
 
             default:
