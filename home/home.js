@@ -15,9 +15,15 @@ export function addMenuBtnsEvents() {
     menuButtonsWithId.forEach((btn) => {
         switch (btn.id) {
             case EnvVars.getKeyBtnNav:
-                btn.addEventListener('click', () => {
-                    document.getElementById(EnvVars.getNavMenu).hidden = !document.getElementById(EnvVars.getNavMenu).hidden;
-                });
+                eventTrackerTool.registerEventListener(
+                    EnvVars.getHashHome,
+                    window.eventTracker,
+                    btn,
+                    'click',
+                    () => {
+                        document.getElementById(EnvVars.getNavMenu).hidden = !document.getElementById(EnvVars.getNavMenu).hidden;
+                    }
+                );
                 break;
 
             case EnvVars.getKeyBtnClickPaint:

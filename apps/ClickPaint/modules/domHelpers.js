@@ -1,4 +1,5 @@
 import { clickState } from "./state.js";
+import { eventTrackerTool } from '../../../modules/utils.js';
 
 export function buildBlockerContainer() {
     const section = document.createElement('section');
@@ -42,11 +43,19 @@ function freeBlocker(clickEvent) {
 export function watchContainerBlocker() {
     const containerMsg = document.getElementById('close-msg');
     const click = clickState();
-    containerMsg.addEventListener('click', () => {
-        click().doClick();
-        freeBlocker(click().getState());
-        containerMsg.closest('.welcome-container').remove();
-    });
+    
+    
+    eventTrackerTool.registerEventListener(
+        '#clickpaint',
+        window.eventTracker,
+        containerMsg,
+        'click',
+        () => {
+            click().doClick();
+            freeBlocker(click().getState());
+            containerMsg.closest('.welcome-container').remove();
+        }
+    );
 }
 export const circle = (cx, cy, r, style) => {
     const elem = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
