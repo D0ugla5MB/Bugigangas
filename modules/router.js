@@ -1,4 +1,5 @@
 import * as EnvVars from './storage.js';
+import { clearContainer } from './utils.js';
 export { EnvVars };
 
 export function changeRoute(route) {
@@ -114,10 +115,8 @@ async function loadModule(modulePath, appMainFunc) {
 
 async function buildApp(targetContainer, appHtmlPath, appCssPath, appModulePath, appMainFunc) {
 	const container = document.getElementById(targetContainer);
-	if (!container) {
-		console.error(`Container ${targetContainer} not found`);
-		return;
-	}
+
+	clearContainer(targetContainer);
 
 	try {
 		// Phase 1: Load Resources
@@ -132,7 +131,6 @@ async function buildApp(targetContainer, appHtmlPath, appCssPath, appModulePath,
 		}
 
 		// Phase 2: DOM Operations
-		container.innerHTML = '';
 		container.appendChild(htmlContent);
 		document.head.appendChild(cssLink);
 		await moduleFunc();

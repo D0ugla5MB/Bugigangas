@@ -1,6 +1,14 @@
 const initCache = () => new WeakMap();
 const initEventTracker = () => new Map();
 
+export function clearContainer(container) {
+    if (container instanceof Node) {
+        container.innerHTML = '';
+        return;
+    }
+    document.getElementById(container).innerHTML = '';
+ }
+
 function manageCache(cache, keyHash, state) {
     cache.set(keyHash, {
         content: state.content.cloneNode(true),
@@ -12,10 +20,22 @@ function getCache(memCache, keyHash) {
     return memCache.get(keyHash);
 }
 
+function logTrackerEvents(tracker) {
+    console.log('Event Tracker Contents:');
+    tracker.forEach((event, key) => {
+        console.log(`Key: ${key}`);
+        console.log(`Element: ${event.element.id}`);
+        console.log(`Event: ${event.eventType}`);
+        console.log('---');
+    });
+}
+
+
 function manageEvents(tracker, hashEvent) {
-    tracker.forEach((hashKey, hashValues) => {
+    tracker.forEach((event, hashKey) => {
         if (hashKey.startsWith(hashEvent)) {
-            hashValues.element.removeEventListener(hashValues.eventType, hashValues.triggerReact);
+            event.element.removeEventListener(event.eventType, event.triggerReact);
+            tracker.delete(hashKey);
         }
     });
 }
@@ -28,4 +48,4 @@ function registerEventListener(hash, tracker, element, eventType, triggerReact) 
 
 
 export const cacheTool = { initCache, manageCache, getCache };
-export const eventTrackerTool = {initEventTracker, registerEventListener, manageEvents};
+export const eventTrackerTool = {initEventTracker, registerEventListener, manageEvents, logTrackerEvents};
