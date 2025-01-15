@@ -7,7 +7,14 @@ export function clearContainer(container) {
         return;
     }
     document.getElementById(container).innerHTML = '';
- }
+}
+
+export function clearHeadLinks() { 
+    const styles = document.head.getElementsByClassName('dynamic-style');
+    while (styles.length > 0) {
+        styles[styles.length - 1].remove();
+    }
+}
 
 function manageCache(cache, keyHash, state) {
     cache.set(keyHash, {
@@ -33,7 +40,7 @@ function logTrackerEvents(tracker) {
 
 function manageEvents(tracker, hashEvent) {
     tracker.forEach((event, hashKey) => {
-        if (hashKey.startsWith(hashEvent)) {
+        if (!hashKey.includes(hashEvent)) {
             event.element.removeEventListener(event.eventType, event.triggerReact);
             tracker.delete(hashKey);
         }
@@ -48,4 +55,4 @@ function registerEventListener(hash, tracker, element, eventType, triggerReact) 
 
 
 export const cacheTool = { initCache, manageCache, getCache };
-export const eventTrackerTool = {initEventTracker, registerEventListener, manageEvents, logTrackerEvents};
+export const eventTrackerTool = { initEventTracker, registerEventListener, manageEvents, logTrackerEvents };

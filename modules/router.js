@@ -1,5 +1,5 @@
 import * as EnvVars from './storage.js';
-import { clearContainer } from './utils.js';
+import { clearContainer, clearHeadLinks } from './utils.js';
 export { EnvVars };
 
 export function changeRoute(route) {
@@ -54,6 +54,19 @@ function selectApp(appUrlHash) {
  */
 
 async function loadHtml(htmlPath) {
+
+	if (sessionStorage.getItem(htmlPath)) { 
+		console.log(htmlPath);
+		const fragment = document.createDocumentFragment();
+		const tempDiv = document.createElement('div');
+		tempDiv.innerHTML = sessionStorage.getItem(htmlPath);
+
+		while (tempDiv.firstChild) {
+			fragment.appendChild(tempDiv.firstChild);
+		}
+		return fragment;
+	}
+
 	try {
 		const response = await fetch(htmlPath);
 		if (!response.ok) {
@@ -67,7 +80,8 @@ async function loadHtml(htmlPath) {
 		while (tempDiv.firstChild) {
 			fragment.appendChild(tempDiv.firstChild);
 		}
-
+		EnvVars.cacheHtml(fragment, htmlPath);	
+		
 		return fragment;
 	} catch (error) {
 		console.error('Error loading HTML:', error);
@@ -76,6 +90,16 @@ async function loadHtml(htmlPath) {
 }
 
 async function loadStyles(cssPath) {
+
+	if (sessionStorage.getItem(cssPath)) { 
+		const linkElement = document.createElement('link');
+		linkElement.rel = 'stylesheet';
+		linkElement.type = 'text/css';
+		linkElement.href = cssPath;
+		linkElement.className = 'dynamic-style';
+		return linkElement;
+	}
+
 	try {
 		const response = await fetch(cssPath);
 		if (!response.ok) {
@@ -86,7 +110,9 @@ async function loadStyles(cssPath) {
 		linkElement.rel = 'stylesheet';
 		linkElement.type = 'text/css';
 		linkElement.href = cssPath;
+		linkElement.className = 'dynamic-style';
 
+		EnvVars.cacheCssLink(cssPath, linkElement);
 		return linkElement;
 	} catch (error) {
 		console.error('Error loading styles:', error);
@@ -116,6 +142,7 @@ async function loadModule(modulePath, appMainFunc) {
 async function buildApp(targetContainer, appHtmlPath, appCssPath, appModulePath, appMainFunc) {
 	const container = document.getElementById(targetContainer);
 
+	clearHeadLinks();
 	clearContainer(targetContainer);
 
 	try {
@@ -153,7 +180,7 @@ export async function loadApp(whichContainer, appUrlHash) {
 			console.error('Missing required resources');
 			return;
 		}
-		
+
 		await buildApp(whichContainer, html, css, module, main);
 	} catch (error) {
 		console.error('Critical error loading app:', error);

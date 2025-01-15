@@ -2,6 +2,22 @@
 sessionStorage.setItem('routerHome', '../home/home.js');
 sessionStorage.setItem('homeRouter', '../modules/router.js'); */
 
+export function cacheHtml(htmlContent, htmlPath) {
+    if (htmlContent instanceof DocumentFragment) {
+        sessionStorage.setItem(htmlPath, htmlContent.innerHTML);
+        return;
+    }
+    sessionStorage.setItem(htmlPath, document.getElementById('root').innerHTML);
+}
+
+export function cacheCssLink(cssPath, linkTag) {
+    if (linkTag instanceof Node) {
+        sessionStorage.setItem(cssPath, linkTag.outerHTML);
+        return;
+    }
+    sessionStorage.setItem(cssPath, `${linkTag}`);
+}
+
 sessionStorage.setItem('hash', '#');
 sessionStorage.setItem('hashHome', '#home');
 sessionStorage.setItem('hashError', '#error');
