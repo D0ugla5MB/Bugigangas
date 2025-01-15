@@ -80,7 +80,6 @@ async function loadHtml(htmlPath) {
 		while (tempDiv.firstChild) {
 			fragment.appendChild(tempDiv.firstChild);
 		}
-		EnvVars.cacheHtml(fragment, htmlPath);	
 		
 		return fragment;
 	} catch (error) {
@@ -112,7 +111,6 @@ async function loadStyles(cssPath) {
 		linkElement.href = cssPath;
 		linkElement.className = 'dynamic-style';
 
-		EnvVars.cacheCssLink(cssPath, linkElement);
 		return linkElement;
 	} catch (error) {
 		console.error('Error loading styles:', error);
@@ -152,11 +150,13 @@ async function buildApp(targetContainer, appHtmlPath, appCssPath, appModulePath,
 			loadStyles(appCssPath),
 			loadModule(appModulePath, appMainFunc)
 		]);
-
+		console.log(htmlContent);
 		if (!htmlContent || !cssLink || !moduleFunc) {
 			throw new Error('One or more resources failed to load');
 		}
-
+		
+		EnvVars.cacheHtml(htmlContent, appHtmlPath);
+		EnvVars.cacheCssLink(appCssPath, cssLink);
 		// Phase 2: DOM Operations
 		container.appendChild(htmlContent);
 		document.head.appendChild(cssLink);

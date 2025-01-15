@@ -4,10 +4,11 @@ sessionStorage.setItem('homeRouter', '../modules/router.js'); */
 
 export function cacheHtml(htmlContent, htmlPath) {
     if (htmlContent instanceof DocumentFragment) {
-        sessionStorage.setItem(htmlPath, htmlContent.innerHTML);
+        const tempDiv = document.createElement('div');
+        tempDiv.appendChild(htmlContent.cloneNode(true));
+        sessionStorage.setItem(htmlPath, tempDiv.innerHTML);
         return;
     }
-    sessionStorage.setItem(htmlPath, document.getElementById('root').innerHTML);
 }
 
 export function cacheCssLink(cssPath, linkTag) {
