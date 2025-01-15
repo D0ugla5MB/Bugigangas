@@ -1,7 +1,8 @@
 import { svgContainer, getSvgContainerSide, getViewportDimensions, watchContainerBlocker, counterContainer, resizePaintArea, circle, buildBlockerContainer, buildMainContainer } from "./domHelpers.js";
 import { count, clickState } from "./state.js";
 import { watchPointer, generateColor } from "./utils.js";
-import {eventTrackerTool} from '../../../modules/utils.js';
+import { eventTrackerTool } from '../../../modules/utils.js';
+import { ROUTES } from '../../../modules/storage.js';
 
 function buildPaintArea() {
     return svgContainer(getSvgContainerSide(getViewportDimensions()));
@@ -30,7 +31,7 @@ export function runClickPaint() {
 
     paintArea = document.getElementById('paint-area');
     eventTrackerTool.registerEventListener(
-        '#clickpaint',
+        ROUTES.hashClickPaint,
         window.eventTracker,
         window,
         'resize',
@@ -48,7 +49,6 @@ export function runClickPaint() {
         () => {
             click().doClick();
             addClick().addOne();
-            console.log(`clicks count:\t${addClick().getNum()}`);
             const countDiv = document.getElementById('clicks-num');
             countDiv.textContent = `Number of total clicks: ${addClick().getNum()}`;
         }
@@ -62,7 +62,6 @@ export function runClickPaint() {
             if (click().getState()) {
                 click().undoClick();
                 const [cx, cy] = watchPointer(event);
-                console.log(`${cx}, ${cy}`);
                 paintArea.appendChild(circle(cx, cy, 25, generateColor()));
             }
         }

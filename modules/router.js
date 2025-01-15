@@ -1,6 +1,6 @@
-import * as EnvVars from './storage.js';
+import * as utilsJs from "./utils.js";
 import { clearContainer, clearHeadLinks } from './utils.js';
-export { EnvVars };
+import { DOM, ROUTES } from './storage.js';
 
 export function changeRoute(route) {
 	window.location.hash = route;
@@ -11,13 +11,13 @@ export function getPathnameHash() {
 
 	switch (hash) {
 		case '/':
-		case EnvVars.getHash:
-		case EnvVars.getHashHome:
-			return EnvVars.getHomePage;
-		case EnvVars.getHashClickPaint:
-			return EnvVars.getClickPaintPage;
+		case ROUTES.hash:
+		case ROUTES.hashHome:
+			return ROUTES.pages.home;
+		case ROUTES.hashClickPaint:
+			return ROUTES.pages.clickPaint;
 		default:
-			return EnvVars.getErrorPage;
+			return ROUTES.pages.error;
 	}
 }
 
@@ -54,9 +54,7 @@ function selectApp(appUrlHash) {
  */
 
 async function loadHtml(htmlPath) {
-
 	if (sessionStorage.getItem(htmlPath)) { 
-		console.log(htmlPath);
 		const fragment = document.createDocumentFragment();
 		const tempDiv = document.createElement('div');
 		tempDiv.innerHTML = sessionStorage.getItem(htmlPath);
@@ -150,13 +148,12 @@ async function buildApp(targetContainer, appHtmlPath, appCssPath, appModulePath,
 			loadStyles(appCssPath),
 			loadModule(appModulePath, appMainFunc)
 		]);
-		console.log(htmlContent);
 		if (!htmlContent || !cssLink || !moduleFunc) {
 			throw new Error('One or more resources failed to load');
 		}
 		
-		EnvVars.cacheHtml(htmlContent, appHtmlPath);
-		EnvVars.cacheCssLink(appCssPath, cssLink);
+		utilsJs.cacheHtml(htmlContent, appHtmlPath);
+		utilsJs.cacheCssLink(appCssPath, cssLink);
 		// Phase 2: DOM Operations
 		container.appendChild(htmlContent);
 		document.head.appendChild(cssLink);

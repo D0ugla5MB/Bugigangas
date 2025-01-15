@@ -1,5 +1,21 @@
-const initCache = () => new WeakMap();
 const initEventTracker = () => new Map();
+
+export function cacheHtml(htmlContent, htmlPath) {
+    if (htmlContent instanceof DocumentFragment) {
+        const tempDiv = document.createElement('div');
+        tempDiv.appendChild(htmlContent.cloneNode(true));
+        sessionStorage.setItem(htmlPath, tempDiv.innerHTML);
+        return;
+    }
+}
+
+export function cacheCssLink(cssPath, linkTag) {
+    if (linkTag instanceof Node) {
+        sessionStorage.setItem(cssPath, linkTag.outerHTML);
+        return;
+    }
+    sessionStorage.setItem(cssPath, `${linkTag}`);
+}
 
 export function clearContainer(container) {
     if (container instanceof Node) {
@@ -9,34 +25,12 @@ export function clearContainer(container) {
     document.getElementById(container).innerHTML = '';
 }
 
-export function clearHeadLinks() { 
+export function clearHeadLinks() {
     const styles = document.head.getElementsByClassName('dynamic-style');
     while (styles.length > 0) {
         styles[styles.length - 1].remove();
     }
 }
-
-function manageCache(cache, keyHash, state) {
-    cache.set(keyHash, {
-        content: state.content.cloneNode(true),
-        style: state.style.cloneNode(true)
-    });
-}
-
-function getCache(memCache, keyHash) {
-    return memCache.get(keyHash);
-}
-
-function logTrackerEvents(tracker) {
-    console.log('Event Tracker Contents:');
-    tracker.forEach((event, key) => {
-        console.log(`Key: ${key}`);
-        console.log(`Element: ${event.element.id}`);
-        console.log(`Event: ${event.eventType}`);
-        console.log('---');
-    });
-}
-
 
 function manageEvents(tracker, hashEvent) {
     tracker.forEach((event, hashKey) => {
@@ -54,5 +48,4 @@ function registerEventListener(hash, tracker, element, eventType, triggerReact) 
 }
 
 
-export const cacheTool = { initCache, manageCache, getCache };
-export const eventTrackerTool = { initEventTracker, registerEventListener, manageEvents, logTrackerEvents };
+export const eventTrackerTool = { initEventTracker, registerEventListener, manageEvents };

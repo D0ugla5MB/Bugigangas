@@ -1,43 +1,39 @@
-import { EnvVars, changeRoute } from "../modules/router.js";
-import { cacheTool, eventTrackerTool } from '../modules/utils.js';
+import { DOM, ROUTES } from "../modules/storage.js";
+import { changeRoute } from "../modules/router.js";
+import { eventTrackerTool } from '../modules/utils.js';
 
 export function addMenuBtnsEvents() {
-    const index_menu = document.getElementById(EnvVars.getNavMenu);
+    const index_menu = document.getElementById(DOM.navMenu);
 
     if (!index_menu) {
         console.error('Menu element not found');
         return;
     }
 
-    const menuButtonsWithId = document.querySelectorAll(EnvVars.getQuerySelect);
+    const menuButtonsWithId = document.querySelectorAll(DOM.querySelect);
 
-    // TODO: Create a func to dynamically generate buttons, before append them to the DOM, to avoid to use cond. blocks.
     menuButtonsWithId.forEach((btn) => {
         switch (btn.id) {
-            case EnvVars.getKeyBtnNav:
+            case DOM.btnIds.nav:
                 eventTrackerTool.registerEventListener(
-                    EnvVars.getHashHome,
+                    ROUTES.hashHome,
                     window.eventTracker,
                     btn,
                     'click',
                     () => {
-                        document.getElementById(EnvVars.getNavMenu).hidden = !document.getElementById(EnvVars.getNavMenu).hidden;
+                        document.getElementById(DOM.navMenu).hidden = !document.getElementById(DOM.navMenu).hidden;
                     }
                 );
                 break;
 
-            case EnvVars.getKeyBtnClickPaint:
+            case DOM.btnIds.clickPaint:
                 eventTrackerTool.registerEventListener(
-                    EnvVars.getHashClickPaint,
+                    ROUTES.hashClickPaint,
                     window.eventTracker,
                     btn,
                     'click',
-                    () => { changeRoute(EnvVars.getHashClickPaint); }
+                    () => { changeRoute(ROUTES.hashClickPaint); }
                 );
-                break;
-
-            default:
-                console.warn(`No event handler for button with id ${btn.id}`);
                 break;
         }
     });
