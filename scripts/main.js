@@ -1,6 +1,6 @@
-import { DOM } from './modules/storage.js';
-import { loadApp, getPathnameHash } from './modules/router.js';
-import { eventTrackerTool } from './modules/utils.js';
+import { DOM } from './utils/constants.js';
+import { eventTrackerTool } from './utils/utils.js';
+import { loadApp, getPathnameHash } from './router.js';
 
 (function () {
     window.eventTracker = eventTrackerTool.initEventTracker();

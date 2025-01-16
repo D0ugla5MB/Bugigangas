@@ -1,8 +1,8 @@
 import { svgContainer, getSvgContainerSide, getViewportDimensions, watchContainerBlocker, counterContainer, resizePaintArea, circle, buildBlockerContainer, buildMainContainer } from "./domHelpers.js";
 import { count, clickState } from "./state.js";
 import { watchPointer, generateColor } from "./utils.js";
-import { eventTrackerTool } from '../../../modules/utils.js';
-import { ROUTES } from '../../../modules/storage.js';
+import { eventTrackerTool } from '../../utils/utils.js';
+import { ROUTES } from '../../utils/constants.js';
 
 function buildPaintArea() {
     return svgContainer(getSvgContainerSide(getViewportDimensions()));

@@ -19,23 +19,24 @@
   text-align: center;
   width: 200px;
   padding: 10px;
+  margin: 10px auto;
   user-select: none;
   font-size: 2vw;
+  font-weight: bolder;
 }
 
 #paint-area {
   border: black 5px solid;
-
+  margin: 0 auto;
 }
 
-#app-root {
-  padding: 1%;
+#click-paint-app {
+  padding: 2rem;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -45%);
-  gap: 20px;
+  min-height: 100vh;
+  gap: 1rem;
+  overflow: hidden;
 }

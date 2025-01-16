@@ -1,5 +1,5 @@
 import { clickState } from "./state.js";
-import { eventTrackerTool } from '../../../modules/utils.js';
+import { eventTrackerTool } from "../../utils/utils.js"; 
 
 export function buildBlockerContainer() {
     const section = document.createElement('section');
@@ -43,7 +43,6 @@ function freeBlocker(clickEvent) {
 export function watchContainerBlocker() {
     const containerMsg = document.getElementById('close-msg');
     const click = clickState();
-    
     
     eventTrackerTool.registerEventListener(
         '#clickpaint',

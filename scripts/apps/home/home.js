@@ -1,6 +1,6 @@
-import { DOM, ROUTES } from "../modules/storage.js";
-import { changeRoute } from "../modules/router.js";
-import { eventTrackerTool } from '../modules/utils.js';
+import { DOM, ROUTES } from '../../utils/constants.js';
+import { eventTrackerTool } from '../../utils/utils.js';
+import { changeRoute } from '../../router.js';
 
 export function addMenuBtnsEvents() {
     const index_menu = document.getElementById(DOM.navMenu);

@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const dirTarget = './apps/';
+const dirTarget = '../scripts/apps/';
 
 console.log(`Watching for changes in: ${dirTarget}`);
 
