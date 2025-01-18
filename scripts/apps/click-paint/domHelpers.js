@@ -1,5 +1,5 @@
 import { clickState } from "./state.js";
-import { eventTrackerTool } from "../../utils/utils.js"; 
+import { eventTrackerTool } from "../../utils/utils.js";
 
 export function buildBlockerContainer() {
     const section = document.createElement('section');
@@ -43,7 +43,7 @@ function freeBlocker(clickEvent) {
 export function watchContainerBlocker() {
     const containerMsg = document.getElementById('close-msg');
     const click = clickState();
-    
+
     eventTrackerTool.registerEventListener(
         '#clickpaint',
         window.eventTracker,
@@ -66,32 +66,31 @@ export const circle = (cx, cy, r, style) => {
 };
 export function getViewportDimensions() {
     return {
-        width: window.innerWidth || window.visualViewport.width,
-        height: window.innerHeight || window.visualViewport.height
+        width: window.visualViewport?.width * 0.9 || window.innerWidth * 0.9,
+        height: window.visualViewport?.height * 0.9 || window.innerHeight * 0.9
     };
-}
-export function getSvgContainerSide(viewportDim) {
-    return viewportDim.width > viewportDim.height ? viewportDim.height : viewportDim.width;
 }
 export const svgContainer = (containerSide) => {
     const elem = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    const { width: widthSide, height: heightSide } = containerSide;
     elem.setAttributeNS(null, 'id', 'paint-area');
-    elem.setAttributeNS(null, 'width', `${containerSide}`);
-    elem.setAttributeNS(null, 'height', `${containerSide}`);
-    elem.setAttributeNS(null, 'viewBox', `0 0 ${containerSide} ${containerSide}`);
+    elem.setAttributeNS(null, 'width', `${widthSide}`);
+    elem.setAttributeNS(null, 'height', `${heightSide}`);
+    elem.setAttributeNS(null, 'viewBox', `0 0 ${widthSide} ${heightSide}`);
     elem.setAttributeNS(null, 'preserveAspectRatio', 'xMidYMid meet');
     return elem;
 };
-export function resizePaintArea(paintArea) {
-    const newSvgSide = getSvgContainerSide(getViewportDimensions());
-    paintArea.setAttributeNS(null, 'width', newSvgSide);
-    paintArea.setAttributeNS(null, 'height', newSvgSide);
-    paintArea.setAttributeNS(null, 'viewBox', `0 0 ${newSvgSide} ${newSvgSide}`);
+export function resizePaintArea(paintArea, containerSide) {
+    const { width: widthSide, height: heightSide } = containerSide;
+    paintArea.setAttributeNS(null, 'width', widthSide);
+    paintArea.setAttributeNS(null, 'height', heightSide);
+    paintArea.setAttributeNS(null, 'viewBox', `0 0 ${widthSide} ${heightSide}`);
 }
 export const counterContainer = (clicksQty) => {
     const div = document.createElement('div');
 
     div.setAttribute('id', 'clicks-num');
+    div.setAttribute('draggable', 'true');
     div.textContent = `Number of total clicks: ${clicksQty}`;
     return div;
 };

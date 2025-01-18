@@ -1,3 +1,33 @@
+import { eventTrackerTool } from '../../utils/utils.js';
+import { ROUTES } from '../../utils/constants.js';
+
+export function makeDraggable(element) {
+    let elemPosition = { x: 0, y: 0 };
+
+    eventTrackerTool.registerEventListener(
+        ROUTES.hashClickPaint,
+        window.eventTracker,
+        element,
+        'dragstart',
+        (event) => {
+            elemPosition.x = event.clientX - element.offsetLeft;
+            elemPosition.y = event.clientY - element.offsetTop;
+        }
+    );
+
+    eventTrackerTool.registerEventListener(
+        ROUTES.hashClickPaint,
+        window.eventTracker,
+        document,
+        'dragover',
+        (event) => {
+            event.preventDefault();
+            element.style.left = `${event.clientX - elemPosition.x}px`;
+            element.style.top = `${event.clientY - elemPosition.y}px`;
+        }
+    );
+}
+
 export function generateColor() {
     /*  d = [(255 - r)^2 + (255 - g)^2 + (255 - b)^2]^0.5
         d < 100

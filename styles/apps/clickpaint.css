@@ -1,3 +1,7 @@
+:root {
+  --z: 1;
+}
+
 .container {
   position: fixed;
   top: 50%;
@@ -13,7 +17,12 @@
   pointer-events: none;
 }
 
+#container-msg {
+  z-index: calc(var(--z)*100);
+}
+
 #clicks-num {
+  position: absolute;
   border: 1px solid;
   border-radius: 5px;
   text-align: center;
@@ -23,6 +32,8 @@
   user-select: none;
   font-size: 2vw;
   font-weight: bolder;
+  cursor: move;
+  z-index: var(--z);
 }
 
 #paint-area {

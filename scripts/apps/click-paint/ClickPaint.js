@@ -1,11 +1,11 @@
-import { svgContainer, getSvgContainerSide, getViewportDimensions, watchContainerBlocker, counterContainer, resizePaintArea, circle, buildBlockerContainer, buildMainContainer } from "./domHelpers.js";
+import { svgContainer, getViewportDimensions, watchContainerBlocker, counterContainer, resizePaintArea, circle, buildBlockerContainer, buildMainContainer } from "./domHelpers.js";
 import { count, clickState } from "./state.js";
-import { watchPointer, generateColor } from "./utils.js";
+import { watchPointer, generateColor, makeDraggable } from "./utils.js";
 import { eventTrackerTool } from '../../utils/utils.js';
 import { ROUTES } from '../../utils/constants.js';
 
 function buildPaintArea() {
-    return svgContainer(getSvgContainerSide(getViewportDimensions()));
+    return svgContainer(getViewportDimensions());
 }
 
 
@@ -19,15 +19,18 @@ export function runClickPaint() {
     const paintContainer = buildMainContainer();
     const clicksCounter = counterContainer(addClick().getNum());
     let paintArea = buildPaintArea();
-
+    
     if (!paintArea) throw console.error('Something wrong happened');
+    
+    clicksCounter.style.visibility = 'hidden';
 
     appContainer.appendChild(paintContainer);
     paintContainer.appendChild(paintArea);
     appContainer.appendChild(clicksCounter);
     appContainer.appendChild(blockerMsg);
-
+    
     watchContainerBlocker();
+    makeDraggable(clicksCounter);
 
     paintArea = document.getElementById('paint-area');
     eventTrackerTool.registerEventListener(
@@ -37,12 +40,12 @@ export function runClickPaint() {
         'resize',
         () => {
             setTimeout(() => {
-                resizePaintArea(paintArea);
+                resizePaintArea(paintArea, getViewportDimensions());
             }, 180);
         }
     );
     eventTrackerTool.registerEventListener(
-        '#clickpaint',
+        ROUTES.hashClickPaint,
         window.eventTracker,
         paintArea,
         'click',
@@ -54,7 +57,7 @@ export function runClickPaint() {
         }
     );
     eventTrackerTool.registerEventListener(
-        '#clickpaint',
+        ROUTES.hashClickPaint,
         window.eventTracker,
         paintArea,
         'mousemove',
@@ -63,6 +66,18 @@ export function runClickPaint() {
                 click().undoClick();
                 const [cx, cy] = watchPointer(event);
                 paintArea.appendChild(circle(cx, cy, 25, generateColor()));
+            }
+        }
+    );
+
+    eventTrackerTool.registerEventListener(
+        ROUTES.hashClickPaint,
+        window.eventTracker,
+        blockerMsg,
+        'click',
+        () => {
+            if (!document.getElementById('container-msg')) {
+                clicksCounter.style.visibility = 'visible';
             }
         }
     );
