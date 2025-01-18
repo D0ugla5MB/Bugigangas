@@ -129,10 +129,9 @@ async function buildApp(targetContainer, appHtmlPath, appCssPath, appModulePath,
 	clearContainer(targetContainer);
 
 	try {
-		const [htmlContent, cssLink, moduleFunc] = await Promise.all([
+		const [htmlContent, cssLink] = await Promise.all([
 			loadHtml(appHtmlPath),
-			loadStyles(appCssPath),
-			loadModule(appModulePath, appMainFunc)
+			loadStyles(appCssPath)
 		]);
 
 		if (!htmlContent || !cssLink) {
@@ -144,8 +143,12 @@ async function buildApp(targetContainer, appHtmlPath, appCssPath, appModulePath,
 
 		container.appendChild(htmlContent);
 		document.head.appendChild(cssLink);
-		if (moduleFunc) {
-			await moduleFunc();
+
+		if (appModulePath && appMainFunc) {
+			const moduleFunc = await loadModule(appModulePath, appMainFunc);
+			if (moduleFunc) {
+				await moduleFunc();
+			}
 		}
 	} catch (error) {
 		console.error('Error building app:', error);

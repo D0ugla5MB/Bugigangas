@@ -32,7 +32,7 @@ const mapApps = [
     ['clickpaint', {
         html: '/pages/clickpaint.html',
         css: '/styles/apps/clickpaint.css',
-        module: '/scripts/apps/click-paint/clickpaint.js',
+        module: '/scripts/apps/click-paint/ClickPaint.js',
         main: 'runClickPaint',
     }],
     ['error', {
