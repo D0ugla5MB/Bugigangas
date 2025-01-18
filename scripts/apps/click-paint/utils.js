@@ -12,6 +12,7 @@ export function makeDraggable(element) {
         (event) => {
             elemPosition.x = event.clientX - element.offsetLeft;
             elemPosition.y = event.clientY - element.offsetTop;
+            event.preventDefault();
         }
     );
 
