@@ -42,14 +42,10 @@ function selectApp(appUrlHash) {
 
 async function loadHtml(htmlPath) {
 	if (sessionStorage.getItem(htmlPath)) {
-		const fragment = document.createDocumentFragment();
 		const tempDiv = document.createElement('div');
 		tempDiv.innerHTML = sessionStorage.getItem(htmlPath);
 
-		while (tempDiv.firstChild) {
-			fragment.appendChild(tempDiv.firstChild);
-		}
-		return fragment;
+		return tempDiv.firstElementChild;
 	}
 
 	try {
@@ -57,10 +53,9 @@ async function loadHtml(htmlPath) {
 		if (!response.ok) {
 			throw new Error(`Failed to load HTML from ${htmlPath}`);
 		}
-		const htmlContent = await response.text();
 		const fragment = document.createDocumentFragment();
 		const tempDiv = document.createElement('div');
-		tempDiv.innerHTML = htmlContent;
+		tempDiv.innerHTML = await response.text();
 
 		while (tempDiv.firstChild) {
 			fragment.appendChild(tempDiv.firstChild);

@@ -26,9 +26,11 @@ export function clearContainer(container) {
 }
 
 export function clearHeadLinks() {
-    const styles = document.head.getElementsByClassName('dynamic-style');
-    while (styles.length > 0) {
-        styles[styles.length - 1].remove();
+    const children = document.head.children;
+    for (let i = children.length - 1; i >= 0; i--) {
+        if (children[i].classList.contains('dynamic-style')) {
+            children[i].remove();
+        }
     }
 }
 
