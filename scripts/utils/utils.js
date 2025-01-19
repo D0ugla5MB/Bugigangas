@@ -7,14 +7,11 @@ export function cacheHtml(htmlContent, htmlPath) {
         sessionStorage.setItem(htmlPath, tempDiv.innerHTML);
         return;
     }
-    console.trace();
 }
 
 export function cacheCssLink(cssPath, linkTag) {
     if (linkTag instanceof Node) {
         sessionStorage.setItem(cssPath, linkTag.outerHTML);
-        console.trace();
-        debugger;
         return;
     }
     sessionStorage.setItem(cssPath, `${linkTag}`);
@@ -35,7 +32,6 @@ export function clearHeadLinks() {
             children[i].remove();
         }
     }
-    console.trace();
 }
 
 function manageEvents(tracker, hashEvent) {
@@ -45,7 +41,6 @@ function manageEvents(tracker, hashEvent) {
             tracker.delete(hashKey);
         }
     });
-    console.trace();
 }
 
 function registerEventListener(hash, tracker, element, eventType, triggerReact) {
