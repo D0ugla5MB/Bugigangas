@@ -108,6 +108,7 @@ async function loadModule(modulePath, appMainFunc) {
 			return module;
 		}
 		if (Object.hasOwn(module, appMainFunc)) {
+			console.trace();
 			return module[appMainFunc];
 		}
 		throw new Error(`Function ${appMainFunc} not found in module ${modulePath}`);
@@ -149,6 +150,7 @@ async function buildApp(targetContainer, appHtmlPath, appCssPath, appModulePath,
 		console.error('Error building app:', error);
 		return;
 	}
+	console.trace();
 }
 
 export async function loadApp(whichContainer, appUrlHash) {
