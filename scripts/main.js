@@ -6,6 +6,7 @@ import { debugUtils } from '../dev-tools/debbug-utils.mjs';
 (function init() {
     //CAUTION TO USE IT AT PRODUCTION ENVIRONMENT
     debugUtils.enable();
+    window.debugUtils = debugUtils;
 
     window.eventTracker = eventTrackerTool.initEventTracker();
     
