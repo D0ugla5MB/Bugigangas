@@ -2,16 +2,31 @@ import { eventTrackerTool } from '../../utils/utils.js';
 import { ROUTES } from '../../utils/constants.js';
 
 export function makeDraggable(element) {
-    let elemPosition = { x: 0, y: 0 };
+    let isDragging = false;
+    let currentX = 0;
+    let currentY = 0;
+    let initialX = 0;
+    let initialY = 0;
+    let requestAniFrame = null;
 
     eventTrackerTool.registerEventListener(
         ROUTES.hashClickPaint,
         window.eventTracker,
         element,
-        'dragstart',
-        (event) => {
-            elemPosition.x = event.clientX - element.offsetLeft;
-            elemPosition.y = event.clientY - element.offsetTop;
+        'dblclick',
+        (e) => {
+            e.preventDefault();
+            isDragging = !isDragging;
+            element.style.cursor = isDragging ? 'grabbing' : 'grab';
+
+            if (isDragging) {
+                initialX = e.clientX - currentX;
+                initialY = e.clientY - currentY;
+                element.classList.add('dragging');
+            } else {
+                element.classList.remove('dragging');
+                if (requestAniFrame) cancelAnimationFrame(requestAniFrame);
+            }
         }
     );
 
@@ -19,11 +34,20 @@ export function makeDraggable(element) {
         ROUTES.hashClickPaint,
         window.eventTracker,
         document,
-        'dragover',
-        (event) => {
-            event.preventDefault();
-            element.style.left = `${event.clientX - elemPosition.x}px`;
-            element.style.top = `${event.clientY - elemPosition.y}px`;
+        'mousemove',
+        (e) => {
+            if (!isDragging) return;
+            e.preventDefault();
+
+            if (requestAniFrame) cancelAnimationFrame(requestAniFrame);
+
+            currentX = e.clientX - initialX;
+            currentY = e.clientY - initialY;
+
+            requestAniFrame = requestAnimationFrame(() => {
+                element.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+                requestAniFrame = null;
+            });
         }
     );
 }

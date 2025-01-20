@@ -34,6 +34,14 @@ export function clearHeadLinks() {
     }
 }
 
+function removeRegisEvent(hash, tracker, eventType) {
+    const eventKey = tracker.get(`${hash}-${eventType}`);
+    if (eventKey) {
+        eventKey.element.removeEventListener(eventKey.eventType, eventKey.triggerReact);
+        tracker.delete(`${hash}-${eventType}`);
+    }
+}
+
 function manageEvents(tracker, hashEvent) {
     tracker.forEach((event, hashKey) => {
         if (!hashKey.includes(hashEvent)) {
@@ -50,4 +58,4 @@ function registerEventListener(hash, tracker, element, eventType, triggerReact) 
 }
 
 
-export const eventTrackerTool = { initEventTracker, registerEventListener, manageEvents };
+export const eventTrackerTool = { initEventTracker, registerEventListener, manageEvents, removeRegisEvent };
