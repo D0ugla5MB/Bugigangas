@@ -2,16 +2,31 @@ import { eventTrackerTool } from '../../utils/utils.js';
 import { ROUTES } from '../../utils/constants.js';
 
 export function makeDraggable(element) {
-    let elemPosition = { x: 0, y: 0 };
+    let isDragging = false;
+    let currentX = 0;
+    let currentY = 0;
+    let initialX = 0;
+    let initialY = 0;
+    let requestAniFrame = null;
 
     eventTrackerTool.registerEventListener(
         ROUTES.hashClickPaint,
         window.eventTracker,
         element,
-        'dragstart',
-        (event) => {
-            elemPosition.x = event.clientX - element.offsetLeft;
-            elemPosition.y = event.clientY - element.offsetTop;
+        'dblclick',
+        (e) => {
+            e.preventDefault();
+            isDragging = !isDragging;
+            element.style.cursor = isDragging ? 'grabbing' : 'grab';
+
+            if (isDragging) {
+                initialX = e.clientX - currentX;
+                initialY = e.clientY - currentY;
+                element.classList.add('dragging');
+            } else {
+                element.classList.remove('dragging');
+                if (requestAniFrame) cancelAnimationFrame(requestAniFrame);
+            }
         }
     );
 
@@ -19,33 +34,39 @@ export function makeDraggable(element) {
         ROUTES.hashClickPaint,
         window.eventTracker,
         document,
-        'dragover',
-        (event) => {
-            event.preventDefault();
-            element.style.left = `${event.clientX - elemPosition.x}px`;
-            element.style.top = `${event.clientY - elemPosition.y}px`;
+        'mousemove',
+        (e) => {
+            if (!isDragging) return;
+            e.preventDefault();
+
+            if (requestAniFrame) cancelAnimationFrame(requestAniFrame);
+
+            currentX = e.clientX - initialX;
+            currentY = e.clientY - initialY;
+
+            requestAniFrame = requestAnimationFrame(() => {
+                element.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+                requestAniFrame = null;
+            });
         }
     );
 }
 
 export function generateColor() {
-    /*  d = [(255 - r)^2 + (255 - g)^2 + (255 - b)^2]^0.5
+    /*  d = [(200 - r)^2 + (200 - g)^2 + (200 - b)^2]^0.5
         d < 100
-        [(255 - r)^2 + (255 - g)^2 + (255 - b)^2]^0.5 < 100
-        [(255 - r)^2 + (255 - g)^2 + (255 - b)^2] < 10000
-        {[255^2 -2*255r + r^2] + [255^2 -2*255g + g^2] + [255^2 -2*255b + b^2]} < 10000
-        {3*(255^2) -2*255(r+g+b) + rr + bb + gg} < 10000
-        {185075 -510(r+g+b) + rr + bb + gg} < 0
+        100 >  [(200 - r)^2 + (200 - g)^2 + (200 - b)^2]^0.5
+        10000 > [(200 - r)^2 + (200 - g)^2 + (200 - b)^2]
+        10000 > 40000 - 400r - 400g - 400b + r^2 + g^2 + b^2
+        10000 > 120000 -400(r + g + b) + r^2 + g^2 + b^2
+        0 > 110000 -400(r + g + b) + r^2 + g^2 + b^2
+        110000 < 400(r + g + b) - r^2 - g^2 - b^2
+        0 < 400(r + g + b) - r^2 - g^2 - b^2 - 110000
     */
-    let r, g, b;
-    let distanceCheck = -1;
 
-    while (distanceCheck < 0) {
-        r = Math.floor(Math.random() * 256);
-        g = Math.floor(Math.random() * 256);
-        b = Math.floor(Math.random() * 256);
-        distanceCheck = r * r + g * g + b * b - 510 * (r + g + b) + 185075;
-    }
+    let r = Math.floor(Math.random() * 200);
+    let g = Math.floor(Math.random() * 200);
+    let b = Math.floor(Math.random() * 200);
 
     return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
 }
