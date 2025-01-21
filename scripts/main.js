@@ -4,12 +4,15 @@ import { loadApp, getPathnameHash } from './router.js';
 import { debugUtils } from '../dev-tools/debbug-utils.mjs';
 
 (function init() {
+    
     //CAUTION TO USE IT AT PRODUCTION ENVIRONMENT
-    debugUtils.enable();
-    window.debugUtils = debugUtils;
+    if (document.baseURI.includes('main')) {
+        debugUtils.enable();
+        window.debugUtils = debugUtils;
+    }
 
     window.eventTracker = eventTrackerTool.initEventTracker();
-    
+
     document.addEventListener('DOMContentLoaded', function () {
         window.addEventListener('hashchange', () => {
             const hash = getPathnameHash();
