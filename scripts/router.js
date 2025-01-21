@@ -60,7 +60,7 @@ async function loadHtml(htmlPath) {
 		while (tempDiv.firstChild) {
 			fragment.appendChild(tempDiv.firstChild);
 		}
-
+		cacheHtml(fragment, htmlPath);
 		return fragment;
 	} catch (error) {
 		console.error('Error loading HTML:', error);
@@ -71,12 +71,10 @@ async function loadHtml(htmlPath) {
 async function loadStyles(cssPath) {
 
 	if (sessionStorage.getItem(cssPath)) {
-		const linkElement = document.createElement('link');
-		linkElement.rel = 'stylesheet';
-		linkElement.type = 'text/css';
-		linkElement.href = cssPath;
-		linkElement.className = 'dynamic-style';
-		return linkElement;
+		const styleElement = document.createElement('style');
+		styleElement.textContent = sessionStorage.getItem(cssPath);
+		styleElement.className = 'dynamic-style';
+		return styleElement;
 	}
 
 	try {
@@ -85,13 +83,13 @@ async function loadStyles(cssPath) {
 			throw new Error(`Failed to load styles from ${cssPath}`);
 		}
 
-		const linkElement = document.createElement('link');
-		linkElement.rel = 'stylesheet';
-		linkElement.type = 'text/css';
-		linkElement.href = cssPath;
-		linkElement.className = 'dynamic-style';
+		const cssText = await response.text();
+		const styleElement = document.createElement('style');
+		styleElement.textContent = cssText;
+		styleElement.className = 'dynamic-style';
 
-		return linkElement;
+		cacheCssLink(cssPath, cssText);
+		return styleElement;
 	} catch (error) {
 		console.error('Error loading styles:', error);
 		return null;
@@ -133,11 +131,8 @@ async function buildApp(targetContainer, appHtmlPath, appCssPath, appModulePath,
 			throw new Error('Failed to load required resources');
 		}
 
-		cacheHtml(htmlContent, appHtmlPath);
-		cacheCssLink(appCssPath, cssLink);
-
-		container.appendChild(htmlContent);
 		document.head.appendChild(cssLink);
+		container.appendChild(htmlContent);
 
 		if (appModulePath && appMainFunc) {
 			const moduleFunc = await loadModule(appModulePath, appMainFunc);
