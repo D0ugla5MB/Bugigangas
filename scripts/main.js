@@ -4,10 +4,9 @@ import { loadApp, getPathnameHash } from './router.js';
 import { debugUtils } from '../dev-tools/debbug-utils.mjs';
 
 (function init() {
-    const ENV = process.env.ENV;
-    console.log(ENV);
+    
     //CAUTION TO USE IT AT PRODUCTION ENVIRONMENT
-    if (!import.meta.url.includes('main')) {
+    if (document.baseURI.includes('main')) {
         debugUtils.enable();
         window.debugUtils = debugUtils;
     }
