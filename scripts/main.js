@@ -10,7 +10,6 @@ import { debugUtils } from '../dev-tools/debbug-utils.mjs';
         debugUtils.enable();
         window.debugUtils = debugUtils;
     }
-
     window.eventTracker = eventTrackerTool.initEventTracker();
 
     document.addEventListener('DOMContentLoaded', function () {

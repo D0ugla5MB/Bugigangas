@@ -133,11 +133,11 @@ async function buildApp(targetContainer, appHtmlPath, appCssPath, appModulePath,
 			throw new Error('Failed to load required resources');
 		}
 
-		cacheHtml(htmlContent, appHtmlPath);
 		cacheCssLink(appCssPath, cssLink);
+		cacheHtml(htmlContent, appHtmlPath);
 
-		container.appendChild(htmlContent);
 		document.head.appendChild(cssLink);
+		container.appendChild(htmlContent);
 
 		if (appModulePath && appMainFunc) {
 			const moduleFunc = await loadModule(appModulePath, appMainFunc);
