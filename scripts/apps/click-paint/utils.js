@@ -17,7 +17,6 @@ export function makeDraggable(element) {
         (e) => {
             e.preventDefault();
             isDragging = !isDragging;
-            element.style.cursor = isDragging ? 'grabbing' : 'grab';
 
             if (isDragging) {
                 initialX = e.clientX - currentX;

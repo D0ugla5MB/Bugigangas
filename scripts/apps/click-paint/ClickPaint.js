@@ -20,15 +20,15 @@ export function runClickPaint() {
     const clicksCounter = counterContainer(addClick().getNum());
     let paintArea = buildPaintArea();
     
+    
     if (!paintArea) throw console.error('Something wrong happened');
     
-    clicksCounter.style.visibility = 'hidden';
 
     appContainer.appendChild(paintContainer);
     paintContainer.appendChild(paintArea);
     appContainer.appendChild(clicksCounter);
     appContainer.appendChild(blockerMsg);
-    
+
     watchContainerBlocker();
     makeDraggable(clicksCounter);
 
@@ -70,15 +70,4 @@ export function runClickPaint() {
         }
     );
 
-    eventTrackerTool.registerEventListener(
-        ROUTES.hashClickPaint,
-        window.eventTracker,
-        blockerMsg,
-        'click',
-        () => {
-            if (!document.getElementById('container-msg')) {
-                clicksCounter.style.visibility = 'visible';
-            }
-        }
-    );
 }

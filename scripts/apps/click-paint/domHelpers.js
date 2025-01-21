@@ -32,12 +32,15 @@ export function buildMainContainer() {
     return mainContainer;
 }
 
-
 function freeBlocker(clickEvent) {
-    const main = document.getElementById('app-main');
     if (clickEvent) {
-        main.classList.remove('main-blocked');
-        main.removeAttribute('class');
+        const blockedElements = document.querySelectorAll('.main-blocked');
+        blockedElements.forEach(element => {
+            element.classList.remove('main-blocked');
+            if (!element.classList.length) {
+                element.removeAttribute('class');
+            }
+        });
     }
 }
 export function watchContainerBlocker() {
@@ -89,6 +92,7 @@ export function resizePaintArea(paintArea, containerSide) {
 export const counterContainer = (clicksQty) => {
     const div = document.createElement('div');
 
+    div.className = 'main-blocked';
     div.setAttribute('id', 'clicks-num');
     div.setAttribute('draggable', 'true');
     div.textContent = `Number of total clicks: ${clicksQty}`;
