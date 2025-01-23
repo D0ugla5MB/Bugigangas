@@ -15,3 +15,13 @@ export function count() {
         return { getNum, addOne };
     };
 }
+
+export const counterContainer = (clicksQty) => {
+    const div = document.createElement('div');
+
+    div.className = 'main-blocked';
+    div.setAttribute('id', 'clicks-num');
+    div.setAttribute('draggable', 'true');
+    div.textContent = `Number of total clicks: ${clicksQty}`;
+    return div;
+};

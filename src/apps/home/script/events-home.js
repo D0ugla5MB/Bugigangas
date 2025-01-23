@@ -1,0 +1,5 @@
+function displayBtnEvent(btnTarget) {
+    return (    
+        () => {}
+    );
+}

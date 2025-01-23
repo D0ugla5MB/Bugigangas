@@ -1,26 +1,7 @@
-import { clearContainer, clearHeadLinks, cacheHtml, cacheCssLink } from './utils/utils.js';
 import { ROUTES, mapApps } from './utils/constants.js';
 
-export function changeRoute(route) {
-	window.location.hash = route;
-}
 
-export function getPathnameHash() {
-	const hash = window.location.hash || '/';
-
-	switch (hash) {
-		case '/':
-		case ROUTES.hash:
-		case ROUTES.hashHome:
-			return ROUTES.pages.home;
-		case ROUTES.hashClickPaint:
-			return ROUTES.pages.clickPaint;
-		default:
-			return ROUTES.pages.error;
-	}
-}
-
-function selectApp(appUrlHash) {
+export function selectApp(appUrlHash) {
 	if (appUrlHash === ROUTES.pages.error) {
 		return mapApps.find(([key]) => key === 'error')[1];
 	}
@@ -32,7 +13,6 @@ function selectApp(appUrlHash) {
 	}
 	return appResources;
 }
-
 /**
  * Resource Loading Functions
  * ------------------------
@@ -40,7 +20,7 @@ function selectApp(appUrlHash) {
  * Each function handles its specific resource type and error cases.
  */
 
-async function loadHtml(htmlPath) {
+export async function loadHtml(htmlPath) {
 	if (sessionStorage.getItem(htmlPath)) {
 		const tempDiv = document.createElement('div');
 		tempDiv.innerHTML = sessionStorage.getItem(htmlPath);
@@ -68,7 +48,7 @@ async function loadHtml(htmlPath) {
 	}
 }
 
-async function loadStyles(cssPath) {
+export async function loadStyles(cssPath) {
 
 	if (sessionStorage.getItem(cssPath)) {
 		const styleElement = document.createElement('style');
@@ -96,7 +76,7 @@ async function loadStyles(cssPath) {
 	}
 }
 
-async function loadModule(modulePath, appMainFunc) {
+export async function loadModule(modulePath, appMainFunc) {
 	try {
 		const module = await import(modulePath);
 		if (!module) {
@@ -115,59 +95,4 @@ async function loadModule(modulePath, appMainFunc) {
 	}
 }
 
-async function buildApp(targetContainer, appHtmlPath, appCssPath, appModulePath, appMainFunc) {
-	const container = document.getElementById(targetContainer);
 
-	clearHeadLinks();
-	clearContainer(targetContainer);
-
-	try {
-		const [htmlContent, cssLink] = await Promise.all([
-			loadHtml(appHtmlPath),
-			loadStyles(appCssPath)
-		]);
-
-		if (!htmlContent || !cssLink) {
-			throw new Error('Failed to load required resources');
-		}
-
-		document.head.appendChild(cssLink);
-		container.appendChild(htmlContent);
-
-		if (appModulePath && appMainFunc) {
-			const moduleFunc = await loadModule(appModulePath, appMainFunc);
-			if (moduleFunc) {
-				await moduleFunc();
-			}
-		}
-	} catch (error) {
-		console.error('Error building app:', error);
-		return;
-	}
-}
-
-export async function loadApp(whichContainer, appUrlHash) {
-	try {
-		const appResources = selectApp(appUrlHash);
-		if (!appResources) {
-			console.error('No app resources found');
-			return;
-		}
-
-		const { html, css, module, main } = appResources;
-
-		if (appUrlHash === ROUTES.pages.error) {
-			await buildApp(whichContainer, html, css, null, null);
-			return;
-		}
-
-		if (!html || !css) {
-			console.error('Missing required resources');
-			return;
-		}
-
-		await buildApp(whichContainer, html, css, module, main);
-	} catch (error) {
-		console.error('Critical error loading app:', error);
-	}
-}

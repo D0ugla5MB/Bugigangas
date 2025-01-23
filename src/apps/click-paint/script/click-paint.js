@@ -1,6 +1,6 @@
-import { svgContainer, getViewportDimensions, watchContainerBlocker, counterContainer, resizePaintArea, circle, buildBlockerContainer, buildMainContainer } from "./domHelpers.js";
-import { count, clickState } from "./state.js";
-import { watchPointer, generateColor, makeDraggable } from "./utils.js";
+import { svgContainer, getViewportDimensions, watchContainerBlocker, counterContainer, resizePaintArea, circle, buildBlockerContainer, buildMainContainer } from "../../../script/domHelpers.js";
+import { count, clickState } from "../../../script/state.js";
+import { watchPointer, generateColor, makeDraggable } from "../../../script/utils.js";
 import { eventTrackerTool } from '../../utils/utils.js';
 import { ROUTES } from '../../utils/constants.js';
 
