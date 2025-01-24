@@ -1,3 +1,5 @@
+const REQ_KEYS = ['name', 'page', 'style', 'script', 'app-init', 'events', 'cache'];
+
 const DOM = {
     indexContainerId: 'root',
     navMenu: 'nav_menu',
@@ -45,4 +47,5 @@ const mapApps = [
 
 const ENV_VAR = 'https://web-bugigangas.vercel.app/';
 
-export { DOM, ROUTES, mapApps, ENV_VAR };
+export { DOM, ROUTES, mapApps, ENV_VAR, REQ_KEYS };
+

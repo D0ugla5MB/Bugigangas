@@ -21,3 +21,10 @@ function registerEventListener(hash, tracker, element, eventType, triggerReact) 
     tracker.set(key, { element, eventType, triggerReact });
     element.addEventListener(eventType, triggerReact);
 }
+
+export default {
+    initEventTracker,
+    removeRegisEvent,
+    manageEvents,
+    registerEventListener
+};

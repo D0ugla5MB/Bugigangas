@@ -1,5 +1,35 @@
-import { clearHeadLinks, clearContainer } from '../utils';
+function appList() {
+    const apps = new Map();
+    const setupResources = (name) => ({
+        hashKey: `${ROUTES.hash}${name}`,
+        events: eventsTrackerTool,
+        cache: cacheTool,
+        loader: loaderTool
+    });
 
+    return {
+        letMeJoin: (appName) => {
+            if (apps.has(appName)) {
+                throw new Error(`App ${appName} already registered`);
+            }
+
+            const tools = setupResources(appName);
+            apps.set(appName, tools);
+        },
+        giveMyTools: (appName) => {
+            const tools = apps.get(appName);
+            if (!tools) {
+                throw new Error(`App ${appName} not registered.`);
+            }
+            return tools;
+        },
+        byebye: (appName) => {
+            apps.delete(appName);
+        }
+    };
+}
+
+export const appManager = appList();
 
 export async function buildApp(targetContainer, appHtmlPath, appCssPath, appModulePath, appMainFunc) {
     const container = document.getElementById(targetContainer);

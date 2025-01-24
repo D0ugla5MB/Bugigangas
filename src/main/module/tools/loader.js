@@ -13,6 +13,7 @@ export function selectApp(appUrlHash) {
 	}
 	return appResources;
 }
+
 /**
  * Resource Loading Functions
  * ------------------------
@@ -20,7 +21,7 @@ export function selectApp(appUrlHash) {
  * Each function handles its specific resource type and error cases.
  */
 
-export async function loadHtml(htmlPath) {
+async function loadPage(htmlPath) {
 	if (sessionStorage.getItem(htmlPath)) {
 		const tempDiv = document.createElement('div');
 		tempDiv.innerHTML = sessionStorage.getItem(htmlPath);
@@ -76,23 +77,33 @@ export async function loadStyles(cssPath) {
 	}
 }
 
-export async function loadModule(modulePath, appMainFunc) {
+async function loadMainFunc(module, appMainFunc) {
+	if (!module) {
+		throw new Error(`Failed to load module from ${modulePath}`);
+	}
+	
+	if (Object.hasOwn(module, appMainFunc)) {
+		return module[appMainFunc];
+	}
+	throw new Error(`Function ${appMainFunc} not found in module ${modulePath}`);
+}
+
+async function loadModule(modulePath) {
 	try {
 		const module = await import(modulePath);
 		if (!module) {
 			throw new Error(`Failed to load module from ${modulePath}`);
 		}
-		if (!appMainFunc) {
-			return module;
-		}
-		if (Object.hasOwn(module, appMainFunc)) {
-			return module[appMainFunc];
-		}
-		throw new Error(`Function ${appMainFunc} not found in module ${modulePath}`);
+		return module;
 	} catch (error) {
 		console.error('Error loading module:', error);
 		return null;
 	}
 }
 
-
+export default {
+	loadPage,
+	loadStyles,
+	loadMainFunc,
+	loadModule,
+};
