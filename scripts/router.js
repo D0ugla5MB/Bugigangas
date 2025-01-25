@@ -1,11 +1,13 @@
-import { clearContainer, clearHeadLinks, cacheHtml, cacheCssLink } from './utils/utils.js';
 import { ROUTES, mapApps } from './utils/constants.js';
+import buildApp from './builder.js';
+import { clearContainer, clearHeadLinks } from './utils/utils.js';
+import { eventTrackerTool } from './events.js';
 
-export function changeRoute(route) {
+function changeRoute(route) {
 	window.location.hash = route;
 }
 
-export function getPathnameHash() {
+function getPathnameHash() {
 	const hash = window.location.hash || '/';
 
 	switch (hash) {
@@ -33,141 +35,8 @@ function selectApp(appUrlHash) {
 	return appResources;
 }
 
-/**
- * Resource Loading Functions
- * ------------------------
- * Functions for loading HTML, CSS, and JavaScript modules.
- * Each function handles its specific resource type and error cases.
- */
-
-async function loadHtml(htmlPath) {
-	if (sessionStorage.getItem(htmlPath)) {
-		const tempDiv = document.createElement('div');
-		tempDiv.innerHTML = sessionStorage.getItem(htmlPath);
-
-		return tempDiv.firstElementChild;
-	}
-
-	try {
-		const response = await fetch(htmlPath);
-		if (!response.ok) {
-			throw new Error(`Failed to load HTML from ${htmlPath}`);
-		}
-		const fragment = document.createDocumentFragment();
-		const tempDiv = document.createElement('div');
-		tempDiv.innerHTML = await response.text();
-
-		while (tempDiv.firstChild) {
-			fragment.appendChild(tempDiv.firstChild);
-		}
-		cacheHtml(fragment, htmlPath);
-		return fragment;
-	} catch (error) {
-		console.error('Error loading HTML:', error);
-		return null;
-	}
-}
-
-async function loadStyles(cssPath) {
-
-	if (sessionStorage.getItem(cssPath)) {
-		const styleElement = document.createElement('style');
-		styleElement.textContent = sessionStorage.getItem(cssPath);
-		styleElement.className = 'dynamic-style';
-		return styleElement;
-	}
-
-	try {
-		const response = await fetch(cssPath);
-		if (!response.ok) {
-			throw new Error(`Failed to load styles from ${cssPath}`);
-		}
-
-		const cssText = await response.text();
-		const styleElement = document.createElement('style');
-		styleElement.textContent = cssText;
-		styleElement.className = 'dynamic-style';
-
-		cacheCssLink(cssPath, cssText);
-		return styleElement;
-	} catch (error) {
-		console.error('Error loading styles:', error);
-		return null;
-	}
-}
-
-async function loadModule(modulePath, appMainFunc) {
-	try {
-		const module = await import(modulePath);
-		if (!module) {
-			throw new Error(`Failed to load module from ${modulePath}`);
-		}
-		if (!appMainFunc) {
-			return module;
-		}
-		if (Object.hasOwn(module, appMainFunc)) {
-			return module[appMainFunc];
-		}
-		throw new Error(`Function ${appMainFunc} not found in module ${modulePath}`);
-	} catch (error) {
-		console.error('Error loading module:', error);
-		return null;
-	}
-}
-
-async function buildApp(targetContainer, appHtmlPath, appCssPath, appModulePath, appMainFunc) {
-	const container = document.getElementById(targetContainer);
-
-	clearHeadLinks();
-	clearContainer(targetContainer);
-
-	try {
-		const [htmlContent, cssLink] = await Promise.all([
-			loadHtml(appHtmlPath),
-			loadStyles(appCssPath)
-		]);
-
-		if (!htmlContent || !cssLink) {
-			throw new Error('Failed to load required resources');
-		}
-
-		document.head.appendChild(cssLink);
-		container.appendChild(htmlContent);
-
-		if (appModulePath && appMainFunc) {
-			const moduleFunc = await loadModule(appModulePath, appMainFunc);
-			if (moduleFunc) {
-				await moduleFunc();
-			}
-		}
-	} catch (error) {
-		console.error('Error building app:', error);
-		return;
-	}
-}
-
-export async function loadApp(whichContainer, appUrlHash) {
-	try {
-		const appResources = selectApp(appUrlHash);
-		if (!appResources) {
-			console.error('No app resources found');
-			return;
-		}
-
-		const { html, css, module, main } = appResources;
-
-		if (appUrlHash === ROUTES.pages.error) {
-			await buildApp(whichContainer, html, css, null, null);
-			return;
-		}
-
-		if (!html || !css) {
-			console.error('Missing required resources');
-			return;
-		}
-
-		await buildApp(whichContainer, html, css, module, main);
-	} catch (error) {
-		console.error('Critical error loading app:', error);
-	}
-}
+export default {
+	changeRoute,
+	getPathnameHash,
+	selectApp
+};
