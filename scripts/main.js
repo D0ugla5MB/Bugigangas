@@ -1,7 +1,7 @@
 import { DOM, ENV_VAR } from './utils/constants.js';
-import { loadApp, getPathnameHash } from './router.js';
-import eventTracker from './events.js';
-
+import router from './router.js';
+import eventTrackerTool from './events.js';
+import { loadApp } from './loaders.js';
 
 function showConsoleMsg() {
     if (window.location.pathname.toString() === ENV_VAR) {
@@ -16,15 +16,15 @@ function showConsoleMsg() {
     //CAUTION TO USE IT AT PRODUCTION ENVIRONMENT
     showConsoleMsg();
 
-    window.eventTracker = eventTracker.initEventTracker();
+    window.eventTracker = eventTrackerTool.initEventTracker();
 
     document.addEventListener('DOMContentLoaded', function () {
         window.addEventListener('hashchange', () => {
-            const hash = getPathnameHash();
-            eventTracker.manageEvents(window.eventTracker, hash);
+            const hash = router.getPathnameHash();
+            eventTrackerTool.manageEvents(window.eventTracker, hash);
             loadApp(DOM.indexContainerId, hash);
         });
-        const initialHash = getPathnameHash();
+        const initialHash = router.getPathnameHash();
         loadApp(DOM.indexContainerId, initialHash);
     });
 })();

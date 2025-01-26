@@ -1,6 +1,21 @@
-import cache from './utils/cache.js';
+import cache from './cache.js';
 import { ROUTES, mapApps } from './utils/constants.js';
 import buildApp from './builder.js';
+
+function selectApp(appUrlHash) {
+	if (appUrlHash === ROUTES.pages.error) {
+		return mapApps.find(([key]) => key === 'error')[1];
+	}
+
+	const appResources = mapApps.find(([key]) => appUrlHash.includes(key))?.[1] || null;
+	if (!appResources) {
+		console.warn(`No matching app for URL: ${appUrlHash}, falling back to error page`);
+		return mapApps.find(([key]) => key === 'error')[1];
+	}
+	return appResources;
+}
+
+
 
 /**
  * Resource Loading Functions
@@ -81,7 +96,7 @@ async function loadModule(modulePath, appMainFunc) {
 	}
 }
 
-async function loadApp(whichContainer, appUrlHash) {
+export async function loadApp(whichContainer, appUrlHash) {
 	try {
 		const appResources = selectApp(appUrlHash);
 		if (!appResources) {

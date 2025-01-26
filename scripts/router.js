@@ -1,7 +1,4 @@
-import { ROUTES, mapApps } from './utils/constants.js';
-import buildApp from './builder.js';
-import { clearContainer, clearHeadLinks } from './utils/utils.js';
-import { eventTrackerTool } from './events.js';
+import { ROUTES } from './utils/constants.js';
 
 function changeRoute(route) {
 	window.location.hash = route;
@@ -22,21 +19,7 @@ function getPathnameHash() {
 	}
 }
 
-function selectApp(appUrlHash) {
-	if (appUrlHash === ROUTES.pages.error) {
-		return mapApps.find(([key]) => key === 'error')[1];
-	}
-
-	const appResources = mapApps.find(([key]) => appUrlHash.includes(key))?.[1] || null;
-	if (!appResources) {
-		console.warn(`No matching app for URL: ${appUrlHash}, falling back to error page`);
-		return mapApps.find(([key]) => key === 'error')[1];
-	}
-	return appResources;
-}
-
 export default {
 	changeRoute,
 	getPathnameHash,
-	selectApp
 };

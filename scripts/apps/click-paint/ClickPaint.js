@@ -1,10 +1,9 @@
-import { watchContainerBlocker, resizePaintArea } from "./events.js";
-import { getViewportDimensions } from "./utils.js";
+import events from "./events.js";
+import { watchPointer, generateColor, getViewportDimensions } from "./utils.js";
 import builder from "./builder.js";
 import { count, clickState } from "./state.js";
-import { watchPointer, generateColor, makeDraggable } from "./utils.js";
-import { eventTrackerTool } from '../../utils/utils.js';
 import { ROUTES } from '../../utils/constants.js';
+import globalEventTracker from '../../events.js';
 
 function buildPaintArea() {
     return builder.svgContainer(getViewportDimensions());
@@ -20,19 +19,19 @@ export function runClickPaint() {
     const paintContainer = builder.buildMainContainer();
     const clicksCounter = builder.counterContainer(addClick().getNum());
     let paintArea = buildPaintArea();
-    
+
     if (!paintArea) throw console.error('Something wrong happened');
-    
+
     appContainer.appendChild(paintContainer);
     paintContainer.appendChild(paintArea);
     appContainer.appendChild(clicksCounter);
     appContainer.appendChild(blockerMsg);
 
-    watchContainerBlocker();
-    makeDraggable(clicksCounter);
+    events.watchContainerBlocker();
+    events.makeDraggable(clicksCounter);
 
     paintArea = document.getElementById('paint-area');
-    eventTrackerTool.registerEventListener(
+    globalEventTracker.registerEventListener(
         ROUTES.hashClickPaint,
         window.eventTracker,
         window,
@@ -43,7 +42,7 @@ export function runClickPaint() {
             }, 180);
         }
     );
-    eventTrackerTool.registerEventListener(
+    globalEventTracker.registerEventListener(
         ROUTES.hashClickPaint,
         window.eventTracker,
         paintArea,
@@ -55,7 +54,7 @@ export function runClickPaint() {
             countDiv.textContent = `Number of total clicks: ${addClick().getNum()}`;
         }
     );
-    eventTrackerTool.registerEventListener(
+    globalEventTracker.registerEventListener(
         ROUTES.hashClickPaint,
         window.eventTracker,
         paintArea,
@@ -68,5 +67,4 @@ export function runClickPaint() {
             }
         }
     );
-
 }

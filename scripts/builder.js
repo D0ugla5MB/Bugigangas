@@ -1,5 +1,5 @@
-import loader from './loaders';
-import { clearHeadLinks, clearContainer } from './utils/utils';
+import loader from './loaders.js';
+import { clearHeadLinks, clearContainer } from './utils/utils.js';
 
 async function buildApp(targetContainer, appHtmlPath, appCssPath, appModulePath, appMainFunc) {
 	const container = document.getElementById(targetContainer);

@@ -1,6 +1,6 @@
 import { DOM, ROUTES } from '../../utils/constants.js';
-import { eventTrackerTool } from '../../utils/utils.js';
-import { changeRoute } from '../../router.js';
+import eventTrackerTool from '../../events.js';
+import router from '../../router.js';
 
 export function addMenuBtnsEvents() {
     const index_menu = document.getElementById(DOM.navMenu);
@@ -32,7 +32,7 @@ export function addMenuBtnsEvents() {
                     window.eventTracker,
                     btn,
                     'click',
-                    () => { changeRoute(ROUTES.hashClickPaint); }
+                    () => { router.changeRoute(ROUTES.hashClickPaint); }
                 );
                 break;
         }

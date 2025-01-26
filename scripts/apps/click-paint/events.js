@@ -1,5 +1,6 @@
 import { clickState } from "./state.js";
-import { eventTrackerTool } from "../../utils/utils.js";
+import eventTrackerTool from '../../events.js';
+import { ROUTES } from '../../utils/constants.js';
 
 function freeBlocker(clickEvent) {
     if (clickEvent) {
@@ -12,7 +13,8 @@ function freeBlocker(clickEvent) {
         });
     }
 }
-export function watchContainerBlocker() {
+
+function watchContainerBlocker() {
     const containerMsg = document.getElementById('close-msg');
     const click = clickState();
 
@@ -29,11 +31,67 @@ export function watchContainerBlocker() {
     );
 }
 
-export function resizePaintArea(paintArea, containerSide) {
+function resizePaintArea(paintArea, containerSide) {
     const { width: widthSide, height: heightSide } = containerSide;
     paintArea.setAttributeNS(null, 'width', widthSide);
     paintArea.setAttributeNS(null, 'height', heightSide);
     paintArea.setAttributeNS(null, 'viewBox', `0 0 ${widthSide} ${heightSide}`);
 }
+
+function makeDraggable(element) {
+    let isDragging = false;
+    let currentX = 0;
+    let currentY = 0;
+    let initialX = 0;
+    let initialY = 0;
+    let requestAniFrame = null;
+
+    eventTrackerTool.registerEventListener(
+        ROUTES.hashClickPaint,
+        window.eventTracker,
+        element,
+        'dblclick',
+        (e) => {
+            e.preventDefault();
+            isDragging = !isDragging;
+
+            if (isDragging) {
+                initialX = e.clientX - currentX;
+                initialY = e.clientY - currentY;
+                element.classList.add('dragging');
+            } else {
+                element.classList.remove('dragging');
+                if (requestAniFrame) cancelAnimationFrame(requestAniFrame);
+            }
+        }
+    );
+
+    eventTrackerTool.registerEventListener(
+        ROUTES.hashClickPaint,
+        window.eventTracker,
+        document,
+        'mousemove',
+        (e) => {
+            if (!isDragging) return;
+            e.preventDefault();
+
+            if (requestAniFrame) cancelAnimationFrame(requestAniFrame);
+
+            currentX = e.clientX - initialX;
+            currentY = e.clientY - initialY;
+
+            requestAniFrame = requestAnimationFrame(() => {
+                element.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+                requestAniFrame = null;
+            });
+        }
+    );
+}
+
+export default {
+    watchContainerBlocker,
+    resizePaintArea,
+    makeDraggable
+};
 
 
