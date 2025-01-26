@@ -72,3 +72,9 @@ export function generateColor() {
 export function watchPointer(event) {
     return [event.offsetX, event.offsetY];
 }
+export function getViewportDimensions() {
+    return {
+        width: window.visualViewport?.width * 0.9 || window.innerWidth * 0.9,
+        height: window.visualViewport?.height * 0.9 || window.innerHeight * 0.9
+    };
+}

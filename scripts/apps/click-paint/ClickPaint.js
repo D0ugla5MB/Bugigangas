@@ -1,13 +1,14 @@
-import { svgContainer, getViewportDimensions, watchContainerBlocker, counterContainer, resizePaintArea, circle, buildBlockerContainer, buildMainContainer } from "./domHelpers.js";
+import { watchContainerBlocker, resizePaintArea } from "./events.js";
+import { getViewportDimensions } from "./utils.js";
+import builder from "./builder.js";
 import { count, clickState } from "./state.js";
 import { watchPointer, generateColor, makeDraggable } from "./utils.js";
 import { eventTrackerTool } from '../../utils/utils.js';
 import { ROUTES } from '../../utils/constants.js';
 
 function buildPaintArea() {
-    return svgContainer(getViewportDimensions());
+    return builder.svgContainer(getViewportDimensions());
 }
-
 
 export function runClickPaint() {
     console.log('RUNNING CLICK PAINT GAME!');
@@ -15,15 +16,13 @@ export function runClickPaint() {
     const addClick = count();
     const click = clickState();
     const appContainer = document.getElementById('click-paint-app');
-    const blockerMsg = buildBlockerContainer();
-    const paintContainer = buildMainContainer();
-    const clicksCounter = counterContainer(addClick().getNum());
+    const blockerMsg = builder.buildBlockerContainer();
+    const paintContainer = builder.buildMainContainer();
+    const clicksCounter = builder.counterContainer(addClick().getNum());
     let paintArea = buildPaintArea();
-    
     
     if (!paintArea) throw console.error('Something wrong happened');
     
-
     appContainer.appendChild(paintContainer);
     paintContainer.appendChild(paintArea);
     appContainer.appendChild(clicksCounter);
@@ -65,7 +64,7 @@ export function runClickPaint() {
             if (click().getState()) {
                 click().undoClick();
                 const [cx, cy] = watchPointer(event);
-                paintArea.appendChild(circle(cx, cy, 25, generateColor()));
+                paintArea.appendChild(builder.circle(cx, cy, 25, generateColor()));
             }
         }
     );

@@ -1,7 +1,4 @@
-import { clickState } from "./state.js";
-import { eventTrackerTool } from "../../utils/utils.js";
-
-export function buildBlockerContainer() {
+function buildBlockerContainer() {
     const section = document.createElement('section');
     section.className = 'welcome-container';
 
@@ -24,7 +21,7 @@ export function buildBlockerContainer() {
     return section;
 }
 
-export function buildMainContainer() {
+function buildMainContainer() {
     const mainContainer = document.createElement('main');
     mainContainer.id = 'app-main';
     mainContainer.className = 'main-blocked';
@@ -32,34 +29,7 @@ export function buildMainContainer() {
     return mainContainer;
 }
 
-function freeBlocker(clickEvent) {
-    if (clickEvent) {
-        const blockedElements = document.querySelectorAll('.main-blocked');
-        blockedElements.forEach(element => {
-            element.classList.remove('main-blocked');
-            if (!element.classList.length) {
-                element.removeAttribute('class');
-            }
-        });
-    }
-}
-export function watchContainerBlocker() {
-    const containerMsg = document.getElementById('close-msg');
-    const click = clickState();
-
-    eventTrackerTool.registerEventListener(
-        '#clickpaint',
-        window.eventTracker,
-        containerMsg,
-        'click',
-        () => {
-            click().doClick();
-            freeBlocker(click().getState());
-            containerMsg.closest('.welcome-container').remove();
-        }
-    );
-}
-export const circle = (cx, cy, r, style) => {
+const circle = (cx, cy, r, style) => {
     const elem = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
     elem.setAttributeNS(null, 'r', `${r}`);
     elem.setAttributeNS(null, 'cx', `${cx}`);
@@ -67,13 +37,8 @@ export const circle = (cx, cy, r, style) => {
     elem.setAttributeNS(null, 'fill', `${style}`);
     return elem;
 };
-export function getViewportDimensions() {
-    return {
-        width: window.visualViewport?.width * 0.9 || window.innerWidth * 0.9,
-        height: window.visualViewport?.height * 0.9 || window.innerHeight * 0.9
-    };
-}
-export const svgContainer = (containerSide) => {
+
+const svgContainer = (containerSide) => {
     const elem = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     const { width: widthSide, height: heightSide } = containerSide;
     elem.setAttributeNS(null, 'id', 'paint-area');
@@ -83,13 +48,8 @@ export const svgContainer = (containerSide) => {
     elem.setAttributeNS(null, 'preserveAspectRatio', 'xMidYMid meet');
     return elem;
 };
-export function resizePaintArea(paintArea, containerSide) {
-    const { width: widthSide, height: heightSide } = containerSide;
-    paintArea.setAttributeNS(null, 'width', widthSide);
-    paintArea.setAttributeNS(null, 'height', heightSide);
-    paintArea.setAttributeNS(null, 'viewBox', `0 0 ${widthSide} ${heightSide}`);
-}
-export const counterContainer = (clicksQty) => {
+
+const counterContainer = (clicksQty) => {
     const div = document.createElement('div');
 
     div.className = 'main-blocked';
@@ -98,3 +58,12 @@ export const counterContainer = (clicksQty) => {
     div.textContent = `Number of total clicks: ${clicksQty}`;
     return div;
 };
+
+export default {
+    buildBlockerContainer,
+    buildMainContainer,
+    circle,
+    svgContainer,
+    counterContainer
+};
+
