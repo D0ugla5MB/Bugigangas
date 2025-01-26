@@ -6,7 +6,8 @@ const DOM = {
         nav: 'btnNav',
         home: 'btn_home',
         error: 'btn_err',
-        clickPaint: 'btn_click-paint'
+        clickPaint: 'btn_click-paint',
+        back: 'btn_back-home',
     }
 };
 

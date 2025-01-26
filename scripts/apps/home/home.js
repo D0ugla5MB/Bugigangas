@@ -1,7 +1,10 @@
 import { constants } from '../../utils/index.js';
 import { router, events } from '../../core/index.js';
+import elements  from './elements.js';
+
 
 function addMenuBtnsEvents() {
+    elements.backHome();
     const index_menu = document.getElementById(constants.DOM.navMenu);
 
     if (!index_menu) {
