@@ -45,4 +45,9 @@ const mapApps = [
 
 const ENV_VAR = 'https://web-bugigangas.vercel.app/';
 
-export { DOM, ROUTES, mapApps, ENV_VAR };
+export default {
+    DOM,
+    ROUTES,
+    mapApps,
+    ENV_VAR
+};

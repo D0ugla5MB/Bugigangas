@@ -1,0 +1,1 @@
+export { addMenuBtnsEvents as default } from './home.js';

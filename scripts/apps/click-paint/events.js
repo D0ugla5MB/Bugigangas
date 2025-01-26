@@ -1,6 +1,6 @@
-import { clickState } from "./state.js";
-import eventTrackerTool from '../../events.js';
-import { ROUTES } from '../../utils/constants.js';
+import { clickState } from './state.js';
+import { events as eventTrackerTool } from '../../core/index.js';
+import {constants} from '../../utils/index.js';
 
 function freeBlocker(clickEvent) {
     if (clickEvent) {
@@ -47,7 +47,7 @@ function makeDraggable(element) {
     let requestAniFrame = null;
 
     eventTrackerTool.registerEventListener(
-        ROUTES.hashClickPaint,
+        constants.ROUTES.hashClickPaint,
         window.eventTracker,
         element,
         'dblclick',
@@ -67,7 +67,7 @@ function makeDraggable(element) {
     );
 
     eventTrackerTool.registerEventListener(
-        ROUTES.hashClickPaint,
+        constants.ROUTES.hashClickPaint,
         window.eventTracker,
         document,
         'mousemove',

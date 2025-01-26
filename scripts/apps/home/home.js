@@ -1,40 +1,40 @@
-import { DOM, ROUTES } from '../../utils/constants.js';
-import eventTrackerTool from '../../events.js';
-import router from '../../router.js';
+import { constants } from '../../utils/index.js';
+import { router, events } from '../../core/index.js';
 
-export function addMenuBtnsEvents() {
-    const index_menu = document.getElementById(DOM.navMenu);
+function addMenuBtnsEvents() {
+    const index_menu = document.getElementById(constants.DOM.navMenu);
 
     if (!index_menu) {
         console.error('Menu element not found');
         return;
     }
 
-    const menuButtonsWithId = document.querySelectorAll(DOM.querySelect);
+    const menuButtonsWithId = document.querySelectorAll(constants.DOM.querySelect);
 
     menuButtonsWithId.forEach((btn) => {
         switch (btn.id) {
-            case DOM.btnIds.nav:
-                eventTrackerTool.registerEventListener(
-                    ROUTES.hashHome,
+            case constants.DOM.btnIds.nav:
+                events.registerEventListener(
+                    constants.ROUTES.hashHome,
                     window.eventTracker,
                     btn,
                     'click',
                     () => {
-                        document.getElementById(DOM.navMenu).hidden = !document.getElementById(DOM.navMenu).hidden;
+                        document.getElementById(constants.DOM.navMenu).hidden = !document.getElementById(constants.DOM.navMenu).hidden;
                     }
                 );
                 break;
 
-            case DOM.btnIds.clickPaint:
-                eventTrackerTool.registerEventListener(
-                    ROUTES.hashClickPaint,
+            case constants.DOM.btnIds.clickPaint:
+                events.registerEventListener(
+                    constants.ROUTES.hashClickPaint,
                     window.eventTracker,
                     btn,
                     'click',
-                    () => { router.changeRoute(ROUTES.hashClickPaint); }
+                    () => { router.changeRoute(constants.ROUTES.hashClickPaint); }
                 );
                 break;
         }
     });
 }
+export {addMenuBtnsEvents};

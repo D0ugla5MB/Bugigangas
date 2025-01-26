@@ -65,5 +65,4 @@ export default {
     circle,
     svgContainer,
     counterContainer
-};
-
+ }

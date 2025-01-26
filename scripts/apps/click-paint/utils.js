@@ -1,4 +1,4 @@
-export function generateColor() {
+function generateColor() {
     /*  d = [(200 - r)^2 + (200 - g)^2 + (200 - b)^2]^0.5
         d < 100
         100 >  [(200 - r)^2 + (200 - g)^2 + (200 - b)^2]^0.5
@@ -17,13 +17,19 @@ export function generateColor() {
     return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
 }
 
-export function watchPointer(event) {
+function watchPointer(event) {
     return [event.offsetX, event.offsetY];
 }
 
-export function getViewportDimensions() {
+function getViewportDimensions() {
     return {
         width: window.visualViewport?.width * 0.9 || window.innerWidth * 0.9,
         height: window.visualViewport?.height * 0.9 || window.innerHeight * 0.9
     };
 }
+
+export default {
+    generateColor,
+    watchPointer,
+    getViewportDimensions
+};

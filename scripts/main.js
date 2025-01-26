@@ -1,10 +1,7 @@
-import { DOM, ENV_VAR } from './utils/constants.js';
-import router from './router.js';
-import eventTrackerTool from './events.js';
-import { loadApp } from './loaders.js';
+import * as Modules from './index.js';
 
 function showConsoleMsg() {
-    if (window.location.pathname.toString() === ENV_VAR) {
+    if (window.location.pathname.toString() === Modules.Utils.constants.ENV_VAR) {
         console.warn('You are in the production environment');
     }
 
@@ -16,15 +13,15 @@ function showConsoleMsg() {
     //CAUTION TO USE IT AT PRODUCTION ENVIRONMENT
     showConsoleMsg();
 
-    window.eventTracker = eventTrackerTool.initEventTracker();
+    window.eventTracker = Modules.Core.events.initEventTracker();
 
     document.addEventListener('DOMContentLoaded', function () {
         window.addEventListener('hashchange', () => {
-            const hash = router.getPathnameHash();
-            eventTrackerTool.manageEvents(window.eventTracker, hash);
-            loadApp(DOM.indexContainerId, hash);
+            const hash = Modules.Core.router.getPathnameHash();
+            Modules.Core.events.manageEvents(window.eventTracker, hash);
+            Modules.Core.loader.loadApp(Modules.Utils.constants.DOM.indexContainerId, hash);
         });
-        const initialHash = router.getPathnameHash();
-        loadApp(DOM.indexContainerId, initialHash);
+        const initialHash = Modules.Core.router.getPathnameHash();
+        Modules.Core.loader.loadApp(Modules.Utils.constants.DOM.indexContainerId, initialHash);
     });
 })();

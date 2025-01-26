@@ -15,3 +15,8 @@ export function count() {
         return { getNum, addOne };
     };
 }
+
+export default {
+    clickState,
+    count
+}

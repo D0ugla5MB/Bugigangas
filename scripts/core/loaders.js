@@ -1,16 +1,16 @@
 import cache from './cache.js';
-import { ROUTES, mapApps } from './utils/constants.js';
 import buildApp from './builder.js';
+import {constants} from '../utils/index.js';
 
 function selectApp(appUrlHash) {
-	if (appUrlHash === ROUTES.pages.error) {
-		return mapApps.find(([key]) => key === 'error')[1];
+	if (appUrlHash === constants.ROUTES.hashError) {
+		return constants.mapApps.find(([key]) => key === 'error')[1];
 	}
 
-	const appResources = mapApps.find(([key]) => appUrlHash.includes(key))?.[1] || null;
+	const appResources = constants.mapApps.find(([key]) => appUrlHash.includes(key))?.[1] || null;
 	if (!appResources) {
 		console.warn(`No matching app for URL: ${appUrlHash}, falling back to error page`);
-		return mapApps.find(([key]) => key === 'error')[1];
+		return constants.mapApps.find(([key]) => key === 'error')[1];
 	}
 	return appResources;
 }
@@ -106,7 +106,7 @@ export async function loadApp(whichContainer, appUrlHash) {
 
 		const { html, css, module, main } = appResources;
 
-		if (appUrlHash === ROUTES.pages.error) {
+		if (appUrlHash === constants.ROUTES.pages.error) {
 			await buildApp(whichContainer, html, css, null, null);
 			return;
 		}

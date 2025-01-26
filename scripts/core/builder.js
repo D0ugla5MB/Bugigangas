@@ -1,11 +1,11 @@
-import loader from './loaders.js';
-import { clearHeadLinks, clearContainer } from './utils/utils.js';
+import { loader } from './index.js';
+import { utils } from '../utils/index.js';
 
 async function buildApp(targetContainer, appHtmlPath, appCssPath, appModulePath, appMainFunc) {
 	const container = document.getElementById(targetContainer);
 
-	clearHeadLinks();
-	clearContainer(targetContainer);
+	utils.clearHeadLinks();
+	utils.clearContainer(targetContainer);
 
 	try {
 		const [htmlContent, cssLink] = await Promise.all([

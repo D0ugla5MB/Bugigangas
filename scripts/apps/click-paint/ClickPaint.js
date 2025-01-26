@@ -1,19 +1,16 @@
-import events from "./events.js";
-import { watchPointer, generateColor, getViewportDimensions } from "./utils.js";
-import builder from "./builder.js";
-import { count, clickState } from "./state.js";
-import { ROUTES } from '../../utils/constants.js';
-import globalEventTracker from '../../events.js';
+import { builder, events, utils, state } from './index.js';
+import { constants } from '../../utils/index.js';
+import { events as globalEventTracker } from '../../core/index.js';
 
 function buildPaintArea() {
-    return builder.svgContainer(getViewportDimensions());
+    return builder.svgContainer(utils.getViewportDimensions());
 }
 
-export function runClickPaint() {
+function runClickPaint() {
     console.log('RUNNING CLICK PAINT GAME!');
 
-    const addClick = count();
-    const click = clickState();
+    const addClick = state.count();
+    const click = state.clickState();
     const appContainer = document.getElementById('click-paint-app');
     const blockerMsg = builder.buildBlockerContainer();
     const paintContainer = builder.buildMainContainer();
@@ -32,18 +29,18 @@ export function runClickPaint() {
 
     paintArea = document.getElementById('paint-area');
     globalEventTracker.registerEventListener(
-        ROUTES.hashClickPaint,
+        constants.ROUTES.hashClickPaint,
         window.eventTracker,
         window,
         'resize',
         () => {
             setTimeout(() => {
-                resizePaintArea(paintArea, getViewportDimensions());
+                events.resizePaintArea(paintArea, utils.getViewportDimensions());
             }, 180);
         }
     );
     globalEventTracker.registerEventListener(
-        ROUTES.hashClickPaint,
+        constants.ROUTES.hashClickPaint,
         window.eventTracker,
         paintArea,
         'click',
@@ -55,16 +52,17 @@ export function runClickPaint() {
         }
     );
     globalEventTracker.registerEventListener(
-        ROUTES.hashClickPaint,
+        constants.ROUTES.hashClickPaint,
         window.eventTracker,
         paintArea,
         'mousemove',
         (event) => {
             if (click().getState()) {
                 click().undoClick();
-                const [cx, cy] = watchPointer(event);
-                paintArea.appendChild(builder.circle(cx, cy, 25, generateColor()));
+                const [cx, cy] = utils.watchPointer(event);
+                paintArea.appendChild(builder.circle(cx, cy, 25, utils.generateColor()));
             }
         }
     );
 }
+export { runClickPaint };
