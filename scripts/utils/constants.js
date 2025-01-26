@@ -15,11 +15,6 @@ const ROUTES = {
     hashHome: '#home',
     hashError: '#error',
     hashClickPaint: '#clickpaint',
-    pages: {
-        home: '/pages/home.html',
-        error: '/pages/error.html',
-        clickPaint: '/pages/clickpaint.html'
-    }
 };
 
 const mapApps = [
@@ -45,9 +40,14 @@ const mapApps = [
 
 const ENV_VAR = 'https://web-bugigangas.vercel.app/';
 
+const OTHERS = {
+    buttons_id : DOM.btnIds,
+}
+
 export default {
     DOM,
     ROUTES,
     mapApps,
-    ENV_VAR
+    ENV_VAR,
+    OTHERS
 };
