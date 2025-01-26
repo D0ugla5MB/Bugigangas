@@ -40,14 +40,10 @@ const mapApps = [
 
 const ENV_VAR = 'https://web-bugigangas.vercel.app/';
 
-const OTHERS = {
-    buttons_id : DOM.btnIds,
-}
 
 export default {
     DOM,
     ROUTES,
     mapApps,
     ENV_VAR,
-    OTHERS
 };
