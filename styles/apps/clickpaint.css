@@ -1,5 +1,6 @@
 :root {
   --z: 1;
+  --blocker: calc(var(--z) * 100);
 }
 
 .container {
@@ -15,10 +16,11 @@
 .main-blocked {
   user-select: none;
   pointer-events: none;
+  visibility: hidden;
 }
 
 #container-msg {
-  z-index: calc(var(--z)*100);
+  z-index: var(--blocker);
 }
 
 #clicks-num {
@@ -35,8 +37,6 @@
   /*DaD props*/
   z-index: var(--z);
   will-change: transform;
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
   touch-action: none;
   cursor: grab;
 }

@@ -1,23 +1,27 @@
-import { DOM, ENV_VAR } from './utils/constants.js';
-import { eventTrackerTool } from './utils/utils.js';
-import { loadApp, getPathnameHash } from './router.js';
+import * as Modules from './index.js';
+
+function showConsoleMsg() {
+    if (window.location.pathname.toString() === Modules.Utils.constants.ENV_VAR) {
+        console.warn('You are in the production environment');
+    }
+
+    console.warn('The current debugger tool will be substituted by the browser console while a new one is being developed');
+}
 
 (function init() {
 
     //CAUTION TO USE IT AT PRODUCTION ENVIRONMENT
-    if (window.location.pathname.toString() === ENV_VAR) {
-        console.warn('You are in the production environment');
-    }
-    console.warn('The current debugger tool will be substituted by the browser console while a new one is being developed');
-    window.eventTracker = eventTrackerTool.initEventTracker();
+    showConsoleMsg();
+
+    window.eventTracker = Modules.Core.events.initEventTracker();
 
     document.addEventListener('DOMContentLoaded', function () {
         window.addEventListener('hashchange', () => {
-            const hash = getPathnameHash();
-            eventTrackerTool.manageEvents(window.eventTracker, hash);
-            loadApp(DOM.indexContainerId, hash);
+            const hash = Modules.Core.router.getPathnameHash();
+            Modules.Core.events.manageEvents(window.eventTracker, hash);
+            Modules.Core.loader.loadApp(Modules.Utils.constants.DOM.indexContainerId, hash);
         });
-        const initialHash = getPathnameHash();
-        loadApp(DOM.indexContainerId, initialHash);
+        const initialHash = Modules.Core.router.getPathnameHash();
+        Modules.Core.loader.loadApp(Modules.Utils.constants.DOM.indexContainerId, initialHash);
     });
 })();
