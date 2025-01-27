@@ -1,1 +1,1 @@
-export { addMenuBtnsEvents as default } from './home.js';
+export { default as home } from './home.js';

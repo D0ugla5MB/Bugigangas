@@ -23,5 +23,6 @@ function showConsoleMsg() {
         });
         const initialHash = Modules.Core.router.getPathnameHash();
         Modules.Core.loader.loadApp(Modules.Utils.constants.DOM.indexContainerId, initialHash);
+        Modules.Apps.Home.elements.backHomeBtn(Modules.Utils.constants.DOM.btnIds.back);
     });
 })();

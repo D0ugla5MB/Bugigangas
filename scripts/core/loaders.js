@@ -1,5 +1,5 @@
 import cache from './cache.js';
-import buildApp from './builder.js';
+import builder from './builder.js';
 import { constants } from '../utils/index.js';
 
 function selectApp(appUrlHash) {
@@ -107,7 +107,7 @@ export async function loadApp(whichContainer, appUrlHash) {
 		const { html, css, module, main } = appResources;
 
 		if (appUrlHash === constants.mapApps.find(([key]) => key === 'error')[1].html) {
-			await buildApp(whichContainer, html, css, null, null);
+			await builder.buildApp(whichContainer, html, css, null, null);
 			return;
 		}
 
@@ -116,7 +116,7 @@ export async function loadApp(whichContainer, appUrlHash) {
 			return;
 		}
 
-		await buildApp(whichContainer, html, css, module, main);
+		await builder.buildApp(whichContainer, html, css, module, main);
 	} catch (error) {
 		console.error('Critical error loading app:', error);
 	}

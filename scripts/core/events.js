@@ -12,7 +12,7 @@ function removeRegisEvent(hash, tracker, eventType) {
 
 function manageEvents(tracker, hashEvent) {
     tracker.forEach((event, hashKey) => {
-        if (!hashKey.includes(hashEvent)) {
+        if (!hashKey.includes(hashEvent) && hashKey.includes('#')) {
             event.element.removeEventListener(event.eventType, event.triggerReact);
             tracker.delete(hashKey);
         }

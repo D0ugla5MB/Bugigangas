@@ -6,7 +6,7 @@ function buildPaintArea() {
     return builder.svgContainer(utils.getViewportDimensions());
 }
 
-function runClickPaint() {
+export function runClickPaint() {
     console.log('RUNNING CLICK PAINT GAME!');
 
     const addClick = state.count();
@@ -65,4 +65,4 @@ function runClickPaint() {
         }
     );
 }
-export { runClickPaint };
+export default { runClickPaint };
