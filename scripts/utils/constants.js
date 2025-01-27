@@ -2,6 +2,7 @@ const DOM = {
     indexContainerId: 'root',
     navMenu: 'nav_menu',
     querySelect: 'button[id]',
+    popup: 'popup',
     btnIds: {
         nav: 'btnNav',
         home: 'btn_home',

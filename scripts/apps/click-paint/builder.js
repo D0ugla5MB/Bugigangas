@@ -1,3 +1,5 @@
+import { constants } from "../../utils/index.js";
+
 function buildBlockerContainer() {
     const section = document.createElement('section');
     section.className = 'welcome-container';
@@ -59,10 +61,23 @@ const counterContainer = (clicksQty) => {
     return div;
 };
 
+const popupDialogTip = () => {
+    try {
+        const popupContainer = document.createElement('dialog');
+        popupContainer.id = 'popup';
+        popupContainer.innerText = 'Click on the circles to change their color!';
+        
+        return popupContainer;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export default {
     buildBlockerContainer,
     buildMainContainer,
     circle,
     svgContainer,
-    counterContainer
- }
+    counterContainer,
+    popupDialogTip
+}

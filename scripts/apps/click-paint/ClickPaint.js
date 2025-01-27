@@ -15,19 +15,39 @@ export function runClickPaint() {
     const blockerMsg = builder.buildBlockerContainer();
     const paintContainer = builder.buildMainContainer();
     const clicksCounter = builder.counterContainer(addClick().getNum());
+    let popupContainer = builder.popupDialogTip();
     let paintArea = buildPaintArea();
 
     if (!paintArea) throw console.error('Something wrong happened');
+
 
     appContainer.appendChild(paintContainer);
     paintContainer.appendChild(paintArea);
     appContainer.appendChild(clicksCounter);
     appContainer.appendChild(blockerMsg);
+    appContainer.appendChild(popupContainer);
 
     events.watchContainerBlocker();
     events.makeDraggable(clicksCounter);
 
     paintArea = document.getElementById('paint-area');
+    popupContainer = document.getElementById(constants.DOM.popup);
+
+    if (popupContainer) {
+        popupContainer.show();
+        
+        globalEventTracker.registerEventListener(
+            constants.ROUTES.hashClickPaint,
+            window.eventTracker,
+            popupContainer.parentElement,
+            'dblclick',
+            () => {
+                popupContainer.close();
+            }
+        )
+
+    }
+    
     globalEventTracker.registerEventListener(
         constants.ROUTES.hashClickPaint,
         window.eventTracker,
