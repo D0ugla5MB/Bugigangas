@@ -1,5 +1,5 @@
 import { events, router } from "../../core/index.js";
-import {constants} from "../../utils/index.js";
+import { constants } from "../../utils/index.js";
 
 function addBackhomeEvents(btn) {
     events.registerEventListener('BH', window.eventTracker, btn, 'click', () => {
