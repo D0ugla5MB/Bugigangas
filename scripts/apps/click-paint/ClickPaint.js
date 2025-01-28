@@ -34,20 +34,29 @@ export function runClickPaint() {
     popupContainer = document.getElementById(constants.DOM.popup);
 
     if (popupContainer) {
-        popupContainer.show();
-        
+        let eventInfo = 0;
         globalEventTracker.registerEventListener(
             constants.ROUTES.hashClickPaint,
             window.eventTracker,
             popupContainer.parentElement,
             'dblclick',
-            () => {
-                popupContainer.close();
+            (e) => {
+                eventInfo += e.detail;
+                console.log('Event info:', eventInfo);
+                builder.eventPopupDialogTip(popupContainer);
+                
+                setTimeout(() => {
+                    if (eventInfo % 4 !== 0) {
+                        popup.innerText = 'You need to double click me!';
+                        popup.show();
+                        eventInfo = 0;
+                    }
+                 }, 1500);
             }
-        )
+        );
 
     }
-    
+
     globalEventTracker.registerEventListener(
         constants.ROUTES.hashClickPaint,
         window.eventTracker,

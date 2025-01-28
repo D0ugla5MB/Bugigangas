@@ -65,7 +65,6 @@ function makeDraggable(element) {
             }
         }
     );
-
     eventTrackerTool.registerEventListener(
         constants.ROUTES.hashClickPaint,
         window.eventTracker,

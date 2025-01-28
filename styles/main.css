@@ -12,3 +12,7 @@ body {
   padding: 20px;
   transition: all 0.3s ease;
 }
+
+#btn_back-home {
+  user-select: none;
+}

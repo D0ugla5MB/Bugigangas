@@ -61,12 +61,21 @@ const counterContainer = (clicksQty) => {
     return div;
 };
 
+
+function eventPopupDialogTip(popupContainer) {
+    popupContainer.show();
+    setTimeout(() => {
+        popupContainer.close();
+    }, 3000);
+    return popupContainer;
+}
+
 const popupDialogTip = () => {
     try {
         const popupContainer = document.createElement('dialog');
         popupContainer.id = 'popup';
         popupContainer.innerText = 'Click on the circles to change their color!';
-        
+
         return popupContainer;
     } catch (error) {
         console.log(error);
@@ -79,5 +88,6 @@ export default {
     circle,
     svgContainer,
     counterContainer,
-    popupDialogTip
+    popupDialogTip,
+    eventPopupDialogTip,
 }

@@ -21,6 +21,7 @@
 
 #container-msg {
   z-index: var(--blocker);
+  user-select: none;
 }
 
 #clicks-num {

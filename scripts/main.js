@@ -3,8 +3,10 @@ import * as Modules from './index.js';
 function showConsoleMsg() {
     if (window.location.pathname.toString() === Modules.Utils.constants.ENV_VAR) {
         console.warn('You are in the production environment');
+    } else {
+        console.warn('Remember to clear session storage while debbuging');
     }
-
+    
     console.warn('The current debugger tool will be substituted by the browser console while a new one is being developed');
 }
 
