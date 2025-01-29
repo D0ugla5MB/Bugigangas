@@ -63,6 +63,7 @@ const counterContainer = (clicksQty) => {
 
 
 function eventPopupDialogTip(popupContainer) {
+    popupContainer.innerText = 'Player, do double-click to drop it!';
     popupContainer.show();
     setTimeout(() => {
         popupContainer.close();

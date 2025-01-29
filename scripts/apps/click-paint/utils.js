@@ -31,5 +31,5 @@ function getViewportDimensions() {
 export default {
     generateColor,
     watchPointer,
-    getViewportDimensions
+    getViewportDimensions,
 };
