@@ -76,7 +76,8 @@ const popupDialogTip = () => {
         const popupContainer = document.createElement('dialog');
         popupContainer.id = 'popup';
         popupContainer.innerText = 'Click on the circles to change their color!';
-
+        popupContainer.classList.add('dialog-container', 'fade-div');
+        
         return popupContainer;
     } catch (error) {
         console.log(error);

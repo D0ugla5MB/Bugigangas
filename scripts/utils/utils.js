@@ -1,3 +1,11 @@
+function clearSessionStorage() {
+    window.addEventListener('beforeunload', () => {
+        sessionStorage.clear();
+        
+    });
+}
+
+
 function clearContainer(container) {
     if (container instanceof Node) {
         container.innerHTML = '';
@@ -16,5 +24,6 @@ function clearHeadLinks() {
 }
 export default {
     clearContainer,
-    clearHeadLinks
+    clearHeadLinks,
+    clearSessionStorage
 };

@@ -17,6 +17,8 @@ function showConsoleMsg() {
 
     window.eventTracker = Modules.Core.events.initEventTracker();
 
+    Modules.Utils.utils.clearSessionStorage();
+
     document.addEventListener('DOMContentLoaded', function () {
         window.addEventListener('hashchange', () => {
             const hash = Modules.Core.router.getPathnameHash();
