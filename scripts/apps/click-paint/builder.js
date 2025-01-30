@@ -1,3 +1,5 @@
+import { constants } from "../../utils/index.js";
+
 function buildBlockerContainer() {
     const section = document.createElement('section');
     section.className = 'welcome-container';
@@ -59,10 +61,35 @@ const counterContainer = (clicksQty) => {
     return div;
 };
 
+
+function eventPopupDialogTip(popupContainer) {
+    popupContainer.innerText = 'Player, do double-click to drop it!';
+    popupContainer.show();
+    setTimeout(() => {
+        popupContainer.close();
+    }, 3000);
+    return popupContainer;
+}
+
+const popupDialogTip = () => {
+    try {
+        const popupContainer = document.createElement('dialog');
+        popupContainer.id = 'popup';
+        popupContainer.innerText = 'Click on the circles to change their color!';
+        popupContainer.classList.add('dialog-container', 'fade-div');
+        
+        return popupContainer;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export default {
     buildBlockerContainer,
     buildMainContainer,
     circle,
     svgContainer,
-    counterContainer
- }
+    counterContainer,
+    popupDialogTip,
+    eventPopupDialogTip,
+}

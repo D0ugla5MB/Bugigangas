@@ -2,11 +2,13 @@ const DOM = {
     indexContainerId: 'root',
     navMenu: 'nav_menu',
     querySelect: 'button[id]',
+    popup: 'popup',
     btnIds: {
         nav: 'btnNav',
         home: 'btn_home',
         error: 'btn_err',
-        clickPaint: 'btn_click-paint'
+        clickPaint: 'btn_click-paint',
+        back: 'btn_back-home',
     }
 };
 
@@ -15,11 +17,6 @@ const ROUTES = {
     hashHome: '#home',
     hashError: '#error',
     hashClickPaint: '#clickpaint',
-    pages: {
-        home: '/pages/home.html',
-        error: '/pages/error.html',
-        clickPaint: '/pages/clickpaint.html'
-    }
 };
 
 const mapApps = [
@@ -45,9 +42,10 @@ const mapApps = [
 
 const ENV_VAR = 'https://web-bugigangas.vercel.app/';
 
+
 export default {
     DOM,
     ROUTES,
     mapApps,
-    ENV_VAR
+    ENV_VAR,
 };

@@ -11,11 +11,11 @@ function getPathnameHash() {
 		case '/':
 		case constants.ROUTES.hash:
 		case constants.ROUTES.hashHome:
-			return constants.ROUTES.pages.home;
+			return constants.mapApps.find(([key]) => key === 'home')[1].html;
 		case constants.ROUTES.hashClickPaint:
-			return constants.ROUTES.pages.clickPaint;
+			return constants.mapApps.find(([key]) => key === 'clickpaint')[1].html;
 		default:
-			return constants.ROUTES.pages.error;
+			return constants.mapApps.find(([key]) => key === 'error')[1].html;
 	}
 }
 

@@ -32,4 +32,4 @@ async function buildApp(targetContainer, appHtmlPath, appCssPath, appModulePath,
 	}
 }
 
-export default buildApp;
+export default { buildApp };

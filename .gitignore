@@ -3,3 +3,4 @@
 .vscode
 /dev-tools/*
 !/dev-tools/debbug-utils.mjs
+./eslint-config.js
