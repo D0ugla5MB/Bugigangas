@@ -1,6 +1,7 @@
 import { constants } from '../../utils/index.js';
 import { router, events } from '../../core/index.js';
 import builderHome from './builder.js';
+import buttonHandlers from './events.js';
 
 export function addMenuBtnsEvents() {
     const index_menu = document.getElementById(constants.DOM.navMenu);
@@ -39,4 +40,4 @@ export function addMenuBtnsEvents() {
         }
     });
 }
-export default { addMenuBtnsEvents, builderHome };
+export default { addMenuBtnsEvents, builderHome, buttonHandlers };

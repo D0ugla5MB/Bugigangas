@@ -2,6 +2,12 @@ function initEventTracker() {
     return new Map();
 }
 
+function delegateEvent(parentElem, targetList, eventsHandlers) {
+    console.log(parentElem);
+    console.log(targetList);
+    console.log(eventsHandlers);
+}
+
 function removeRegisEvent(hash, tracker, eventType) {
     const eventKey = tracker.get(`${hash}-${eventType}`);
     if (eventKey) {
@@ -29,5 +35,6 @@ export default {
     initEventTracker,
     registerEventListener,
     manageEvents,
-    removeRegisEvent
+    removeRegisEvent,
+    delegateEvent
 };

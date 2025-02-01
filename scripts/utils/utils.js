@@ -1,3 +1,5 @@
+import constants from './constants.js';
+
 function clearSessionStorage() {
     window.addEventListener('beforeunload', () => {
         sessionStorage.clear();
@@ -22,8 +24,26 @@ function clearHeadLinks() {
         }
     }
 }
+function appendLog() {
+    console.log('The current debugger tool will be substituted by the browser console while a new one is being developed');
+
+}
+function showConsoleMsg() {
+    if (window.location.pathname.toString() === constants.ENV_VAR) {
+        console.warn('You are in the production environment');
+    } else {
+        console.warn('Remember to clear session storage while debbuging');
+    }
+
+    console.warn('The current debugger tool will be substituted by the browser console while a new one is being developed');
+
+    console.groupCollapsed('Other');
+    appendLog();
+    console.groupEnd();
+}
 export default {
     clearContainer,
     clearHeadLinks,
-    clearSessionStorage
+    clearSessionStorage,
+    showConsoleMsg,
 };
