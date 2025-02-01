@@ -8,7 +8,7 @@ import * as Modules from './index.js';
     Modules.Core.events.delegateEvent(
         Modules.Utils.constants.DOM.delegator.root,
         Modules.Utils.constants.DOM.btnIds,
-        Modules.Apps.Home.buttonHandlers.buttonHandlers
+        Modules.Apps.Home.buttons.BUTTON_MAP
     );
 
 

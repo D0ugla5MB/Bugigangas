@@ -1,12 +1,12 @@
 import constants from './constants.js';
 
+
 function clearSessionStorage() {
     window.addEventListener('beforeunload', () => {
         sessionStorage.clear();
-        
+
     });
 }
-
 
 function clearContainer(container) {
     if (container instanceof Node) {
@@ -25,8 +25,6 @@ function clearHeadLinks() {
     }
 }
 function appendLog() {
-    console.log('The current debugger tool will be substituted by the browser console while a new one is being developed');
-
 }
 function showConsoleMsg() {
     if (window.location.pathname.toString() === constants.ENV_VAR) {
@@ -37,7 +35,7 @@ function showConsoleMsg() {
 
     console.warn('The current debugger tool will be substituted by the browser console while a new one is being developed');
 
-    console.groupCollapsed('Other');
+    console.group('Other');
     appendLog();
     console.groupEnd();
 }

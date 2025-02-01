@@ -17,6 +17,7 @@ WebBugigangas is designed as a collection of simple web applications made 'out o
 
 ## Versioning
 
-This is the first stable production version (1.0.0). Versioning started now because the app is fully functional.
+- v1.0.0 - first stable production version. Versioning started now because the app is fully functional.
+- v1.0.1 - replaced the switch statement in home.js with a button map for easier event registration
 
 
