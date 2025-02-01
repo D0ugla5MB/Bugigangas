@@ -15,4 +15,8 @@ WebBugigangas is designed as a collection of simple web applications made 'out o
 - Custom routing system.
 - Lightweight and efficient design without relying on third-party libraries.
 
+## Versioning
+
+This is the first stable production version (1.0.0). Versioning started now because the app is fully functional.
+
 
