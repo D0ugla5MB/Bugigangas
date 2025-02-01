@@ -50,6 +50,20 @@ function makeDraggable(element) {
         constants.ROUTES.hashClickPaint,
         window.eventTracker,
         element,
+        'pointerleave',
+        () => {
+            if (isDragging) {
+                isDragging = false;
+                element.classList.remove('dragging');
+                if (requestAniFrame) cancelAnimationFrame(requestAniFrame);
+            }
+        }
+    );
+
+    eventTrackerTool.registerEventListener(
+        constants.ROUTES.hashClickPaint,
+        window.eventTracker,
+        element,
         'dblclick',
         (e) => {
             e.preventDefault();
