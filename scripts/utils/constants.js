@@ -9,6 +9,11 @@ const DOM = {
         error: 'btn_err',
         clickPaint: 'btn_click-paint',
         back: 'btn_back-home',
+    },
+    delegator: {
+        root: 'root',
+        app: `app-name`,
+        main: 'app-main',
     }
 };
 

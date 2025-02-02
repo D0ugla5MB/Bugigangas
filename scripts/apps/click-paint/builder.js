@@ -25,7 +25,7 @@ function buildBlockerContainer() {
 
 function buildMainContainer() {
     const mainContainer = document.createElement('main');
-    mainContainer.id = 'app-main';
+    mainContainer.id = constants.DOM.delegator.main;
     mainContainer.className = 'main-blocked';
 
     return mainContainer;

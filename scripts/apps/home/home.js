@@ -1,42 +1,44 @@
 import { constants } from '../../utils/index.js';
 import { router, events } from '../../core/index.js';
 import builderHome from './builder.js';
+import buttons from './events.js';
 
 export function addMenuBtnsEvents() {
-    const index_menu = document.getElementById(constants.DOM.navMenu);
+    const delegator = document.getElementById(constants.DOM.delegator.main);
 
-    if (!index_menu) {
+    if (!delegator) {
         console.error('Menu element not found');
         return;
     }
 
-    const menuButtonsWithId = document.querySelectorAll(constants.DOM.querySelect);
+    events.registerEventListener(
+        constants.ROUTES.hash,
+        window.eventTracker,
+        delegator,
+        'click',
+        (event) => {
+            event.stopPropagation();
+            try {
+                const button = event.target.closest(constants.DOM.querySelect);
+                if (!button || !delegator) {
+                    return;
+                }
 
-    //TO-DO: studying the HOME_BUTTONS usage
-    menuButtonsWithId.forEach((btn) => {
-        switch (btn.id) {
-            case constants.DOM.btnIds.nav:
-                events.registerEventListener(
-                    constants.ROUTES.hashHome,
-                    window.eventTracker,
-                    btn,
-                    'click',
-                    () => {
-                        document.getElementById(constants.DOM.navMenu).hidden = !document.getElementById(constants.DOM.navMenu).hidden;
-                    }
-                );
-                break;
+                const hashKey = button.id;
 
-            case constants.DOM.btnIds.clickPaint:
-                events.registerEventListener(
-                    constants.ROUTES.hashClickPaint,
-                    window.eventTracker,
-                    btn,
-                    'click',
-                    () => { router.changeRoute(constants.ROUTES.hashClickPaint); }
-                );
-                break;
+                if (!buttons.BUTTON_MAP[hashKey]) {
+                    throw new Error(`No handler found for button: ${hashKey}`);
+                }
+
+                return buttons.BUTTON_MAP[hashKey].handler();
+            } catch (error) {
+                console.error('Button handler error:', error);
+                router.changeRoute(constants.ROUTES.hashError);
+            }
+        },
+        {
+            useCapture: false,
         }
-    });
+    );
 }
-export default { addMenuBtnsEvents, builderHome };
+export default { addMenuBtnsEvents, builderHome, buttons };
