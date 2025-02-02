@@ -10,26 +10,27 @@ const buttonHandlers = {
         router.changeRoute(constants.ROUTES.hashClickPaint);
     },
     [constants.DOM.btnIds.back]: () => {
-        router.changeRoute(constants.ROUTES.hashHome);
+        router.changeRoute(constants.ROUTES.hashHome) || router.changeRoute(constants.ROUTES.hash);
     },
     [constants.DOM.btnIds.clickPaint]: () => { router.changeRoute(constants.ROUTES.hashClickPaint); }
 };
 
 const BUTTON_MAP = {
     [constants.DOM.btnIds.nav]: {
-        route: constants.ROUTES.hashHome,
+        id: constants.DOM.btnIds.nav,
         handler: buttonHandlers[constants.DOM.btnIds.nav]
     },
     [constants.DOM.btnIds.clickPaint]: {
+        id: constants.DOM.btnIds.clickPaint,
         route: constants.ROUTES.hashClickPaint,
         handler: buttonHandlers[constants.DOM.btnIds.clickPaint]
     },
     [constants.DOM.btnIds.back]: {
-        route: constants.ROUTES.hashHome,
+        id: constants.DOM.btnIds.back || constants.DOM.btnIds.home,
         handler: buttonHandlers[constants.DOM.btnIds.back]
-    }
+    },
 };
 
 export default {
-    BUTTON_MAP,
+    BUTTON_MAP
 }

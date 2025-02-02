@@ -5,12 +5,6 @@ import * as Modules from './index.js';
     //CAUTION TO USE IT AT PRODUCTION ENVIRONMENT
     Modules.Utils.utils.showConsoleMsg();
 
-    Modules.Core.events.delegateEvent(
-        Modules.Utils.constants.DOM.delegator.root,
-        Modules.Utils.constants.DOM.btnIds,
-        Modules.Apps.Home.buttons.BUTTON_MAP
-    );
-
 
     window.eventTracker = Modules.Core.events.initEventTracker();
 
