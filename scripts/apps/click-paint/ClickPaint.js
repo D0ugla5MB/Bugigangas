@@ -8,8 +8,6 @@ function buildPaintArea() {
 
 
 export function runClickPaint() {
-    console.log('RUNNING CLICK PAINT GAME!');
-
     //TO-DO: refactor the creation of the elements to a builder
     //TO-DO: refactor the check the elements' existence before appending as like as each appending process
     const addClick = state.count();
@@ -53,7 +51,6 @@ export function runClickPaint() {
             }
 
             time = setTimeout(() => {
-                console.log(popupChecker);
                 builder.eventPopupDialogTip(popupContainer);
             }, 2000);
 

@@ -10,6 +10,9 @@ const buttonHandlers = {
         router.changeRoute(constants.ROUTES.hashClickPaint);
     },
     [constants.DOM.btnIds.back]: () => {
+        if (window.location.hash === constants.ROUTES.hashHome) {
+            return;
+        }
         router.changeRoute(constants.ROUTES.hashHome) || router.changeRoute(constants.ROUTES.hash);
     },
     [constants.DOM.btnIds.clickPaint]: () => { router.changeRoute(constants.ROUTES.hashClickPaint); }

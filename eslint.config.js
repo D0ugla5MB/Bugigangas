@@ -38,5 +38,4 @@ export default {
             }
         }
     },
-    cache: true
 };
