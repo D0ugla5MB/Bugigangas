@@ -24,24 +24,32 @@ function clearHeadLinks() {
         }
     }
 }
-function appendLog() {
+function appendLog(elem=null, ...debLog) {
+    const logs = [];
+    debLog.forEach((log) => {
+        logs.push(log);
+    });
+
+    for (const element of logs) {
+        console.trace(elem);
+        console.log(element);        
+    }
 }
+
 function showConsoleMsg() {
     if (window.location.pathname.toString() === constants.ENV_VAR) {
         console.warn('You are in the production environment');
     } else {
         console.warn('Remember to clear session storage while debbuging');
     }
-
     console.warn('The current debugger tool will be substituted by the browser console while a new one is being developed');
-
-    console.group('Other');
-    appendLog();
-    console.groupEnd();
 }
+
+
 export default {
     clearContainer,
     clearHeadLinks,
     clearSessionStorage,
     showConsoleMsg,
+    appendLog,
 };

@@ -8,6 +8,7 @@ function getPathnameHash() {
 	const hash = window.location.hash || '/';
 
 	switch (hash) {
+		case '':
 		case '/':
 		case constants.ROUTES.hash:
 		case constants.ROUTES.hashHome:

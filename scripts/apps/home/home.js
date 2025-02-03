@@ -12,7 +12,7 @@ export function addMenuBtnsEvents() {
     }
 
     events.registerEventListener(
-        constants.ROUTES.hash,
+        constants.ROUTES.hashHome,
         window.eventTracker,
         delegator,
         'click',
