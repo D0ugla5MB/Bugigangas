@@ -28,3 +28,11 @@ WebBugigangas is designed as a collection of simple web applications made 'out o
     - `core/events.js`: Introduced a new event tracking system using a nested `Map` for better event management.
     - `utils/utils.js`: Removed unused utility functions and optimized existing ones.
     - General: Improved code readability and consistency across the project.
+- v2.0.1
+  - Improved event management system:
+    - Added default route handling in `manageEvents`
+    - Enhanced route cleanup for unmatched paths
+    - Fixed event listener cleanup for route changes
+  - Code quality improvements:
+    - Added defensive programming for undefined routes
+    - Improved type safety in event tracking
