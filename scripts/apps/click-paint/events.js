@@ -1,6 +1,6 @@
 import { clickState } from './state.js';
 import { events as eventTrackerTool } from '../../core/index.js';
-import {constants} from '../../utils/index.js';
+import { constants } from '../../utils/index.js';
 
 function freeBlocker(clickEvent) {
     if (clickEvent) {
@@ -19,7 +19,7 @@ function watchContainerBlocker() {
     const click = clickState();
 
     eventTrackerTool.registerEventListener(
-        '#clickpaint',
+        constants.ROUTES.hashClickPaint,
         window.eventTracker,
         containerMsg,
         'click',
@@ -38,7 +38,7 @@ function resizePaintArea(paintArea, containerSide) {
     paintArea.setAttributeNS(null, 'viewBox', `0 0 ${widthSide} ${heightSide}`);
 }
 
-function makeDraggable(element) {
+function makeDraggable(clickCnt, area) {
     let isDragging = false;
     let currentX = 0;
     let currentY = 0;
@@ -49,12 +49,12 @@ function makeDraggable(element) {
     eventTrackerTool.registerEventListener(
         constants.ROUTES.hashClickPaint,
         window.eventTracker,
-        element,
+        clickCnt,
         'pointerleave',
         () => {
             if (isDragging) {
                 isDragging = false;
-                element.classList.remove('dragging');
+                clickCnt.classList.remove('dragging');
                 if (requestAniFrame) cancelAnimationFrame(requestAniFrame);
             }
         }
@@ -63,18 +63,19 @@ function makeDraggable(element) {
     eventTrackerTool.registerEventListener(
         constants.ROUTES.hashClickPaint,
         window.eventTracker,
-        element,
+        clickCnt,
         'dblclick',
         (e) => {
+            console.log(0);
             e.preventDefault();
             isDragging = !isDragging;
-
+            
             if (isDragging) {
                 initialX = e.clientX - currentX;
                 initialY = e.clientY - currentY;
-                element.classList.add('dragging');
+                clickCnt.classList.add('dragging');
             } else {
-                element.classList.remove('dragging');
+                clickCnt.classList.remove('dragging');
                 if (requestAniFrame) cancelAnimationFrame(requestAniFrame);
             }
         }
@@ -82,9 +83,10 @@ function makeDraggable(element) {
     eventTrackerTool.registerEventListener(
         constants.ROUTES.hashClickPaint,
         window.eventTracker,
-        document,
+        area,
         'mousemove',
         (e) => {
+            
             if (!isDragging) return;
             e.preventDefault();
 
@@ -94,7 +96,7 @@ function makeDraggable(element) {
             currentY = e.clientY - initialY;
 
             requestAniFrame = requestAnimationFrame(() => {
-                element.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+                clickCnt.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
                 requestAniFrame = null;
             });
         }

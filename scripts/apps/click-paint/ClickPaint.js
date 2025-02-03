@@ -32,11 +32,18 @@ export function runClickPaint() {
     appContainer.appendChild(popupContainer);
 
     events.watchContainerBlocker();
-    events.makeDraggable(clicksCounter);
+    events.makeDraggable(clicksCounter, appContainer);
 
     paintArea = document.getElementById('paint-area');
     popupContainer = document.getElementById(constants.DOM.popup);
 
+    globalEventTracker.registerEventListener(
+        constants.ROUTES.hashClickPaint,
+        window.eventTracker,
+        appContainer,
+        'dbclick',
+        
+    );
 
     globalEventTracker.registerEventListener(
         constants.ROUTES.hashClickPaint,
@@ -44,6 +51,7 @@ export function runClickPaint() {
         clicksCounter, // Don't forget to check it
         'dblclick', // Refactor: treat the duo dblclick on the same element
         (e) => {
+            console.log(1);
             popupChecker += e.detail;
 
             if (time) {
