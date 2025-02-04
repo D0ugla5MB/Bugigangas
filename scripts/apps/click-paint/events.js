@@ -66,7 +66,6 @@ function makeDraggable(clickCnt, area) {
         clickCnt,
         'dblclick',
         (e) => {
-            console.log(0);
             e.preventDefault();
             isDragging = !isDragging;
             

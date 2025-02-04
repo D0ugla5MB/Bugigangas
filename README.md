@@ -36,3 +36,10 @@ WebBugigangas is designed as a collection of simple web applications made 'out o
   - Code quality improvements:
     - Added defensive programming for undefined routes
     - Improved type safety in event tracking
+- v2.0.2
+  - Enhanced ClickPaint app functionality:
+    - Fixed double-click event delegation on counter element
+    - Improved draggable counter element behavior
+    - Fixed popup dialog timeouts
+    - Removed duplicate event listeners
+    - Better scope management for drag state variables
