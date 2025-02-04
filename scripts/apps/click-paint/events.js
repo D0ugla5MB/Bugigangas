@@ -1,6 +1,8 @@
 import { clickState } from './state.js';
 import { events as eventTrackerTool } from '../../core/index.js';
 import { constants } from '../../utils/index.js';
+import utils from './utils.js';
+import builder from './builder.js';
 
 function freeBlocker(clickEvent) {
     if (clickEvent) {
@@ -102,10 +104,98 @@ function makeDraggable(clickCnt, area) {
     );
 }
 
+function registerClickCounterListener(clicksCounter, popupChecker, popupTimer, popupContainerAux) {
+    eventTrackerTool.registerEventListener(
+        constants.ROUTES.hashClickPaint,
+        window.eventTracker,
+        clicksCounter,
+        'click',
+        (e) => {
+            ++popupChecker;
+            console.log(popupTimer, popupChecker);
+            if (popupChecker === 2) {
+                if (popupTimer) {
+                    clearTimeout(popupTimer);
+                }
+                popupTimer = setTimeout(() => {
+                    popupChecker = 0;
+                    eventPopupDialogTip(popupContainerAux);
+                    console.log(e.target);
+                }, 2000);
+            }
+
+            if (popupChecker > 2) { //deeper test it later
+                popupChecker = 0;
+                clearTimeout(popupTimer);
+            }
+        },
+    );
+}
+
+function registerResizeListener(paintAreaAux, resizeTimer) {
+    eventTrackerTool.registerEventListener(
+        constants.ROUTES.hashClickPaint,
+        window.eventTracker,
+        window,
+        'resize',
+        () => {
+            if (resizeTimer) clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                resizePaintArea(paintAreaAux, utils.getViewportDimensions());
+            }, 180);
+        }
+    );
+}
+
+function registerPaintAreaClickListener(paintAreaAux, click, addClick) {
+    eventTrackerTool.registerEventListener(
+        constants.ROUTES.hashClickPaint,
+        window.eventTracker,
+        paintAreaAux,
+        'click',
+        () => {
+            click().doClick();
+            addClick().addOne();
+            const countDiv = document.getElementById('clicks-num');
+            countDiv.textContent = `Number of total clicks: ${addClick().getNum()}`;
+        }
+    );
+}
+
+function registerPaintAreaMouseMoveListener(paintAreaAux, click) {
+    eventTrackerTool.registerEventListener(
+        constants.ROUTES.hashClickPaint,
+        window.eventTracker,
+        paintAreaAux,
+        'mousemove',
+        (event) => {
+            if (click().getState()) {
+                click().undoClick();
+                const [cx, cy] = utils.watchPointer(event);
+                paintAreaAux.appendChild(builder.circle(cx, cy, 25, utils.generateColor()));
+            }
+        }
+    );
+}
+
+function eventPopupDialogTip(popupContainer) {
+    let popupTimer = null;
+    popupContainer.innerText = 'Player, do double-click to drop it!';
+    popupContainer.show();
+
+    if (popupTimer) clearTimeout(popupTimer);
+    setTimeout(() => {
+        popupContainer.close();
+    }, 3000);
+    return popupContainer;
+}
+
 export default {
     watchContainerBlocker,
     resizePaintArea,
-    makeDraggable
+    makeDraggable,
+    registerClickCounterListener,
+    registerResizeListener,
+    registerPaintAreaClickListener,
+    registerPaintAreaMouseMoveListener,
 };
-
-
