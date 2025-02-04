@@ -1,3 +1,5 @@
+// TODO: Refactor apps metadata into a more structured format
+
 const DOM = {
     indexContainerId: 'root',
     navMenu: 'nav_menu',
@@ -12,7 +14,7 @@ const DOM = {
     },
     delegator: {
         root: 'root',
-        app: `app-name`,
+        app: 'app',
         main: 'app-main',
     }
 };

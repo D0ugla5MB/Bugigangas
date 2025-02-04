@@ -43,3 +43,16 @@ WebBugigangas is designed as a collection of simple web applications made 'out o
     - Fixed popup dialog timeouts
     - Removed duplicate event listeners
     - Better scope management for drag state variables
+- v3.0.0
+  - Major refactoring of ClickPaint element initialization:
+    - Created initElements function to centralize element creation
+    - Added error handling for element initialization
+    - Simplified element creation and appending flow
+  
+  - Code organization improvements:
+    - Consolidated element creation in builder.js
+    - Moved appending logic to dedicated function
+    - Added try/catch blocks for DOM operations
+    - Better state handling for counters and popups
+    - More maintainable element creation structure
+    - Reduced code duplication

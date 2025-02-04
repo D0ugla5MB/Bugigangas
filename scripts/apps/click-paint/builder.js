@@ -1,4 +1,5 @@
 import { constants } from "../../utils/index.js";
+import { buildPaintArea } from "./ClickPaint.js";
 
 function buildBlockerContainer() {
     const section = document.createElement('section');
@@ -62,18 +63,6 @@ const counterContainer = (clicksQty) => {
 };
 
 
-function eventPopupDialogTip(popupContainer) {
-    let popupTimer = null;
-    popupContainer.innerText = 'Player, do double-click to drop it!';
-    popupContainer.show();
-    
-    if (popupTimer) clearTimeout(popupTimer);
-    setTimeout(() => {
-        popupContainer.close();
-    }, 3000);
-    return popupContainer;
-}
-
 const popupDialogTip = () => {
     try {
         const popupContainer = document.createElement('dialog');
@@ -87,12 +76,36 @@ const popupDialogTip = () => {
     }
 }
 
+function buildElements(clickCount) {
+    return {
+        appContainer: document.getElementById('click-paint-app'),
+        blockerMsg: buildBlockerContainer(),
+        paintContainer: buildMainContainer(),
+        clicksCounter: counterContainer(clickCount.getNum()),
+        popupContainer: popupDialogTip(0),
+        paintArea: buildPaintArea()
+    };
+}
+
+export function appendClickPaintElements(appContainer, paintContainer, paintArea, clicksCounter, blockerMsg, popupContainer) {
+    try {
+        appContainer.appendChild(paintContainer);
+        paintContainer.appendChild(paintArea);
+        appContainer.appendChild(clicksCounter);
+        appContainer.appendChild(blockerMsg);
+        appContainer.appendChild(popupContainer);
+    } catch (error) {
+        console.error('Error appending ClickPaint elements:', error);
+        throw error;
+    }
+}
+
 export default {
+    buildElements,
     buildBlockerContainer,
     buildMainContainer,
     circle,
     svgContainer,
     counterContainer,
     popupDialogTip,
-    eventPopupDialogTip,
 }
