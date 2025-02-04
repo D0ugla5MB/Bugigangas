@@ -19,8 +19,8 @@ export function runClickPaint() {
     let popupContainer = builder.popupDialogTip(0);
     let paintArea = buildPaintArea();
     let popupChecker = 0;
-    let time = null;
-
+    let popupTimer = null;
+    let resizeTimer = null;
 
     if (!paintArea) throw console.error('Something wrong happened');
 
@@ -32,31 +32,34 @@ export function runClickPaint() {
     appContainer.appendChild(popupContainer);
 
     events.watchContainerBlocker();
-    events.makeDraggable(clicksCounter);
+    events.makeDraggable(clicksCounter, appContainer);
 
     paintArea = document.getElementById('paint-area');
     popupContainer = document.getElementById(constants.DOM.popup);
 
 
+
     globalEventTracker.registerEventListener(
         constants.ROUTES.hashClickPaint,
         window.eventTracker,
-        clicksCounter, // Don't forget to check it
-        'dblclick', // Refactor: treat the duo dblclick on the same element
+        clicksCounter, 
+        'click',
         (e) => {
-            popupChecker += e.detail;
-
-            if (time) {
-                clearTimeout(time);
+            ++popupChecker;
+            console.log(popupChecker);
+            if (popupChecker === 2) {
+                if (popupTimer) {
+                    clearTimeout(popupTimer);
+                }
+                popupTimer = setTimeout(() => {
+                    popupChecker = 0;
+                    builder.eventPopupDialogTip(popupContainer);
+                    console.log(e.target);
+                }, 2000);
             }
-
-            time = setTimeout(() => {
-                builder.eventPopupDialogTip(popupContainer);
-            }, 2000);
-
-            if (popupChecker > 2) {
-                clearTimeout(time);
+            if ( popupChecker > 2) { //deeper test it later
                 popupChecker = 0;
+                clearTimeout(popupTimer);
             }
         },
     );
@@ -68,7 +71,8 @@ export function runClickPaint() {
         window,
         'resize',
         () => {
-            setTimeout(() => {
+            if (resizeTimer) clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
                 events.resizePaintArea(paintArea, utils.getViewportDimensions());
             }, 180);
         }
