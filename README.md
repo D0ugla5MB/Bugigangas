@@ -56,3 +56,7 @@ WebBugigangas is designed as a collection of simple web applications made 'out o
     - Better state handling for counters and popups
     - More maintainable element creation structure
     - Reduced code duplication
+- v3.0.1
+  - Removed `console.log` at [`ClickPaint/events.js`](scripts/apps/click-paint/events.js)
+  - Removed dup event handler at [`home/events.js`](scripts/apps/home/events.js)
+  - Refactored the missed artifacts

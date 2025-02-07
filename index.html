@@ -15,9 +15,12 @@
 
 <body>
 
-  <button type="button" id="btn_back-home">BACK</button>
+  <button type="button" id="btn_back-home" hidden>BACK</button>
   <div id="root"></div>
 
+  <script>
+    setTimeout(() => { document.getElementById('btn_back-home').hidden = false; }, 1000);
+  </script>
   <script type="module" src="/scripts/main.js"></script>
 </body>
 

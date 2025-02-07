@@ -112,7 +112,6 @@ function registerClickCounterListener(clicksCounter, popupChecker, popupTimer, p
         'click',
         (e) => {
             ++popupChecker;
-            console.log(popupTimer, popupChecker);
             if (popupChecker === 2) {
                 if (popupTimer) {
                     clearTimeout(popupTimer);
@@ -120,7 +119,6 @@ function registerClickCounterListener(clicksCounter, popupChecker, popupTimer, p
                 popupTimer = setTimeout(() => {
                     popupChecker = 0;
                     eventPopupDialogTip(popupContainerAux);
-                    console.log(e.target);
                 }, 2000);
             }
 
