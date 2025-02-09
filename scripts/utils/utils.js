@@ -1,6 +1,5 @@
 import constants from './constants.js';
 
-
 function clearSessionStorage() {
     window.addEventListener('beforeunload', () => {
         sessionStorage.clear();
@@ -24,7 +23,7 @@ function clearHeadLinks() {
         }
     }
 }
-function appendLog(elem=null, ...debLog) {
+function appendLog(elem = null, ...debLog) {
     const logs = [];
     debLog.forEach((log) => {
         logs.push(log);
@@ -32,7 +31,7 @@ function appendLog(elem=null, ...debLog) {
 
     for (const element of logs) {
         console.trace(elem);
-        console.log(element);        
+        console.log(element);
     }
 }
 
@@ -44,7 +43,6 @@ function showConsoleMsg() {
     }
     console.warn('The current debugger tool will be substituted by the browser console while a new one is being developed');
 }
-
 
 export default {
     clearContainer,

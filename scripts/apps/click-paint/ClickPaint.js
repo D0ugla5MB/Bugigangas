@@ -8,8 +8,6 @@ export function buildPaintArea() {
 }
 
 export function runClickPaint() {
-    //TO-DO: refactor the creation of the elements to a builder
-    //TO-DO: refactor the check the elements' existence before appending as like as each appending process
     const addClick = state.count();
     const click = state.clickState();
     const {

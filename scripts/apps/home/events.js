@@ -34,6 +34,16 @@ const BUTTON_MAP = {
     },
 };
 
+export function changeBtnView(btnId) {
+    const btn = document.getElementById(btnId);
+    if (!btn) return;
+
+    if (window.location.hash.includes('home' || '')) {
+        document.getElementById(btnId).hidden = 'hidden';
+        return;
+    }
+    document.getElementById(btnId).removeAttribute('hidden');
+}
 
 export function addBackhomeEvents(btn) {
     events.registerEventListener(constants.ROUTES.hashHome, window.eventTracker, btn, 'click', () => {
@@ -82,4 +92,5 @@ export default {
     BUTTON_MAP,
     registerButtonClickEvents,
     addBackhomeEvents,
+    changeBtnView,
 }

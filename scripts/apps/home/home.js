@@ -10,7 +10,7 @@ export function addMenuBtnsEvents() {
         console.error('Menu element not found');
         return;
     }
-
+    
     homeEvents.registerButtonClickEvents(delegator);
 }
 export default { addMenuBtnsEvents, builderHome, homeEvents };
