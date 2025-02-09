@@ -14,7 +14,7 @@ const buttonHandlers = {
         if (window.location.hash === constants.ROUTES.hashHome) {
             return;
         }
-        router.changeRoute(constants.ROUTES.hashHome) || router.changeRoute(constants.ROUTES.hash);
+        router.changeRoute(constants.ROUTES.hashHome);
     },
 };
 
@@ -34,23 +34,28 @@ const BUTTON_MAP = {
     },
 };
 
-export function changeBtnView(btnId) {
+function changeBtnView(btnId) {
     const btn = document.getElementById(btnId);
-    if (!btn) return;
 
-    if (window.location.hash.includes('home' || '')) {
-        document.getElementById(btnId).hidden = 'hidden';
-        return;
-    }
-    document.getElementById(btnId).removeAttribute('hidden');
+    const isHome = [constants.ROUTES.hash, constants.ROUTES.hashHome].includes(window.location.hash);
+
+    btn.hidden = isHome;
 }
 
 export function addBackhomeEvents(btn) {
-    events.registerEventListener(constants.ROUTES.hashHome, window.eventTracker, btn, 'click', () => {
-        if (window.location.hash === constants.ROUTES.hashHome) {
-            return;
-        }
-        router.changeRoute(constants.ROUTES.hashHome);
+    if (!btn) {
+        return;
+    }
+
+    events.registerEventListener(constants.ROUTES.hashHome,
+        window.eventTracker,
+        btn,
+        'click',
+        buttonHandlers[constants.DOM.btnIds.back]
+    );
+
+    ['load', 'hashchange'].forEach(eventType => {
+        window.addEventListener(eventType, () => changeBtnView(constants.DOM.btnIds.back));
     });
 
 }
@@ -74,7 +79,6 @@ function registerButtonClickEvents(delegator) {
                 if (!BUTTON_MAP[hashKey]) {
                     throw new Error(`No handler found for button: ${hashKey}`);
                 }
-
                 return BUTTON_MAP[hashKey].handler();
             } catch (error) {
                 console.error('Button handler error:', error);

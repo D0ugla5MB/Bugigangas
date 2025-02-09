@@ -15,8 +15,6 @@ import * as Modules from './index.js';
             Modules.Core.events.manageEvents(window.eventTracker, hash);
             Modules.Core.loader.loadApp(Modules.Utils.constants.DOM.indexContainerId, hash);
 
-            Modules.Apps.Home.builderHome.backHomeBtn(Modules.Utils.constants.DOM.btnIds.back);
-            Modules.Apps.Home.homeEvents.changeBtnView(Modules.Utils.constants.DOM.btnIds.back);
         });
         const initialHash = Modules.Core.router.getPathnameHash();
         Modules.Core.loader.loadApp(Modules.Utils.constants.DOM.indexContainerId, initialHash);
