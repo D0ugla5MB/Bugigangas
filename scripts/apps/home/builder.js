@@ -1,22 +1,21 @@
 import { events, router } from "../../core/index.js";
 import { constants } from "../../utils/index.js";
-
-function addBackhomeEvents(btn) {
-    events.registerEventListener(constants.ROUTES.hashHome, window.eventTracker, btn, 'click', () => {
-        if (window.location.hash === constants.ROUTES.hashHome) {
-            return;
-        }
-        router.changeRoute(constants.ROUTES.hashHome);
-    });
-
-}
+import { loader, cache } from '../../core/index.js';
+import { addBackhomeEvents, changeBtnView } from "./events.js";
 
 const backHomeBtn = (btnId) => {
-    const btn = document.getElementById(btnId);
-    addBackhomeEvents(btn);
+    let btn = document.getElementById(btnId);
 
-    return btn;
+    if (btn === null) {
+        btn = document.createElement('button');
+        btn.id = constants.DOM.btnIds.back;
+        btn.textContent = 'BACK';
+        addBackhomeEvents(btn);        
+        document.getElementById(constants.DOM.indexContainerId).appendChild(btn);
+        return;
+    }
 };
+
 export default {
-    backHomeBtn,
+    backHomeBtn
 };

@@ -15,8 +15,6 @@ function selectApp(appUrlHash) {
 	return appResources;
 }
 
-
-
 /**
  * Resource Loading Functions
  * ------------------------
@@ -126,5 +124,5 @@ export default {
 	loadHtml,
 	loadStyles,
 	loadModule,
-	loadApp
+	loadApp,
 };

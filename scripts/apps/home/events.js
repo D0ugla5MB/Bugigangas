@@ -1,5 +1,6 @@
 import { constants } from '../../utils/index.js';
 import { router } from '../../core/index.js';
+import { events } from '../../core/index.js';
 
 const buttonHandlers = {
     [constants.DOM.btnIds.nav]: () => {
@@ -15,7 +16,6 @@ const buttonHandlers = {
         }
         router.changeRoute(constants.ROUTES.hashHome) || router.changeRoute(constants.ROUTES.hash);
     },
-    [constants.DOM.btnIds.clickPaint]: () => { router.changeRoute(constants.ROUTES.hashClickPaint); }
 };
 
 const BUTTON_MAP = {
@@ -34,6 +34,63 @@ const BUTTON_MAP = {
     },
 };
 
+export function changeBtnView(btnId) {
+    const btn = document.getElementById(btnId);
+    if (!btn) return;
+
+    if (window.location.hash.includes('home' || '')) {
+        document.getElementById(btnId).hidden = 'hidden';
+        return;
+    }
+    document.getElementById(btnId).removeAttribute('hidden');
+}
+
+export function addBackhomeEvents(btn) {
+    events.registerEventListener(constants.ROUTES.hashHome, window.eventTracker, btn, 'click', () => {
+        if (window.location.hash === constants.ROUTES.hashHome) {
+            return;
+        }
+        router.changeRoute(constants.ROUTES.hashHome);
+    });
+
+}
+
+function registerButtonClickEvents(delegator) {
+    events.registerEventListener(
+        constants.ROUTES.hashHome,
+        window.eventTracker,
+        delegator,
+        'click',
+        (event) => {
+            event.stopPropagation();
+            try {
+                const button = event.target.closest(constants.DOM.querySelect);
+                if (!button || !delegator) {
+                    return;
+                }
+
+                const hashKey = button.id;
+
+                if (!BUTTON_MAP[hashKey]) {
+                    throw new Error(`No handler found for button: ${hashKey}`);
+                }
+
+                return BUTTON_MAP[hashKey].handler();
+            } catch (error) {
+                console.error('Button handler error:', error);
+                router.changeRoute(constants.ROUTES.hashError);
+            }
+        },
+        {
+            useCapture: false,
+        }
+    );
+}
+
+
 export default {
-    BUTTON_MAP
+    BUTTON_MAP,
+    registerButtonClickEvents,
+    addBackhomeEvents,
+    changeBtnView,
 }
