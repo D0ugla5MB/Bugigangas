@@ -5,6 +5,13 @@ header {
 
 header h1 {
   font-size: 2.5rem;
+  transition: all 0.3s ease;
+}
+
+header h1:hover {
+  color: #007BFF;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  transform: scale(1.05);
 }
 
 main {
@@ -14,28 +21,44 @@ main {
   background-color: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
+
 }
 
 section {
+  display: flex;
+  flex-flow: column wrap;
   margin-bottom: 20px;
+  justify-content: center;
+  align-items: center;
 }
 
-footer {
-  text-align: center;
-  padding: 20px;
-  position: relative;
-  bottom: 0;
-  width: 100%;
+nav:not([hidden]) button {
+  animation: reveal 0.3s ease forwards;
+  opacity: 0;
 }
 
-
-a {
-  text-decoration: none;
-  color: #333;
+nav:not([hidden]) button:nth-child(1) {
+  animation-delay: 0.1s;
 }
 
-a:hover {
-  color: #007BFF;
+nav:not([hidden]) button:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+nav:not([hidden]) button:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(0vh);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0vh);
+  }
 }
 
 button {
@@ -47,9 +70,17 @@ button {
   color: white;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  margin: 1rem;   
+  margin: 1rem;
 }
 
 button:hover {
   background-color: #0056b3;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  position: relative;
+  bottom: 0;
+  width: 100%;
 }
