@@ -1,6 +1,6 @@
 # Web Bugigangas
 
-**Version**: 2.0.0
+**Version**: 3.1.0
 
 WebBugigangas is a collection of small web applications built with **VanillaJS**.
 The project is structured using a modular architecture to maintain scalability and modularity, while keeping the code lightweight and efficient.
@@ -60,3 +60,9 @@ WebBugigangas is designed as a collection of simple web applications made 'out o
   - Removed `console.log` at [`ClickPaint/events.js`](scripts/apps/click-paint/events.js)
   - Removed dup event handler at [`home/events.js`](scripts/apps/home/events.js)
   - Refactored the missed artifacts
+- v3.1.0
+  - Back button implementation using builder pattern [`builder.js`](scripts/apps/click-paint/builder.js)
+  - Animated button reveal effects [`home.css`](styles/apps/home.css)  
+  - Consistent button styling across components [`main.css`](styles/main.css)
+  - Responsive layout with flexbox [`home.css`](styles/apps/home.css)
+  - Header hover animations [`home.css`](styles/apps/home.css)
