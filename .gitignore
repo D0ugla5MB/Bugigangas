@@ -5,3 +5,4 @@
 !/dev-tools/debbug-utils.mjs
 ./eslint-config.js
 jsconfig.json
+*.txt
