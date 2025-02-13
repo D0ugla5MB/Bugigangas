@@ -40,8 +40,9 @@ function showConsoleMsg() {
         console.warn('You are in the production environment');
     } else {
         console.warn('Remember to clear session storage while debbuging');
+        console.warn('The current debugger tool will be substituted by the browser console while a new one is being developed');
+        console.log('The values from WordSeek are still being prepared');
     }
-    console.warn('The current debugger tool will be substituted by the browser console while a new one is being developed');
 }
 
 

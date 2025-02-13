@@ -1,6 +1,6 @@
 # Web Bugigangas
 
-**Version**: 3.1.0
+**Version**: 3.2.0
 
 WebBugigangas is a collection of small web applications built with **VanillaJS**.
 The project is structured using a modular architecture to maintain scalability and modularity, while keeping the code lightweight and efficient.
@@ -66,3 +66,10 @@ WebBugigangas is designed as a collection of simple web applications made 'out o
   - Consistent button styling across components [`main.css`](styles/main.css)
   - Responsive layout with flexbox [`home.css`](styles/apps/home.css)
   - Header hover animations [`home.css`](styles/apps/home.css)
+- v3.2.0
+   **Values Configuration:**
+  - The [`values.js`](scripts/apps/wordseek/values.js) file defines constants for WordSeek, including grid elements, direction equations, [`API`](https://www.datamuse.com/api/) to fetch the data, and game mode settings.
+   **Utility Functions:**
+  - The [`utils.js`](scripts/apps/wordseek/utils.js) file provides helper functions for the WordSeek app such as generating random letters, directions, and arrow equations, as well as handling word selection.
+   **Empty/Placeholder Files:**
+  - Files like [`builder.js`](scripts/apps/wordseek/builder.js), [`events.js`](scripts/apps/wordseek/events.js), [`index.js`](scripts/apps/wordseek/index.js), and [`wordseek.js`](scripts/apps/wordseek/wordseek.js) are currently empty and likely await further implementation.
