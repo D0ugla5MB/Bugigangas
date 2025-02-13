@@ -1,3 +1,46 @@
+const EQUATIONS = Object.freeze([
+    SAFE_GRID_SIZE_EQ.CALC_SAFE_LIMIT,
+    DIRECTIONS,
+    BASE_INDEX_EQUATION.FIND_INDEX,
+    ARROWS_QUANTITY.arrows_n,
+]);
+
+const BUILDING = Object.freeze([
+    GRID_CONTAINER,
+    GRID_CELL,
+    GRID_LINE,
+    GRID,
+    WORD_COUNT,
+    LINES_SET,
+    COLOR_CORRECT,
+    COLOR_INCORRECT,
+    UNITS,
+]);
+
+const EVENTS = Object.freeze([
+    EVENTS_APPROACHES.CLICK_TO_CLICK,
+    EVENTS_APPROACHES.DRAG_SELECTION,
+    EVENTS_APPROACHES.MANUAL_SELECTION,
+]);
+
+const VALUES = Object.freeze([
+    STR_AUX,
+    GAME_MODES,
+    WORDS_CATEGORY_LIST,
+    ARROWS_EQ_LIST,
+]);
+
+export const APIs_SOURCE = Object.freeze({
+    DATAMUSE: {
+        base_url: 'https://api.datamuse.com/words?',
+        query_list: {
+            animals: 'ml=animal',
+            objects: 'ml=object',
+            food: 'ml=food',
+        }
+    }
+});
+
 const GRID_CELL = document.createElement('span');
 const GRID_LINE = document.createElement('div');
 const GRID = document.createElement('section');
@@ -28,7 +71,7 @@ const UNITS = Object.seal({
     grid_cell: '_%',
 });
 
-const API_URL = Object.freeze({ DATAMUSE: 'https://www.datamuse.com/api/' });
+
 const EVENTS_APPROACHES = Object.freeze({
     CLICK_TO_CLICK: ['click'],
     DRAG_SELECTION: ['mousedown', 'mousemove', 'mouseup'],
@@ -45,3 +88,12 @@ const GAME_MODES = Object.freeze({
     SCORE: 'score',
     HINTS: 'hints',
 });
+
+
+export default {
+    EQUATIONS,
+    BUILDING,
+    EVENTS,
+    VALUES,
+    APIs_SOURCE,
+}

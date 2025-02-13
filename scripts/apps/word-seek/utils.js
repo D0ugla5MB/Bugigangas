@@ -1,6 +1,22 @@
 import { utils as ParentUtils } from "/scripts/utils.js";
 import { STR_AUX, DIRECTIONS, WORDS_CATEGORY_LIST, ARROWS_EQ_LIST } from "/scripts/apps/word-seek/values.js";
 
+function defineGridSize(largerWord) {
+    return
+}
+
+function validateUserInput() { }
+
+export async function fetchData(url) {
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        console.log(data);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+};
+
 function getRdnLetter() {
     return STR_AUX[ParentUtils.rng(0, STR_AUX.length - 1)];
 }
