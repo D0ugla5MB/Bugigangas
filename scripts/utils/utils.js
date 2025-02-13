@@ -44,10 +44,41 @@ function showConsoleMsg() {
     console.warn('The current debugger tool will be substituted by the browser console while a new one is being developed');
 }
 
+
+function debounce(func, delay) {
+    let timer = null;
+
+    return function (...args) {
+        clearTimeout(timer);
+
+        timer = setTimeout(() => {
+            func.apply(this, args);
+        }, delay);
+    };
+}
+
+function rng(min, max) {
+    if (typeof min !== 'number' && typeof max !== 'number') {
+        return NaN;
+    }
+    if (min > max) {
+        min = min + max;
+        max = min - max;
+        min = min - max;
+    }
+    if (min === max) {
+        min = 0;
+    }
+
+    return Math.floor(Math.random() * (max - min + 1) + min);
+};
+
 export default {
     clearContainer,
     clearHeadLinks,
     clearSessionStorage,
     showConsoleMsg,
     appendLog,
+    debounce,
+    rng
 };

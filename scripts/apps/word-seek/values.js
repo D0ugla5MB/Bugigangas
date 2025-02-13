@@ -1,10 +1,10 @@
 const GRID_CELL = document.createElement('span');
 const GRID_LINE = document.createElement('div');
 const GRID = document.createElement('section');
-const WORD_SCORE = document.createElement('div');
-const LINES_SET = [];
-const WORD_LIST = {};
-const ARROWS_EQ_LIST = [];
+const WORD_COUNT = document.createElement('div');
+const LINES_SET = Object.freeze([]);
+const WORDS_CATEGORY_LIST = Object.freeze([]);
+const ARROWS_EQ_LIST = Object.freeze([]);
 const BASE_INDEX_EQUATION = Object.freeze({
     FIND_INDEX: (arr_len, sub_arr_len, sub_arr_n, sub_arr_index) =>
         (Math.floor(arr_len / sub_arr_len)) * sub_arr_n + sub_arr_index
@@ -37,3 +37,11 @@ const EVENTS_APPROACHES = Object.freeze({
 const SAFE_GRID_SIZE_EQ = Object.freeze({ CALC_SAFE_LIMIT: (word_long_s) => 2 * (word_long_s + Math.floor(word_long_s / 2)) });
 
 const STR_AUX = Object.freeze({ LETTERS: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' });
+const COLOR_CORRECT = Object.freeze('#00ff00');
+const COLOR_INCORRECT = Object.freeze('#ff0000');
+const GAME_MODES = Object.freeze({
+    CLASSIC: 'classic',
+    TIMER: 'timer',
+    SCORE: 'score',
+    HINTS: 'hints',
+});
