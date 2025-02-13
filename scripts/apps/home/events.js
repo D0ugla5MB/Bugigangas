@@ -16,6 +16,9 @@ const buttonHandlers = {
         }
         router.changeRoute(constants.ROUTES.hashHome);
     },
+    [constants.DOM.btnIds.wordSeek]: () => {
+        router.changeRoute(constants.ROUTES.hashWordSeek);
+    }
 };
 
 const BUTTON_MAP = {
@@ -32,6 +35,11 @@ const BUTTON_MAP = {
         id: constants.DOM.btnIds.back || constants.DOM.btnIds.home,
         handler: buttonHandlers[constants.DOM.btnIds.back]
     },
+    [constants.DOM.btnIds.wordSeek]: {
+        id: constants.DOM.btnIds.wordSeek,
+        route: constants.ROUTES.hashWordSeek,
+        handler: buttonHandlers[constants.DOM.btnIds.wordSeek]
+    }
 };
 
 function changeBtnView(btnId) {

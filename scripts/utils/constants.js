@@ -11,6 +11,7 @@ const DOM = {
         error: 'btn_err',
         clickPaint: 'btn_click-paint',
         back: 'btn_back-home',
+        wordSeek: 'btn_word-seek',
     },
     delegator: {
         root: 'root',
@@ -24,6 +25,7 @@ const ROUTES = {
     hashHome: '#home',
     hashError: '#error',
     hashClickPaint: '#clickpaint',
+    hashWordSeek: '#wordseek',
 };
 
 const mapApps = [
@@ -44,7 +46,13 @@ const mapApps = [
         css: '/styles/apps/error.css',
         module: null,
         main: null
-    }]
+    }],
+    ['wordseek', {
+        html: '/pages/wordseek.html',
+        css: '/styles/apps/wordseek.css',
+        module: '/scripts/apps/word-seek/WordSeek.js',
+        main: null,
+    }],
 ];
 
 const ENV_VAR = 'https://web-bugigangas.vercel.app/';
