@@ -38,5 +38,8 @@
     "chokidar": "^3.5.3",
     "readdirp": "^3.6.0",
     "braces": "^3.0.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7"
   }
 }
