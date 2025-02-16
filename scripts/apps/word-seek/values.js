@@ -30,13 +30,11 @@ const VALUES = Object.freeze([
     ARROWS_EQ_LIST,
 ]);
 
-export const APIs_SOURCE = Object.freeze({
+const DATA_SOURCE = Object.freeze({
     DATAMUSE: {
-        base_url: 'https://api.datamuse.com/words?',
+        end_point: 'https://api.datamuse.com/words?',
         query_list: {
-            animals: 'ml=animal',
-            objects: 'ml=object',
-            food: 'ml=food',
+            animals: ['ml=animal&rel_gen=animal&max=10','rel_gen=animal&max=10' ],
         }
     }
 });

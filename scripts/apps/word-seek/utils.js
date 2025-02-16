@@ -7,16 +7,6 @@ function defineGridSize(largerWord) {
 
 function validateUserInput() { }
 
-export async function fetchData(url) {
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-        console.log(data);
-    } catch (error) {
-        console.error('Error:', error);
-    }
-};
-
 function getRdnLetter() {
     return STR_AUX[ParentUtils.rng(0, STR_AUX.length - 1)];
 }

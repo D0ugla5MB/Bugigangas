@@ -1,5 +1,13 @@
 // TODO: Refactor apps metadata into a more structured format
 
+const DATA_FILES = {
+    WordSeek: [
+        '../data/words/animals.csv',
+        '../data/words/countries.csv',
+        '../data/words/food.csv',
+    ],    
+}
+
 const DOM = {
     indexContainerId: 'root',
     navMenu: 'nav_menu',
@@ -63,4 +71,5 @@ export default {
     ROUTES,
     mapApps,
     ENV_VAR,
+    DATA_FILES,
 };
