@@ -18,14 +18,13 @@ const gridLine = (lineBase, ...info) => {
     return line;
 }
 
-export function buildGrid(gridBase = BUILDING.gridContainer, dimension, ...info) {
-    const grid = gridBase;
+export function buildGrid(gridBase, dimension, ...info) {
     const { gridId } = info;
     const cellSet = [];
     const lineSet = [];
     const cellQuantity = dimension * dimension;
 
-    grid.id = gridId;
+    gridBase.id = gridId;
 
     for (let i = 0; i < dimension; i++) {
         lineSet.push(
@@ -46,7 +45,7 @@ export function buildGrid(gridBase = BUILDING.gridContainer, dimension, ...info)
         };
     }
 
-    grid.appendChild(lineSet);
+    gridBase.appendChild(lineSet);
     return grid;
 }
 

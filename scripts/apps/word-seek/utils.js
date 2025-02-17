@@ -1,4 +1,4 @@
-import { utils as ParentUtils } from "/scripts/utils.js";
+import { utils as ParentUtils } from "/scripts/utils/index.js";
 import { EQUATIONS, BUILDING, EVENTS, VALUES } from "/scripts/apps/word-seek/values.js";
 
 function defineGridSize(largerWord) {
