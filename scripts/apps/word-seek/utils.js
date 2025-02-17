@@ -1,5 +1,5 @@
 import { utils as ParentUtils } from "/scripts/utils.js";
-import { STR_AUX, DIRECTIONS, WORDS_CATEGORY_LIST, ARROWS_EQ_LIST } from "/scripts/apps/word-seek/values.js";
+import { EQUATIONS, BUILDING, EVENTS, VALUES } from "/scripts/apps/word-seek/values.js";
 
 function defineGridSize(largerWord) {
     return
@@ -7,27 +7,36 @@ function defineGridSize(largerWord) {
 
 function validateUserInput() { }
 
-function getRdnLetter() {
-    return STR_AUX[ParentUtils.rng(0, STR_AUX.length - 1)];
+export function getRdnLetter() {
+    const letters = VALUES.strAux.LETTERS;
+    return letters[ParentUtils.rng(0, letters.length - 1)];
 }
 
 function getRdnDirection() {
-    return DIRECTIONS[ParentUtils.rng(0, DIRECTIONS.length - 1)];
+    const directionsArr = Object.values(EQUATIONS.directions);
+    return directionsArr[ParentUtils.rng(0, directionsArr.length - 1)];
 }
 
 function getRdnArrowEquation() {
-    return ARROWS_EQ_LIST[ParentUtils.rng(0, ARROWS_EQ_LIST.length - 1)];
+    return VALUES.arrowsEqList[ParentUtils.rng(0, VALUES.arrowsEqList.length - 1)];
+}
+
+function selectGridSize(larger_word_size) {
+    if (larger_word_size < 10) return VALUES.gridDefaultSize[0];
+    if (larger_word_size < 15) return VALUES.gridDefaultSize[1];
+    if (larger_word_size < 20) return VALUES.gridDefaultSize[2];
+    return EQUATIONS.calcSafeLimit(larger_word_size);
 }
 
 function selectRdnWord(categoryList) {
-    if (categoryList.length === 0 || !categoryList) {
+    if (!categoryList || categoryList.length === 0) {
         return null;
     }
     return categoryList[ParentUtils.rng(0, categoryList.length - 1)];
 }
 
-function selectCategory(categoryList = WORDS_CATEGORY_LIST, categoryOption) {
-    if (categoryList.length === 0 || typeof categoryList !== 'object' || !Array.isArray(categoryList)) {
+function selectCategory(categoryList = VALUES.wordsCategoryList, categoryOption) {
+    if (!Array.isArray(categoryList) || categoryList.length === 0) {
         return [];
     }
     if (typeof categoryOption !== 'string') {
@@ -64,7 +73,7 @@ const foundWords = (word) => {
 const bufferLetter = (...info) => {
     return () => {
         const [letter, index, drct_type] = info;
-        return { letter, inde, drct_type };
+        return { letter, index, drct_type };
     };
 };
 
@@ -73,4 +82,4 @@ const targetWords = (...param) => {
      * the param could be: target words, found words, or both
      * the type of param could be: object or string
      */
-}
+};

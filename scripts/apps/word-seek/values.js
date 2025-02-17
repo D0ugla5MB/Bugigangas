@@ -1,42 +1,37 @@
-const EQUATIONS = Object.freeze([
-    SAFE_GRID_SIZE_EQ.CALC_SAFE_LIMIT,
-    DIRECTIONS,
-    BASE_INDEX_EQUATION.FIND_INDEX,
-    ARROWS_QUANTITY.arrows_n,
-]);
+export const EQUATIONS = Object.freeze({
+    calcSafeLimit: SAFE_GRID_SIZE_EQ.CALC_SAFE_LIMIT,
+    directions: DIRECTIONS,
+    findIndex: BASE_INDEX_EQUATION.FIND_INDEX,
+    arrowsQuantity: ARROWS_QUANTITY.arrows_n,
+});
 
-const BUILDING = Object.freeze([
-    GRID_CONTAINER,
-    GRID_CELL,
-    GRID_LINE,
-    GRID,
-    WORD_COUNT,
-    LINES_SET,
-    COLOR_CORRECT,
-    COLOR_INCORRECT,
-    UNITS,
-]);
+export const BUILDING = Object.freeze({
+    gridCell: GRID_CELL,
+    gridLine: GRID_LINE,
+    gridContainer: GRID,
+    wordCount: WORD_COUNT,
+    linesSet: LINES_SET,
+    colorCorrect: COLOR_CORRECT,
+    colorIncorrect: COLOR_INCORRECT,
+    units: UNITS,
+});
 
-const EVENTS = Object.freeze([
-    EVENTS_APPROACHES.CLICK_TO_CLICK,
-    EVENTS_APPROACHES.DRAG_SELECTION,
-    EVENTS_APPROACHES.MANUAL_SELECTION,
-]);
+export const EVENTS = Object.freeze({
+    clickToClick: EVENTS_APPROACHES.CLICK_TO_CLICK,
+    dragSelection: EVENTS_APPROACHES.DRAG_SELECTION,
+    manualSelection: EVENTS_APPROACHES.MANUAL_SELECTION,
+});
 
-const VALUES = Object.freeze([
-    STR_AUX,
-    GAME_MODES,
-    WORDS_CATEGORY_LIST,
-    ARROWS_EQ_LIST,
-]);
+export const VALUES = Object.freeze({
+    strAux: STR_AUX,
+    gameModes: GAME_MODES,
+    wordsCategoryList: WORDS_CATEGORY_LIST,
+    arrowsEqList: ARROWS_EQUATIONS,
+    gridDefaultSize: GRID_DEFAULT_SIZE,
+});
 
-const DATA_SOURCE = Object.freeze({
-    DATAMUSE: {
-        end_point: 'https://api.datamuse.com/words?',
-        query_list: {
-            animals: ['ml=animal&rel_gen=animal&max=10','rel_gen=animal&max=10' ],
-        }
-    }
+export const DATA_SOURCE = Object.freeze({
+
 });
 
 const GRID_CELL = document.createElement('span');
@@ -45,15 +40,15 @@ const GRID = document.createElement('section');
 const WORD_COUNT = document.createElement('div');
 const LINES_SET = Object.freeze([]);
 const WORDS_CATEGORY_LIST = Object.freeze([]);
-const ARROWS_EQ_LIST = Object.freeze([]);
 const BASE_INDEX_EQUATION = Object.freeze({
-    FIND_INDEX: (arr_len, sub_arr_len, sub_arr_n, sub_arr_index) =>
-        (Math.floor(arr_len / sub_arr_len)) * sub_arr_n + sub_arr_index
+    FIND_INDEX: (arr_len, sub_arr_len, sub_arr_r, sub_arr_c) =>
+        (Math.floor(arr_len / sub_arr_len)) * sub_arr_r + sub_arr_c
 });
+const ARROWS_EQUATIONS = Object.freeze({});
 const ARROWS_QUANTITY = Object.freeze({ arrows_n: (matrix_side_size) => { 4 * matrix_side_size - 8 } });
 const DIRECTIONS = Object.freeze({
-    LEFT: (n) => -n + 1,
-    RIGHT: (n) => n - 1,
+    LEFT: (n) => n - 1,
+    RIGHT: (n) => n + 1,
     UP: (sub_arr_len, n) => -sub_arr_len * n + sub_arr_len,
     DOWN: (sub_arr_len, n) => sub_arr_len * n - sub_arr_len,
     TOP_LEFT: (sub_arr_len, n) => -sub_arr_len * n + sub_arr_len - n + 1,
@@ -87,11 +82,11 @@ const GAME_MODES = Object.freeze({
     HINTS: 'hints',
 });
 
+const GRID_DEFAULT_SIZE = [10, 15, 20];
 
 export default {
     EQUATIONS,
     BUILDING,
     EVENTS,
     VALUES,
-    APIs_SOURCE,
 }
