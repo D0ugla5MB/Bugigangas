@@ -38,26 +38,12 @@ export function buildGrid(gridBase, dimension, ...info) {
         );
     }
 
-    console.log(cellSet[0]); // true
-    console.log(cellSet[1]); // true
-
-    console.log({
-        firstCell_type: cellSet[0].outerHTML,
-        firstLine_type: lineSet[0].outerHTML
-    });
-
     for (const l of lineSet) {
-        l.innerHTML = (() => {
-            for (let i = 0; i < dimension; i++) {
-                l.appendChild(cellSet[i]);
-            }
-        })();
-        console.log(l);
+        const cells = cellSet.splice(0, 10);
+        l.append(...cells);
     }
 
-
-
-    grid.appendChild(...lineSet);
+    grid.append(...lineSet);
     return grid;
 }
 
