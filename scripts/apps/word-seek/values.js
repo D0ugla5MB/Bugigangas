@@ -1,8 +1,7 @@
-
-const GRID_CELL = document.createElement('span');
-const GRID_LINE = document.createElement('div');
-const GRID = document.createElement('section');
-const WORD_COUNT = document.createElement('div');
+const GRID_CELL = 'span';
+const GRID_LINE = 'div'; 
+const GRID = 'section';
+const WORD_COUNT = 'div';
 const LINES_SET = Object.freeze([]);
 const WORDS_CATEGORY_LIST = Object.freeze([]);
 const BASE_INDEX_EQUATION = Object.freeze({

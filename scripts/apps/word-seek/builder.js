@@ -2,8 +2,8 @@ import { BUILDING, VALUES } from "./values.js";
 import { getRdnLetter } from "./utils.js";
 
 const gridCell = (cellBase, gridLetter, ...info) => {
-    const cell = cellBase;
-    const { gridId } = info;
+    const cell = document.createElement(cellBase);
+    const [{ gridId }] = info;
 
     cell.innerHTML = gridLetter;
     cell.id = gridId;
@@ -11,20 +11,21 @@ const gridCell = (cellBase, gridLetter, ...info) => {
 }
 
 const gridLine = (lineBase, ...info) => {
-    const line = lineBase;
-    const { lineId } = info;
+    const line = document.createElement(lineBase);
+    const [{ lineId }] = info;
 
     line.id = lineId;
     return line;
 }
 
 export function buildGrid(gridBase, dimension, ...info) {
-    const { gridId } = info;
+    const [{ gridId }] = info;
     const cellSet = [];
     const lineSet = [];
     const cellQuantity = dimension * dimension;
+    const grid = document.createElement(gridBase);
 
-    gridBase.id = gridId;
+    grid.id = gridId;
 
     for (let i = 0; i < dimension; i++) {
         lineSet.push(
@@ -37,15 +38,26 @@ export function buildGrid(gridBase, dimension, ...info) {
         );
     }
 
+    console.log(cellSet[0]); // true
+    console.log(cellSet[1]); // true
+
+    console.log({
+        firstCell_type: cellSet[0].outerHTML,
+        firstLine_type: lineSet[0].outerHTML
+    });
+
     for (const l of lineSet) {
-        l.innerHTML = () => {
+        l.innerHTML = (() => {
             for (let i = 0; i < dimension; i++) {
                 l.appendChild(cellSet[i]);
             }
-        };
+        })();
+        console.log(l);
     }
 
-    gridBase.appendChild(lineSet);
+
+
+    grid.appendChild(...lineSet);
     return grid;
 }
 
