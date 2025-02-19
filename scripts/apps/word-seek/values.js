@@ -1,4 +1,3 @@
-const MAIN_CONTAINER = Object.freeze('main');
 const TEXT = Object.freeze('p');
 const GRID_CELL = Object.freeze('span');
 const GRID_LINE = Object.freeze('div');
@@ -91,7 +90,6 @@ export const BUILDING = Object.freeze({
     Text: TEXT,
     linesSet: LINES_SET,
     units: UNITS,
-    main: MAIN_CONTAINER,
 });
 
 export const EVENTS = Object.freeze({

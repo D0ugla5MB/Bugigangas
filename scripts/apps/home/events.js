@@ -17,11 +17,7 @@ const buttonHandlers = {
         router.changeRoute(constants.ROUTES.hashHome);
     },
     [constants.DOM.btnIds.wordSeek]: () => {
-        if (window.location.origin === constants.ENV_VAR.slice(0, -1)) {
-            router.changeRoute(constants.ROUTES.hashWordSeekSoon);
-        } else {
-            router.changeRoute(constants.ROUTES.hashWordSeek);
-        }
+        router.changeRoute(constants.ROUTES.hashWordSeek);
     }
 };
 

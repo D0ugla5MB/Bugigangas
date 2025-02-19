@@ -1,11 +1,6 @@
 import { BUILDING, VALUES } from "./values.js";
 import { getRdnLetter, wordCounter } from "./utils.js";
 
-export const mainContainer = (elem) => {
-    const main = document.createElement(elem);
-    main.classList.toggle('main-blocked');
-    return main;
-}
 
 const gridCell = (cellBase, gridLetter, ...info) => {
     const cell = document.createElement(cellBase);
@@ -56,25 +51,27 @@ export function buildGrid(gridBase, dimension, ...info) {
 export function buildCategoryMenu(menuParts, ...info) {
     const { menuBase, menuBtn, menuOpt } = menuParts;
     const [{ menuId, txt }] = info;
-    const menu = document.createElement(menuBase);
-    const buttons = {
-        random: document.createElement(menuBtn),
-        specific: document.createElement(menuBtn)
-    };
-    const optionsList = document.createElement(menuOpt);
+
     const customTxt = (content) => {
         const text = document.createElement(txt);
         text.textContent = content;
         return text;
     };
 
+    const menu = document.createElement(menuBase);
     menu.id = menuId;
+
+    const buttons = {
+        random: document.createElement(menuBtn),
+        specific: document.createElement(menuBtn)
+    };
 
     buttons.random.id = 'btn-random';
     buttons.random.append(customTxt('Random Category'));
     buttons.specific.id = 'btn-specific';
     buttons.specific.append(customTxt('Select Category'));
 
+    const optionsList = document.createElement(menuOpt);
     optionsList.id = 'category-options';
 
     VALUES.wordsCategoryList.forEach(category => {
@@ -91,9 +88,8 @@ export function buildCategoryMenu(menuParts, ...info) {
 
 export function buildWordCounter(wordCounterParts, counterFunc, ...info) {
     const { counter, current, total, fraction, fracBar } = wordCounterParts;
-    const [{ counterId, fractionId, numId, denId, lineClass }] = info;
-    const auxCnt = counterFunc;
-    
+    const [{ counterId }] = info;
+
     const wordCounter = document.createElement(counter);
     const currentWords = document.createElement(current);
     const totalWords = document.createElement(total);
@@ -101,15 +97,9 @@ export function buildWordCounter(wordCounterParts, counterFunc, ...info) {
     const divisionBar = document.createElement(fracBar);
 
     wordCounter.id = counterId;
-    fractionDiv.id = fractionId;
-    currentWords.id = numId;
-    totalWords.id = denId;
-    divisionBar.className = lineClass;
-    
-    currentWords.innerHTML = auxCnt().num; 
+    currentWords.innerHTML = counterFunc(); //TODO: pass args to counterFunc
     divisionBar.textContent = '/';
-    totalWords.innerHTML = auxCnt().den;
-
+    
     fractionDiv.append(currentWords, divisionBar, totalWords);
     wordCounter.append(fractionDiv);
 
@@ -119,6 +109,5 @@ export function buildWordCounter(wordCounterParts, counterFunc, ...info) {
 export default {
     buildGrid,
     buildCategoryMenu,
-    buildWordCounter,
-    mainContainer
+    buildWordCounter
 };

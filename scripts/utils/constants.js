@@ -5,7 +5,7 @@ const DATA_FILES = {
         '../data/words/animals.csv',
         '../data/words/countries.csv',
         '../data/words/food.csv',
-    ],
+    ],    
 }
 
 const DOM = {
@@ -34,7 +34,6 @@ const ROUTES = {
     hashError: '#error',
     hashClickPaint: '#clickpaint',
     hashWordSeek: '#wordseek',
-    hashWordSeekSoon: '#wordseek_soon',
 };
 
 //TODO: make a most general data structure; allow multiple values for each objecs props' values
@@ -63,12 +62,6 @@ const mapApps = [
         module: '/scripts/apps/word-seek/wordseek.js',
         main: 'runWordSeek',
     }],
-    ['wordseek_soon', {
-        html: '/pages/wordseek_soon.html',
-        css: '/styles/apps/wordseek_soon.css',
-        module: null,
-        main: null,
-    }]
 ];
 
 const ENV_VAR = 'https://web-bugigangas.vercel.app/';
