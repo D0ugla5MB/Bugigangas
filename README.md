@@ -73,3 +73,19 @@ WebBugigangas is designed as a collection of simple web applications made 'out o
   - The [`utils.js`](scripts/apps/wordseek/utils.js) file provides helper functions for the WordSeek app such as generating random letters, directions, and arrow equations, as well as handling word selection.
    **Empty/Placeholder Files:**
   - Files like [`builder.js`](scripts/apps/wordseek/builder.js), [`events.js`](scripts/apps/wordseek/events.js), [`index.js`](scripts/apps/wordseek/index.js), and [`wordseek.js`](scripts/apps/wordseek/wordseek.js) are currently empty and likely await further implementation.
+- v3.2.1
+  - **WordSeek Core**
+    - Grid generation system
+    - Category menu implementation
+    - Word counter functionality
+    - Data structure for word categories
+  - **Key Components**
+    - Grid layout system
+    - Coming soon page
+    - Word counter UI
+    - Category menu interface
+  - **Technical Updates**
+    - Environment variables
+    - Data loading utilities
+    - Enhanced routing
+    - Builder pattern implementation
