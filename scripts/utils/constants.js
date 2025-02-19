@@ -34,7 +34,7 @@ const ROUTES = {
     hashError: '#error',
     hashClickPaint: '#clickpaint',
     hashWordSeek: '#wordseek',
-    hashWordSeekSoon: '#wordseek_soon',
+    hashWordSeekSoon: '#wordseeksoon',
 };
 
 //TODO: make a most general data structure; allow multiple values for each objecs props' values
