@@ -71,7 +71,7 @@ const mapApps = [
     }]
 ];
 
-const ENV_VAR = 'https://web-bugigangas.vercel.app/';
+const ENV_VAR = 'https://web-bugigangas.vercel.app';
 
 
 export default {
