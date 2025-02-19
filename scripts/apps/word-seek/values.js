@@ -80,10 +80,6 @@ export const VALUES = Object.freeze({
     gridDefaultSize: GRID_DEFAULT_SIZE,
 });
 
-export const DATA_SOURCE = Object.freeze({
-
-});
-
 export default {
     EQUATIONS,
     BUILDING,

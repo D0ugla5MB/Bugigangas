@@ -21,28 +21,11 @@ function getRdnArrowEquation() {
     return VALUES.arrowsEqList[ParentUtils.rng(0, VALUES.arrowsEqList.length - 1)];
 }
 
-function selectGridSize(larger_word_size) {
+export function selectGridSize(larger_word_size) {
     if (larger_word_size < 10) return VALUES.gridDefaultSize[0];
     if (larger_word_size < 15) return VALUES.gridDefaultSize[1];
     if (larger_word_size < 20) return VALUES.gridDefaultSize[2];
     return EQUATIONS.calcSafeLimit(larger_word_size);
-}
-
-function selectRdnWord(categoryList) {
-    if (!categoryList || categoryList.length === 0) {
-        return null;
-    }
-    return categoryList[ParentUtils.rng(0, categoryList.length - 1)];
-}
-
-function selectCategory(categoryList = VALUES.wordsCategoryList, categoryOption) {
-    if (!Array.isArray(categoryList) || categoryList.length === 0) {
-        return [];
-    }
-    if (typeof categoryOption !== 'string') {
-        return '';
-    }
-    return categoryList[ParentUtils.rng(0, categoryList.length - 1)];
 }
 
 const wordCounter = (foundWordList, targetWordList) => {
