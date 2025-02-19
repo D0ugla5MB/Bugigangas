@@ -1,5 +1,17 @@
 /*main-blocked*/
 
+
+.line {
+    background: black;
+    margin: 2px 0;
+}
+
+#fraction {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 #wordseek-app {
     display: flex;
     align-items: center;

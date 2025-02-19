@@ -29,7 +29,8 @@ export function selectGridSize(larger_word_size) {
 }
 
 export const wordCounter = (foundWordList, targetWordList) => {
-    let foundSize, targetSize = -1;
+    let foundSize = -1;
+    let targetSize = -1;
 
     if (typeof foundWordList !== 'number' && typeof targetWordList !== 'number') {
         return { foundSize, targetSize };
@@ -40,8 +41,7 @@ export const wordCounter = (foundWordList, targetWordList) => {
     }
 
     return () => {
-        let cnt = Math.floor((foundSize / targetSize));
-        return cnt !== targetSize ? { findAll: false, wordCnt: cnt } : { findAll: true, wordCnt: cnt };
+        return foundSize !== targetSize ? { findAll: false, num: foundSize, den: targetSize } : { findAll: true, num: foundSize, den: targetSize };
     }
 }
 

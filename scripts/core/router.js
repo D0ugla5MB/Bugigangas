@@ -17,6 +17,8 @@ function getPathnameHash() {
 			return constants.mapApps.find(([key]) => key === 'clickpaint')[1].html;
 		case constants.ROUTES.hashWordSeek:
 			return constants.mapApps.find(([key]) => key === 'wordseek')[1].html;
+		case constants.ROUTES.hashWordSeekSoon:
+			return constants.mapApps.find(([key]) => key === 'wordseek_soon')[1].html;
 		default:
 			return constants.mapApps.find(([key]) => key === 'error')[1].html;
 	}
