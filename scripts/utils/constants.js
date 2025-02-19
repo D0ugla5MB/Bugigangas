@@ -63,9 +63,9 @@ const mapApps = [
         module: '/scripts/apps/word-seek/wordseek.js',
         main: 'runWordSeek',
     }],
-    ['wordseek_soon', {
-        html: '/pages/wordseek_soon.html',
-        css: '/styles/apps/wordseek_soon.css',
+    ['wordseeksoon', {
+        html: '/pages/wordseeksoon.html',
+        css: '/styles/apps/wordseeksoon.css',
         module: null,
         main: null,
     }]
