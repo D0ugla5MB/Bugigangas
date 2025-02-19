@@ -1,5 +1,5 @@
 import { BUILDING, VALUES } from "./values.js";
-import { getRdnLetter } from "./utils.js";
+import { getRdnLetter, wordCounter } from "./utils.js";
 
 
 const gridCell = (cellBase, gridLetter, ...info) => {
@@ -51,7 +51,7 @@ export function buildGrid(gridBase, dimension, ...info) {
 export function buildCategoryMenu(menuParts, ...info) {
     const { menuBase, menuBtn, menuOpt } = menuParts;
     const [{ menuId, txt }] = info;
-    
+
     const customTxt = (content) => {
         const text = document.createElement(txt);
         text.textContent = content;
@@ -86,8 +86,26 @@ export function buildCategoryMenu(menuParts, ...info) {
     return menu;
 }
 
+export function buildWordCounter(wordCounterParts, counterFunc, ...info) {
+    const { counter, current, total } = wordCounterParts;
+    const [{ counterId }] = info;
+
+    const wordCounter = document.createElement(counter);
+    const currentWords = document.createElement(current);
+    const totalWords = document.createElement(total);
+    const fraction = document.createElement('div');
+
+    wordCounter.id = counterId;
+    currentWords.innerHTML = counterFunc();
+    fraction.append(currentWords, '/', totalWords);
+    wordCounter.append(fraction);
+
+
+    return wordCounter;
+}
 
 export default {
     buildGrid,
-    buildCategoryMenu
+    buildCategoryMenu,
+    buildWordCounter
 };

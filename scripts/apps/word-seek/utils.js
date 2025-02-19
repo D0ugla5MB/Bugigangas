@@ -28,7 +28,7 @@ export function selectGridSize(larger_word_size) {
     return EQUATIONS.calcSafeLimit(larger_word_size);
 }
 
-const wordCounter = (foundWordList, targetWordList) => {
+export const wordCounter = (foundWordList, targetWordList) => {
     let foundSize, targetSize = -1;
 
     if (typeof foundWordList !== 'number' && typeof targetWordList !== 'number') {
