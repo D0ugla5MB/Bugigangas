@@ -1,9 +1,15 @@
+const TEXT = 'p';
 const GRID_CELL = 'span';
-const GRID_LINE = 'div'; 
+const GRID_LINE = 'div';
 const GRID = 'section';
+const CATEGORY_MENU = 'section';
+const CATEGORY_MENU_BTN = 'btn';
+const CATEGORY_MENU_OPTIONS = 'nav';
 const WORD_COUNT = 'div';
 const LINES_SET = Object.freeze([]);
-const WORDS_CATEGORY_LIST = Object.freeze([]);
+const WORDS_CATEGORY_LIST = Object.freeze([
+    'Animals', 'Objects'
+]);
 const BASE_INDEX_EQUATION = Object.freeze({
     FIND_INDEX: (arr_len, sub_arr_len, sub_arr_r, sub_arr_c) =>
         (Math.floor(arr_len / sub_arr_len)) * sub_arr_r + sub_arr_c
@@ -64,6 +70,12 @@ export const BUILDING = Object.freeze({
     colorCorrect: COLOR_CORRECT,
     colorIncorrect: COLOR_INCORRECT,
     units: UNITS,
+    category: {
+        menuBase: CATEGORY_MENU,
+        menuBtn: CATEGORY_MENU_BTN,
+        menuOpt: CATEGORY_MENU_OPTIONS
+    },
+    txt: TEXT,
 });
 
 export const EVENTS = Object.freeze({
