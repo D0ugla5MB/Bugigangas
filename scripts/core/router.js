@@ -5,23 +5,23 @@ function changeRoute(route) {
 }
 
 function getPathnameHash() {
-	const hash = window.location.hash || '/';
+    const hash = window.location.hash || '/';
 
-	switch (hash) {
-		case '':
-		case '/':
-		case constants.ROUTES.hash:
-		case constants.ROUTES.hashHome:
-			return constants.mapApps.find(([key]) => key === 'home')[1].html;
-		case constants.ROUTES.hashClickPaint:
-			return constants.mapApps.find(([key]) => key === 'clickpaint')[1].html;
-		case constants.ROUTES.hashWordSeek:
-			return constants.mapApps.find(([key]) => key === 'wordseek')[1].html;
-		case constants.ROUTES.hashWordSeekSoon:
-			return constants.mapApps.find(([key]) => key === 'wordseeksoon')[1].html;
-		default:
-			return constants.mapApps.find(([key]) => key === 'error')[1].html;
-	}
+    switch (hash) {
+        case '':
+        case '/':
+        case constants.ROUTES.hash:
+        case constants.ROUTES.hashHome:
+            return 'home';
+        case constants.ROUTES.hashClickPaint:
+            return 'clickpaint'; 
+        case constants.ROUTES.hashWordSeek:
+            return 'wordseek';
+        case constants.ROUTES.hashWordSeekSoon:
+            return 'wordseeksoon';
+        default:
+            return 'error';
+    }
 }
 
 export default {

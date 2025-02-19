@@ -3,18 +3,19 @@ import builder from './builder.js';
 import { constants } from '../utils/index.js';
 
 function selectApp(appUrlHash) {
-	if (appUrlHash === constants.ROUTES.hashError) {
-		return constants.mapApps.find(([key]) => key === 'error')[1];
+	switch (appUrlHash) {
+		case 'home':
+			return constants.mapApps.find(([k]) => k === 'home')[1];
+		case 'clickpaint':
+			return constants.mapApps.find(([k]) => k === 'clickpaint')[1];
+		case 'wordseek':
+			return constants.mapApps.find(([k]) => k === 'wordseek')[1];
+		case 'wordseeksoon':
+			return constants.mapApps.find(([k]) => k === 'wordseeksoon')[1];
+		default:
+			return constants.mapApps.find(([k]) => k === 'error')[1];
 	}
-
-	const appResources = constants.mapApps.find(([key]) => appUrlHash.includes(key))?.[1] || null;
-	if (!appResources) {
-		console.warn(`No matching app for URL: ${appUrlHash}, falling back to error page`);
-		return constants.mapApps.find(([key]) => key === 'error')[1];
-	}
-	return appResources;
 }
-
 /**
  * Resource Loading Functions
  * ------------------------

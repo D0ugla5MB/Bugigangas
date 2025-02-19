@@ -10,8 +10,6 @@ export function runWordSeek() {
     const grid = buildGrid(BUILDING.Grid.gridContainer, VALUES.gridDefaultSize[0], { gridId: 'grid' });
     const wordCounter = buildWordCounter(BUILDING.WordCounter, counterFunc(2, 10), { counterId: 'word-counter', fractionId: 'fraction', numId: 'num', denId: 'den', lineClass: 'line' });
 
-    console.log(menu);
-    console.log(wordCounter);
 
     main.appendChild(grid);
     main.appendChild(wordCounter);
