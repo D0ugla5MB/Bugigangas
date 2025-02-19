@@ -3,7 +3,7 @@ import * as Modules from './index.js';
 (function init() {
 
     //CAUTION TO USE IT AT PRODUCTION ENVIRONMENT
-    Modules.Utils.utils.showConsoleMsg();
+    Modules.Utils.utils.showConsoleMsg(Modules.Utils.constants.ENV_VAR);
 
     window.eventTracker = Modules.Core.events.initEventTracker();
 

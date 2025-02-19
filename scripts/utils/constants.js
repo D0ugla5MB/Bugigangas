@@ -1,5 +1,13 @@
 // TODO: Refactor apps metadata into a more structured format
 
+const DATA_FILES = {
+    WordSeek: [
+        '../data/words/animals.csv',
+        '../data/words/countries.csv',
+        '../data/words/food.csv',
+    ],
+}
+
 const DOM = {
     indexContainerId: 'root',
     navMenu: 'nav_menu',
@@ -26,8 +34,10 @@ const ROUTES = {
     hashError: '#error',
     hashClickPaint: '#clickpaint',
     hashWordSeek: '#wordseek',
+    hashWordSeekSoon: '#wordseek_soon',
 };
 
+//TODO: make a most general data structure; allow multiple values for each objecs props' values
 const mapApps = [
     ['home', {
         html: '/pages/home.html',
@@ -50,9 +60,15 @@ const mapApps = [
     ['wordseek', {
         html: '/pages/wordseek.html',
         css: '/styles/apps/wordseek.css',
-        module: '/scripts/apps/word-seek/WordSeek.js',
-        main: null,
+        module: '/scripts/apps/word-seek/wordseek.js',
+        main: 'runWordSeek',
     }],
+    ['wordseek_soon', {
+        html: '/pages/wordseek_soon.html',
+        css: '/styles/apps/wordseek_soon.css',
+        module: null,
+        main: null,
+    }]
 ];
 
 const ENV_VAR = 'https://web-bugigangas.vercel.app/';
@@ -63,4 +79,5 @@ export default {
     ROUTES,
     mapApps,
     ENV_VAR,
+    DATA_FILES,
 };
