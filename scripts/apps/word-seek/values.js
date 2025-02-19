@@ -1,13 +1,15 @@
-const TEXT = 'p';
-const GRID_CELL = 'span';
-const GRID_LINE = 'div';
-const GRID = 'section';
-const CATEGORY_MENU = 'section';
-const CATEGORY_MENU_BTN = 'btn';
-const CATEGORY_MENU_OPTIONS = 'nav';
-const WORD_COUNT = 'div';
-const WORD_COUNT_CURRENT = 'span';
-const WORD_COUNT_TOTAL = 'span';
+const TEXT = Object.freeze('p');
+const GRID_CELL = Object.freeze('span');
+const GRID_LINE = Object.freeze('div');
+const GRID = Object.freeze('section');
+const CATEGORY_MENU = Object.freeze('section');
+const CATEGORY_MENU_BTN = Object.freeze('btn');
+const CATEGORY_MENU_OPTIONS = Object.freeze('nav');
+const WORD_COUNT = Object.freeze('section');
+const WORD_COUNT_FRACTION = Object.freeze('div');
+const WORD_COUNT_CURRENT = Object.freeze('span');
+const WORD_COUNT_TOTAL = Object.freeze('span');
+const WORD_COUNT_DIVISION_BAR = Object.freeze('span');
 const LINES_SET = Object.freeze([]);
 const WORDS_CATEGORY_LIST = Object.freeze([
     'Animals', 'Objects'
@@ -64,24 +66,30 @@ export const EQUATIONS = Object.freeze({
 });
 
 export const BUILDING = Object.freeze({
-    gridCell: GRID_CELL,
-    gridLine: GRID_LINE,
-    gridContainer: GRID,
-    wordCount: {
+    Grid: {
+        gridCell: GRID_CELL,
+        gridLine: GRID_LINE,
+        gridContainer: GRID,
+    },
+    WordCounter: {
         counter: WORD_COUNT,
         current: WORD_COUNT_CURRENT,
-        total: WORD_COUNT_TOTAL
+        total: WORD_COUNT_TOTAL,
+        fraction: WORD_COUNT_FRACTION,
+        fracBar: WORD_COUNT_DIVISION_BAR
     },
-    linesSet: LINES_SET,
-    colorCorrect: COLOR_CORRECT,
-    colorIncorrect: COLOR_INCORRECT,
-    units: UNITS,
-    category: {
+    Word: {
+        colorCorrect: COLOR_CORRECT,
+        colorIncorrect: COLOR_INCORRECT,
+    },
+    CategoryMenu: {
         menuBase: CATEGORY_MENU,
         menuBtn: CATEGORY_MENU_BTN,
         menuOpt: CATEGORY_MENU_OPTIONS
     },
-    txt: TEXT,
+    Text: TEXT,
+    linesSet: LINES_SET,
+    units: UNITS,
 });
 
 export const EVENTS = Object.freeze({

@@ -30,12 +30,12 @@ export function buildGrid(gridBase, dimension, ...info) {
 
     for (let i = 0; i < dimension; i++) {
         lineSet.push(
-            gridLine(BUILDING.gridLine, { lineId: `${i}` })
+            gridLine(BUILDING.Grid.gridLine, { lineId: `${i}` })
         );
     }
     for (let i = 0; i < cellQuantity; i++) {
         cellSet.push(
-            gridCell(BUILDING.gridCell, getRdnLetter(), { gridId: `${i}` })
+            gridCell(BUILDING.Grid.gridCell, getRdnLetter(), { gridId: `${i}` })
         );
     }
 
@@ -87,19 +87,21 @@ export function buildCategoryMenu(menuParts, ...info) {
 }
 
 export function buildWordCounter(wordCounterParts, counterFunc, ...info) {
-    const { counter, current, total } = wordCounterParts;
+    const { counter, current, total, fraction, fracBar } = wordCounterParts;
     const [{ counterId }] = info;
 
     const wordCounter = document.createElement(counter);
     const currentWords = document.createElement(current);
     const totalWords = document.createElement(total);
-    const fraction = document.createElement('div');
+    const fractionDiv = document.createElement(fraction);
+    const divisionBar = document.createElement(fracBar);
 
     wordCounter.id = counterId;
-    currentWords.innerHTML = counterFunc();
-    fraction.append(currentWords, '/', totalWords);
-    wordCounter.append(fraction);
-
+    currentWords.innerHTML = counterFunc(); //TODO: pass args to counterFunc
+    divisionBar.textContent = '/';
+    
+    fractionDiv.append(currentWords, divisionBar, totalWords);
+    wordCounter.append(fractionDiv);
 
     return wordCounter;
 }

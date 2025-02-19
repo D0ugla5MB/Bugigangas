@@ -35,12 +35,13 @@ function appendLog(elem = null, ...debLog) {
     }
 }
 
-function showConsoleMsg() {
-    if (window.location.pathname.toString() === constants.ENV_VAR) {
+function showConsoleMsg(envVar) {
+    if (window.location.pathname.toString() === envVar) {
         console.warn('You are in the production environment');
     } else {
         console.warn('Remember to clear session storage while debbuging');
         console.warn('The current debugger tool will be substituted by the browser console while a new one is being developed');
+        console.warn('main being used as a shared css file too for while');
         console.log('The values from WordSeek are still being prepared');
     }
 }

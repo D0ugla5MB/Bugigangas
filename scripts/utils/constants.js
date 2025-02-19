@@ -36,6 +36,7 @@ const ROUTES = {
     hashWordSeek: '#wordseek',
 };
 
+//TODO: make a most general data structure; allow multiple values for each objecs props' values
 const mapApps = [
     ['home', {
         html: '/pages/home.html',

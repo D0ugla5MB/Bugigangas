@@ -1,3 +1,5 @@
+/*main-blocked*/
+
 :root {
   --z: 1;
   --blocker: calc(var(--z) * 100);
@@ -32,12 +34,6 @@ dialog.fade-div[open] {
   text-align: center;
   border-style: groove;
   background-color: cornflowerblue;
-}
-
-.main-blocked {
-  user-select: none;
-  pointer-events: none;
-  visibility: hidden;
 }
 
 #container-msg {
