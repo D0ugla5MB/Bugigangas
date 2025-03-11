@@ -2,7 +2,7 @@
 /node_modules/
 .vscode
 !/dev-tools/debbug-utils.mjs
-./eslint-config.js
+eslint-config.js
 jsconfig.json
 *.txt
 data/*
