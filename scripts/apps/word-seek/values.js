@@ -1,38 +1,3 @@
-export const EQUATIONS = Object.freeze({
-    calcSafeLimit: SAFE_GRID_SIZE_EQ.CALC_SAFE_LIMIT,
-    directions: DIRECTIONS,
-    findIndex: BASE_INDEX_EQUATION.FIND_INDEX,
-    arrowsQuantity: ARROWS_QUANTITY.arrows_n,
-});
-
-export const BUILDING = Object.freeze({
-    gridCell: GRID_CELL,
-    gridLine: GRID_LINE,
-    gridContainer: GRID,
-    wordCount: WORD_COUNT,
-    linesSet: LINES_SET,
-    colorCorrect: COLOR_CORRECT,
-    colorIncorrect: COLOR_INCORRECT,
-    units: UNITS,
-});
-
-export const EVENTS = Object.freeze({
-    clickToClick: EVENTS_APPROACHES.CLICK_TO_CLICK,
-    dragSelection: EVENTS_APPROACHES.DRAG_SELECTION,
-    manualSelection: EVENTS_APPROACHES.MANUAL_SELECTION,
-});
-
-export const VALUES = Object.freeze({
-    strAux: STR_AUX,
-    gameModes: GAME_MODES,
-    wordsCategoryList: WORDS_CATEGORY_LIST,
-    arrowsEqList: ARROWS_EQUATIONS,
-    gridDefaultSize: GRID_DEFAULT_SIZE,
-});
-
-export const DATA_SOURCE = Object.freeze({
-
-});
 
 const GRID_CELL = document.createElement('span');
 const GRID_LINE = document.createElement('div');
@@ -83,6 +48,42 @@ const GAME_MODES = Object.freeze({
 });
 
 const GRID_DEFAULT_SIZE = [10, 15, 20];
+
+export const EQUATIONS = Object.freeze({
+    calcSafeLimit: SAFE_GRID_SIZE_EQ.CALC_SAFE_LIMIT,
+    directions: DIRECTIONS,
+    findIndex: BASE_INDEX_EQUATION.FIND_INDEX,
+    arrowsQuantity: ARROWS_QUANTITY.arrows_n,
+});
+
+export const BUILDING = Object.freeze({
+    gridCell: GRID_CELL,
+    gridLine: GRID_LINE,
+    gridContainer: GRID,
+    wordCount: WORD_COUNT,
+    linesSet: LINES_SET,
+    colorCorrect: COLOR_CORRECT,
+    colorIncorrect: COLOR_INCORRECT,
+    units: UNITS,
+});
+
+export const EVENTS = Object.freeze({
+    clickToClick: EVENTS_APPROACHES.CLICK_TO_CLICK,
+    dragSelection: EVENTS_APPROACHES.DRAG_SELECTION,
+    manualSelection: EVENTS_APPROACHES.MANUAL_SELECTION,
+});
+
+export const VALUES = Object.freeze({
+    strAux: STR_AUX,
+    gameModes: GAME_MODES,
+    wordsCategoryList: WORDS_CATEGORY_LIST,
+    arrowsEqList: ARROWS_EQUATIONS,
+    gridDefaultSize: GRID_DEFAULT_SIZE,
+});
+
+export const DATA_SOURCE = Object.freeze({
+
+});
 
 export default {
     EQUATIONS,
