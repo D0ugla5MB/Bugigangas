@@ -1,0 +1,11 @@
+{
+    "routes": {
+        "path": "#error",
+        "files": {
+            "html": "/pages/error.html",
+            "css": "/styles/apps/error.css",
+            "js": null,
+            "data": []
+        }
+    }
+}

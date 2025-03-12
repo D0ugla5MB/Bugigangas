@@ -1,0 +1,20 @@
+{
+    "dom_elements": {
+        "root": "root",
+        "navigation": {
+            "menu": "nav_menu",
+            "buttons": {
+                "nav": "btnNav",
+                "home": "btn_home",
+                "error": "btn_err",
+                "clickPaint": "btn_click-paint",
+                "back": "btn_back-home",
+                "wordSeek": "btn_word-seek"
+            }
+        },
+        "selectors": {
+            "buttons": "button[id]",
+            "popup": "popup"
+        }
+    }
+}

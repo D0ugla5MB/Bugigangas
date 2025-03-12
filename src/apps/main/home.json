@@ -1,0 +1,12 @@
+{
+    "routes": {
+        "path": "#home",
+        "files": {
+            "html": "/pages/home.html",
+            "css": "/styles/apps/home.css",
+            "js": "/scripts/apps/home/home.js",
+            "data": []
+        },
+        "entryPoint": "addMenuBtnsEvents"
+    }
+}

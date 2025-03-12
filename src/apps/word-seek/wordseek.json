@@ -1,0 +1,16 @@
+{
+    "routes": {
+        "path": "#wordseek",
+        "files": {
+            "html": "/pages/wordseek.html",
+            "css": "/styles/apps/wordseek.css",
+            "js": "/scripts/apps/word-seek/wordseek.js",
+            "data": [
+                "../data/words/animals.csv",
+                "../data/words/countries.csv",
+                "../data/words/food.csv"
+            ]
+        },
+        "entryPoint": "runWordSeek"
+    }
+}
