@@ -7,9 +7,6 @@ import { dirname } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-export function testTest() {
-    console.log('test');
-}
 
 export function loadSchema(filePath) {
     const schema = JSON.parse(readFileSync(filePath, 'utf8'));
@@ -38,26 +35,3 @@ export function checkEnvVarsNames() {
     }
     return checker;
 }
-
-export function buildRegex(envChecker) {
-    if (!envChecker) {
-        return null;
-    }
-    return {
-        path: new RegExp(/^#[a-zA-Z0-9/_-]+$/),
-        html: new RegExp(/^[a-zA-Z0-9_-]+\.html$/),
-        css: new RegExp(/^[a-zA-Z0-9_-]+\.css$/),
-        js: new RegExp(/^[a-zA-Z0-9_-]+\.js$/),
-        entryPoint: new RegExp(/^[a-zA-Z0-9_-]+$/)
-    }
-}
-
-export function getAppsNames() {
-    return Object.keys(process.env).forEach((evn) => {
-        if (evn.includes('_PATH')) {
-            return evn.split('_')[1];
-        }
-    });
-}
-
-export function prepareJsonSchema(fetchedSchema) { }
