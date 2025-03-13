@@ -1,0 +1,1 @@
+export const props = ['path', 'entryPoint','files', 'data', 'html','css','js'];
