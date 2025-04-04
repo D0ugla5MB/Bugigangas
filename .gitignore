@@ -6,8 +6,3 @@ jsconfig.json
 .env
 .env.*
 *.bak
-
-# Testing configuration
-/test/
-jest.config.js
-babel.config.js

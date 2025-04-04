@@ -1,1 +1,0 @@
-export const objectProps = ['path', 'entryPoint','files', 'data', 'html','css','js'];
