@@ -40,7 +40,7 @@ describe('Config utility functions', () => {
                     crlfDelay: Infinity 
                 });
                 
-                let lineCount = 0;
+                let lineCount = -1;
                 
                 lineReader.on('line', () => {
                     lineCount++;

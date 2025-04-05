@@ -1,15 +1,46 @@
-import { readFileSync } from 'fs';
+import { readFileSync, createReadStream } from 'fs';
 import dotenv from 'dotenv';
-import path from 'path';
 import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-
-function set_T_CNT() { }
+import { dirname, join } from 'path';
+import readline from 'readline';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const schemaPath = path.join(__dirname, '../src/_schemas.json');
-const _T_CNT = Object.freeze(set_T_CNT());
+
+async function set_T_CNT() {
+    const p = join(__dirname, '../.env.preview');
+
+    const count = () => {
+        return new Promise((resolve, reject) => {
+            const lineReader = readline.createInterface({
+                input: createReadStream(p, { encoding: 'utf8' }),
+                crlfDelay: Infinity
+            });
+
+            let lineCount = -1;
+
+            lineReader.on('line', () => {
+                lineCount++;
+            });
+
+            lineReader.on('close', () => {
+                console.log(`total lines: ${lineCount}`);
+                resolve(lineCount);
+            });
+
+            lineReader.on('error', (err) => {
+                reject(new Error(`Error reading file: ${err}`));
+            });
+        });
+    };
+    process.env.ENV_TOT = (await count()).toString();
+}
+
+const schemaPath = join(__dirname, '../src/_schemas.json');
+const _T_CNT = Object.freeze((async () => {
+    await set_T_CNT();
+    return +process.env.ENV_TOT;
+})());
 
 export function loadSchema(filePath) {
     let jsonStr = null;
@@ -65,7 +96,7 @@ export function loadSchema(filePath) {
 export function checkEnvVarsNames() {
     const envVarsNames = Object.keys(process.env).filter((v) => v.match(/^APP_/));
     let checker = true;
-    const envVarsQty = +process.env.ENV_TOT.match(/^\d+$/) ? +process.env.ENV_TOT : -1;
+    const envVarsQty = _T_CNT.match(/^\d+$/) ? _T_CNT : -1;
 
     if (envVarsQty !== _T_CNT || envVarsQty < 0) {
         throw new Error(
