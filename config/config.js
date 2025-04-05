@@ -4,12 +4,12 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
+function set_T_CNT() { }
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const schemaPath = path.join(__dirname, '../src/_schemas.json');
-const _T_CNT = Object.freeze(20);
-
-export function set_T_CNT(){}
+const _T_CNT = Object.freeze(set_T_CNT());
 
 export function loadSchema(filePath) {
     let jsonStr = null;
