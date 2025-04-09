@@ -2,9 +2,10 @@
   "name": "webbugigangas",
   "version": "3.2.1",
   "description": "a collection of small web applications",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "build": "node scripts/config.js"
   },
   "type": "module",
   

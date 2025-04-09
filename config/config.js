@@ -4,50 +4,18 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import readline from 'readline';
 
+const _ENV = process.env;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-
-async function set_T_CNT() {
-    const p = join(__dirname, '../.env.preview');
-
-    const count = () => {
-        return new Promise((resolve, reject) => {
-            const lineReader = readline.createInterface({
-                input: createReadStream(p, { encoding: 'utf8' }),
-                crlfDelay: Infinity
-            });
-
-            let lineCount = -1;
-
-            lineReader.on('line', () => {
-                lineCount++;
-            });
-
-            lineReader.on('close', () => {
-                console.log(`total lines: ${lineCount}`);
-                resolve(lineCount);
-            });
-
-            lineReader.on('error', (err) => {
-                reject(new Error(`Error reading file: ${err}`));
-            });
-        });
-    };
-    process.env.ENV_TOT = (await count()).toString();
-}
-
 const schemaPath = join(__dirname, '../src/_schemas.json');
-const _T_CNT = Object.freeze((async () => {
-    await set_T_CNT();
-    return +process.env.ENV_TOT;
-})());
+const _T_CNT = Object.freeze(+_ENV.ENV_TOT);
 
 export function loadSchema(filePath) {
     let jsonStr = null;
     const jsonProps = ['path', 'entryPoint', 'files', 'data', 'html', 'css', 'js'];
 
     try {
-        jsonStr = fs.readFileSync(filePath, 'utf8').trim();
+        jsonStr = readFileSync(filePath, 'utf8').trim();
         if (!jsonStr) {
             throw new Error('JSON file is empty');
         }
@@ -94,27 +62,43 @@ export function loadSchema(filePath) {
  */
 
 export function checkEnvVarsNames() {
-    const envVarsNames = Object.keys(process.env).filter((v) => v.match(/^APP_/));
-    let checker = true;
-    const envVarsQty = _T_CNT.match(/^\d+$/) ? _T_CNT : -1;
+    let envKeys = Object.keys(_ENV).filter((v) => v.match(/^APP_/));
+    const envVarsQty = Number.isInteger(_T_CNT) && _T_CNT >= 0 ? _T_CNT : -1;
 
-    if (envVarsQty !== _T_CNT || envVarsQty < 0) {
+    if (envVarsQty === -1) {
         throw new Error(
-            `Environment variable count mismatch: Expected ${_T_CNT}, but found ${envVarsQty}${envVarsQty < 0 ? ' (invalid format)' : ''
-            }. Please check ENV_TOT in your environment configuration.`
+            `Invalid _T_CNT value: Expected a non-negative integer, but got ${_T_CNT}.`
         );
     }
 
-    if (envVarsNames.length > 0) {
-        var d = [];
-        for (const key of envVarsNames) {
-            if (key.match(/_(PATH|HTML|CSS|JS|ENTRY)$/)) {
-                continue;
-            } else {
-                checker = false;
-                d.push(key);
-            }
+    for (let i = 0; i < envKeys.length; i++) {
+        if (!envKeys[i].match(/_(PATH|HTML|CSS|JS|ENTRY)$/)) {
+            envKeys.splice(i, 1);
         }
     }
-    return checker;
+
+    if (validKeys.length !== envVarsQty) {
+        throw new Error(
+            `Environment variable count mismatch: Expected ${envVarsQty}, ` +
+            `but found ${validKeys.length} valid variables.`
+        );
+    }
+
+    return envKeys;
+}
+
+export function buildVars(envVars, schema) {
+    const appsName = (() => {
+        const hashedName = [];
+        for (const ev of envVars) {
+            ev.match(/_(PATH)$/);
+            hashedName.push(ev.slice(1));
+        }
+        return hashedName;
+    })();
+
+    const appSchema = (() => {
+        return appsName.map();
+    })();
+
 }
