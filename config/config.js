@@ -63,13 +63,13 @@ export function loadSchema(filePath) {
             line 444
  */
 
-export function checkEnvVarsNames() {
+export function selectEnvVars() {
     let validKeys = Object.keys(_ENV).filter((v) => v.match(/^APP_/));
     const envVarsQty = Number.isInteger(_T_CNT) && _T_CNT >= 0 ? _T_CNT : -1;
 
-    if (envVarsQty === -1) {
+    if (envVarsQty <= 0) {
         throw new Error(
-            `Invalid _T_CNT value: Expected a non-negative integer, but got ${_T_CNT}.`
+            `Invalid _T_CNT value: Expected an integer greater than zero, but got ${_T_CNT}.`
         );
     }
 
@@ -79,48 +79,85 @@ export function checkEnvVarsNames() {
         }
     }
 
-    if (validKeys.length !== envVarsQty) {
-        throw new Error(
-            `Environment variable count mismatch: Expected ${envVarsQty}, ` +
-            `but found ${validKeys.length} valid variables.`
-        );
-    }
-
     return validKeys;
 }
 
-export function getAppVars(keys) {
-    return (
-        (() => {
-            const k = [];
-            for (const key of keys) {
-                if (typeof key !== 'string') {
-                    continue;
-                }
-                if (!key.startsWith('APP_')) {
-                    return new Error(`${key} does not start with APP_`);
-                }
-                if (key in _ENV) {
-                    k.push(typeof _ENV[key] === 'string' ? _ENV[key] : 'INVALID KEY');
-                }
+export function sortAppVars(keys) {
+    return (() => {
+        const apps = new Map();
+
+        for (const key of keys) {
+            const [pre, name, suffix] = key.split('_');
+            const appProps = apps.get(name) || new Map();
+
+            if (typeof _ENV[key] === 'string') {
+                appProps.set(suffix, _ENV[key]);
+                apps.set(name, appProps);
             }
-            return k;
-        })()
-    );
+        }
+
+        return Array.from(apps.entries())
+            .map(([name, props]) => ({
+                [name]: Object.fromEntries(props)
+            }));
+    })();
 }
 
 export function buildVars(envVars, schema) {
-    const appsName = (() => {
-        const hashedName = [];
-        for (const ev of envVars) {
-            ev.match(/_(PATH)$/);
-            hashedName.push(ev.slice(1));
+    const appConfigs = sortAppVars(envVars);
+    
+    return (() => {
+        const apps = new Map();
+
+        for (const config of appConfigs) {
+            const [appName] = Object.keys(config);
+            const appProps = config[appName];
+            
+            try {
+                const requiredProps = ['PATH', 'HTML', 'CSS', 'JS', 'ENTRY'];
+                
+                const missingProps = requiredProps.filter(prop => !(prop in appProps));
+                if (missingProps.length > 0) {
+                    throw new Error(
+                        `Missing required properties for app ${appName}: ${missingProps.join(', ')}`
+                    );
+                }
+
+                const paths = {
+                    html: appProps.HTML,
+                    css: appProps.CSS,
+                    js: appProps.JS
+                };
+
+                const invalidPaths = Object.entries(paths)
+                    .filter(([key, path]) => path && !schema[key]?.test(path))
+                    .map(([key]) => key.toUpperCase());
+
+                if (invalidPaths.length > 0) {
+                    throw new Error(
+                        `Invalid paths for ${appName}: ${invalidPaths.join(', ')}`
+                    );
+                }
+
+                const appObject = {
+                    path: appProps.PATH,
+                    entryPoint: appProps.ENTRY,
+                    files: {
+                        html: appProps.HTML,
+                        css: appProps.CSS,
+                        js: appProps.JS
+                    }
+                };
+
+                apps.set(appName, appObject);
+
+            } catch (err) {
+                console.error(`Error processing app ${appName}:`, err.message);
+                continue;
+            }
         }
-        return hashedName;
-    })();
 
-    const appSchema = (() => {
-        return appsName.map();
+        return Array.from(apps.entries())
+            .map(([name, config]) => ({ [name]: config }));
     })();
-
 }

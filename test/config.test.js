@@ -1,4 +1,4 @@
-import { checkEnvVarsNames, loadSchema, buildVars, getAppVars } from '../config/config.js';
+import { selectEnvVars, loadSchema, buildVars, sortAppVars } from '../config/config.js';
 
 import { readFileSync, createReadStream } from 'fs';
 import dotenv from 'dotenv';
@@ -11,7 +11,11 @@ const __dirname = dirname(__filename);
 const schemaPath = join(__dirname, '../src/_schemas.json');
 
 test('checkEnvVarsNames', () => {
-    console.log(getAppVars(checkEnvVarsNames()));
+    console.log(selectEnvVars());
+})
+
+test('sortApps', () => {
+    console.log(sortAppVars(selectEnvVars()));
 })
 
 test('loadSchema', () => {
