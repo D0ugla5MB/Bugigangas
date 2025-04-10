@@ -4,6 +4,8 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import readline from 'readline';
 
+dotenv.config({ path: '.env.preview' });
+
 const _ENV = process.env;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -62,7 +64,7 @@ export function loadSchema(filePath) {
  */
 
 export function checkEnvVarsNames() {
-    let envKeys = Object.keys(_ENV).filter((v) => v.match(/^APP_/));
+    let validKeys = Object.keys(_ENV).filter((v) => v.match(/^APP_/));
     const envVarsQty = Number.isInteger(_T_CNT) && _T_CNT >= 0 ? _T_CNT : -1;
 
     if (envVarsQty === -1) {
@@ -71,9 +73,9 @@ export function checkEnvVarsNames() {
         );
     }
 
-    for (let i = 0; i < envKeys.length; i++) {
-        if (!envKeys[i].match(/_(PATH|HTML|CSS|JS|ENTRY)$/)) {
-            envKeys.splice(i, 1);
+    for (let i = 0; i < validKeys.length; i++) {
+        if (!validKeys[i].match(/_(PATH|HTML|CSS|JS|ENTRY)$/)) {
+            validKeys.splice(i, 1);
         }
     }
 
@@ -84,7 +86,27 @@ export function checkEnvVarsNames() {
         );
     }
 
-    return envKeys;
+    return validKeys;
+}
+
+export function getAppVars(keys) {
+    return (
+        (() => {
+            const k = [];
+            for (const key of keys) {
+                if (typeof key !== 'string') {
+                    continue;
+                }
+                if (!key.startsWith('APP_')) {
+                    return new Error(`${key} does not start with APP_`);
+                }
+                if (key in _ENV) {
+                    k.push(typeof _ENV[key] === 'string' ? _ENV[key] : 'INVALID KEY');
+                }
+            }
+            return k;
+        })()
+    );
 }
 
 export function buildVars(envVars, schema) {
