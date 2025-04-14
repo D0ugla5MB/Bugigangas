@@ -12,46 +12,16 @@ const __dirname = dirname(__filename);
 const schemaPath = join(__dirname, '../src/_schemas.json');
 const _T_CNT = Object.freeze(+_ENV.ENV_TOT);
 
-export function loadSchema(filePath) {
-    let jsonStr = null;
-    const jsonProps = ['path', 'entryPoint', 'files', 'data', 'html', 'css', 'js'];
+export function loadSchema(appData) {
+ 
 
-    try {
-        jsonStr = readFileSync(filePath, 'utf8').trim();
-        if (!jsonStr) {
-            throw new Error('JSON file is empty');
-        }
-    } catch (err) {
-        if (err.code === 'ENOENT') {
-            throw new Error(`File not found: ${filePath}`);
-        }
-        throw err;
-    }
 
-    const schema = JSON.parse(jsonStr, (key, value) => {
-        if (key === '') return value;
-        if (!jsonProps.includes(key)) {
-            throw new Error(`Invalid key ${key} to the value ${value.values}`);
-        }
-        if (typeof value === 'string' && value.startsWith('^')) {
-            try {
-                return new RegExp(value);
-            } catch (e) {
-                return null;
-            }
-        }
-        if (value === 'array') {
-            return [];
-        }
-        return value;
-    });
-
-    if (!schema || Object.keys(schema).length === 0) {
-        throw new Error('Schema parsed to empty object');
-    }
-
-    return schema;
+    return (() => {
+      
+        return { [name]: validated };
+    })();
 }
+
 
 /*
  * "Assigning any value other than a string, number, or boolean to a "
@@ -64,14 +34,14 @@ export function loadSchema(filePath) {
  */
 
 export function selectEnvVars() {
-    let validKeys = Object.keys(_ENV).filter((v) => v.match(/^APP_/));
     const envVarsQty = Number.isInteger(_T_CNT) && _T_CNT >= 0 ? _T_CNT : -1;
-
     if (envVarsQty <= 0) {
         throw new Error(
             `Invalid _T_CNT value: Expected an integer greater than zero, but got ${_T_CNT}.`
         );
     }
+
+    let validKeys = Object.keys(_ENV).filter((v) => v.match(/^APP_/));
 
     for (let i = 0; i < validKeys.length; i++) {
         if (!validKeys[i].match(/_(PATH|HTML|CSS|JS|ENTRY)$/)) {
@@ -83,81 +53,43 @@ export function selectEnvVars() {
 }
 
 export function sortAppVars(keys) {
-    return (() => {
-        const apps = new Map();
+    const apps = new Map();
 
-        for (const key of keys) {
-            const [pre, name, suffix] = key.split('_');
-            const appProps = apps.get(name) || new Map();
+    for (const key of keys) {
+        const [pre, name, suffix] = key.split('_');
+        const appProps = apps.get(name) || new Map();
 
-            if (typeof _ENV[key] === 'string') {
-                appProps.set(suffix, _ENV[key]);
-                apps.set(name, appProps);
-            }
+        if (!apps.has(name)) {
+            appProps.set('DATA', []);
         }
+        if (typeof _ENV[key] === 'string') {
+            appProps.set(suffix, _ENV[key]);
+            apps.set(name, appProps);
+        }
+    }
 
-        return Array.from(apps.entries())
-            .map(([name, props]) => ({
-                [name]: Object.fromEntries(props)
-            }));
-    })();
+    return apps;
 }
 
-export function buildVars(envVars, schema) {
-    const appConfigs = sortAppVars(envVars);
-    
-    return (() => {
-        const apps = new Map();
+export function buildAppVars(sortedApps) {
+    const baseName = /^[a-z]$/;
 
-        for (const config of appConfigs) {
-            const [appName] = Object.keys(config);
-            const appProps = config[appName];
-            
-            try {
-                const requiredProps = ['PATH', 'HTML', 'CSS', 'JS', 'ENTRY'];
-                
-                const missingProps = requiredProps.filter(prop => !(prop in appProps));
-                if (missingProps.length > 0) {
-                    throw new Error(
-                        `Missing required properties for app ${appName}: ${missingProps.join(', ')}`
-                    );
-                }
-
-                const paths = {
-                    html: appProps.HTML,
-                    css: appProps.CSS,
-                    js: appProps.JS
-                };
-
-                const invalidPaths = Object.entries(paths)
-                    .filter(([key, path]) => path && !schema[key]?.test(path))
-                    .map(([key]) => key.toUpperCase());
-
-                if (invalidPaths.length > 0) {
-                    throw new Error(
-                        `Invalid paths for ${appName}: ${invalidPaths.join(', ')}`
-                    );
-                }
-
-                const appObject = {
-                    path: appProps.PATH,
-                    entryPoint: appProps.ENTRY,
-                    files: {
-                        html: appProps.HTML,
-                        css: appProps.CSS,
-                        js: appProps.JS
-                    }
-                };
-
-                apps.set(appName, appObject);
-
-            } catch (err) {
-                console.error(`Error processing app ${appName}:`, err.message);
-                continue;
-            }
+    const appNames = [...sortedApps.keys()];
+    for (let i = appNames.length - 1; i >= 0; i--) {
+        const n = appNames[i];
+        if (!baseName.test(n)) {
+            sortedApps.delete(n);
+            appNames.splice(i, 1); 
         }
+    }
+    const baseProps = {
+        path: (value) => /^#[a-zA-Z0-9/_]+$/.test(value) ? value : "",
+        entryPoint: (value) => /^[a-zA-Z0-9_]+$/.test(value) ? value : "",
+        html: (value) => /^[a-zA-Z0-9_]+\.html$/.test(value) ? value : "",
+        css: (value) => /^[a-zA-Z0-9_]+\.css$/.test(value) ? value : "",
+        js: (value) => /^[a-zA-Z0-9_]+\.js$/.test(value) ? value : "",
+        data: (value) => Array.isArray(value) ? value : []
+    };
 
-        return Array.from(apps.entries())
-            .map(([name, config]) => ({ [name]: config }));
-    })();
+    return sortedApps;
 }
